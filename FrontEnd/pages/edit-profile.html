@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/edit-profile.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Editar Perfil - RiseUp</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="login_register_container">
+      <a href="./profile.html" class="btn_registro">
+        <i class="fa-solid fa-user"></i> Mi Perfil
+      </a>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <!-- Edit Profile Section -->
+    <section class="edit-profile">
+      <div class="container">
+        <div class="edit-card">
+          <div class="edit-layout">
+            <!-- Profile Image Section -->
+            <div class="profile-image-section">
+              <div class="profile-image">
+                <div class="image-placeholder">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+              </div>
+              <input 
+                type="url" 
+                placeholder="URL de la imagen" 
+                class="image-url-input"
+              >
+            </div>
+
+            <!-- Profile Form -->
+            <div class="profile-form">
+              <h2>About Me</h2>
+              
+              <div class="form-group">
+                <label>Descripción del perfil</label>
+                <textarea placeholder="Escribe algo sobre ti..."></textarea>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button class="btn btn-cancel">Cancel</button>
+                <button class="btn btn-save">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_section footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+        <div class="footer_social">
+          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,64 @@
+/* Seccion de descripcion completa */
+.full_description_section {
+  background-color: #FFFFFF;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.description_content {
+  color: #1E293B;
+  line-height: 1.8;
+}
+
+.description_content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  color: #1E293B;
+}
+
+.description_content h3:first-child {
+  margin-top: 0;
+}
+
+.description_content p {
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+
+.description_content ul {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.description_content li {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
+.description_image {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+
+.description_image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.description_video {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 24px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.description_video iframe {
+  display: block;
+}

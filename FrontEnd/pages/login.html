@@ -21,6 +21,7 @@
   <title>Login - RiseUp</title>
 </head>
 <body class="auth_body">
+  <script type="module" src="../js/login.js"></script>
   <div class="auth_card">
     <a href="./index.html" class="auth_logo">
       <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" />
@@ -31,7 +32,9 @@
       <p>Ingresa a tu cuenta para continuar</p>
     </div>
 
-    <form class="auth_form" action="#" method="post">
+    <div id="errorMessage" style="display: none; background-color: #fee; color: #c33; padding: 12px; border-radius: 6px; margin-bottom: 16px; border: 1px solid #fcc;"></div>
+
+    <form id="loginForm" class="auth_form">
       <div class="form_group">
         <label for="email">Email</label>
         <div class="input_wrapper">
@@ -55,7 +58,7 @@
         </label>
       </div>
 
-      <button type="submit" class="btn_auth_primary">Iniciar Sesión</button>
+      <button type="submit" id="submitButton" class="btn_auth_primary">Iniciar Sesión</button>
     </form>
 
     <div class="auth_footer">

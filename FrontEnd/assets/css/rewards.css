@@ -1,0 +1,69 @@
+/* Seccion de recompensas */
+.rewards_section {
+  background-color: #FFFFFF;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.rewards_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.reward_card {
+  background-color: #FFF8F2;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+}
+
+.reward_title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 16px;
+}
+
+.reward_image {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.reward_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reward_amount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #FF7A59;
+  margin-bottom: 12px;
+}
+
+.reward_description {
+  font-size: 0.9rem;
+  color: #1E293B;
+  opacity: 0.8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 968px) {
+  .rewards_grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rewards_grid {
+    grid-template-columns: 1fr;
+  }
+}

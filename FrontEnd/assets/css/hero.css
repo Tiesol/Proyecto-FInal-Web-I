@@ -43,7 +43,6 @@
   font-weight: 600;
   font-size: 1.05rem;
   text-decoration: none;
-  transition: all 0.3s ease;
 }
 
 .btn_primary {
@@ -51,24 +50,12 @@
   color: #FFFFFF;
   box-shadow: 0 4px 16px rgba(255, 122, 89, 0.3);
 }
-.btn_primary:hover {
-  background-color: #ff6642;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(255, 122, 89, 0.4);
-}
 
 .btn_secondary,
 .btn_faq_hero {
   background-color: transparent;
   color: #FF7A59;
   border: 2px solid #FF7A59;
-}
-
-.btn_secondary:hover,
-.btn_faq_hero:hover {
-  background-color: #FF7A59;
-  color: #FFFFFF;
-  transform: translateY(-2px);
 }
 
 .btn_faq_hero {
@@ -92,12 +79,6 @@
   gap: 12px;
   font-weight: 600;
   font-size: 1.05rem;
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .card i {
@@ -142,12 +123,6 @@
   border-radius: 16px;
   background: #FFFFFF;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-.step:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
 .step_icon {

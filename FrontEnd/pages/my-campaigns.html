@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/profile.css" />
+  <link rel="stylesheet" href="../assets/css/my-campaigns.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Mis Campañas - RiseUp</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="login_register_container">
+      <a href="./profile.html" class="btn_registro">
+        <i class="fa-solid fa-user"></i> Mi Perfil
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Profile Navigation -->
+    <nav class="profile-nav">
+      <div class="container">
+        <a href="./profile.html" class="nav-link">My Profile</a>
+        <a href="./my-campaigns.html" class="nav-link active">My campaigns</a>
+        <a href="./create-campaign.html" class="btn btn-primary">Create a campaign</a>
+      </div>
+    </nav>
+
+    <!-- Filters -->
+    <section class="campaigns-filters">
+      <div class="container">
+        <div class="filter-tags">
+          <button class="tag active"><i class="fa-solid fa-check"></i> Approved</button>
+          <button class="tag">Pending</button>
+          <button class="tag">Rejected</button>
+          <button class="tag">Draft</button>
+          <button class="tag">Sold</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Campaigns Grid -->
+    <section class="my-campaigns">
+      <div class="container">
+        <div class="campaigns-gallery">
+          <!-- Campaign Card 1 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FF7A59/FFFFFF?text=Campaign+1" alt="Campaña 1">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">10 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Campaign Card 2 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FFD166/1E293B?text=Campaign+2" alt="Campaña 2">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">10 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Campaign Card 3 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FF7A59/FFFFFF?text=Campaign+3" alt="Campaña 3">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">10 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Campaign Card 4 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FFD166/1E293B?text=Campaign+4" alt="Campaña 4">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">90 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Campaign Card 5 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FF7A59/FFFFFF?text=Campaign+5" alt="Campaña 5">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">90 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Campaign Card 6 -->
+          <article class="my-campaign-card">
+            <div class="campaign-image">
+              <img src="https://placehold.co/400x250/FFD166/1E293B?text=Campaign+6" alt="Campaña 6">
+              <span class="campaign-badge approved">Approved</span>
+              <a href="./donations.html" class="campaign-menu-btn">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+            </div>
+            <div class="campaign-info">
+              <h3>Name Campaign</h3>
+              <div class="campaign-stats">
+                <span class="days-left">90 days left</span>
+                <span class="status-label">State: Funded</span>
+              </div>
+              <button class="btn btn-small btn-primary">View Campaign</button>
+            </div>
+          </article>
+
+          <!-- Repeat for more campaigns (12 total) -->
+          
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="pagination_btn" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="pagination_btn active">1</button>
+          <button class="pagination_btn">2</button>
+          <button class="pagination_btn">3</button>
+          <span class="pagination_dots">...</span>
+          <button class="pagination_btn">10</button>
+          <button class="pagination_btn">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_section footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+        <div class="footer_social">
+          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>
+  </footer>
+</body>
+</html>

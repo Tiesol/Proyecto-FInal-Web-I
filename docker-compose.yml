@@ -1,0 +1,65 @@
+services:
+  # Base de datos PostgreSQL
+  db:
+    image: postgres:15
+    container_name: riseup_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database_crowdfunding
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend FastAPI
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: riseup_backend
+    restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/database_crowdfunding
+      JWT_SECRET_KEY: super_secret_key_crowdfunding_2024_riseup_platform
+      JWT_ALGORITHM: HS256
+      JWT_EXPIRATION_HOURS: 24
+      MAIL_SERVER: sandbox.smtp.mailtrap.io
+      MAIL_PORT: 2525
+      MAIL_USERNAME: fa163225aeb808
+      MAIL_PASSWORD: 36f6634583814f
+      MAIL_FROM: noreply@riseup.com
+      MAIL_FROM_NAME: RiseUp Platform
+      FRONTEND_URL: http://localhost:8080
+    ports:
+      - "3000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  # Frontend Nginx
+  frontend:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile
+    container_name: riseup_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

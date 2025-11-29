@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/user-menu.css" />
+  <link rel="stylesheet" href="../assets/css/campaigns.css" />
+  <link rel="stylesheet" href="../assets/css/category.css" />
+  <link rel="stylesheet" href="../assets/css/pagination.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Mis Favoritos - RiseUp</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item">
+          <i class="fa-solid fa-bullhorn"></i>
+          Mis Campañas
+        </a>
+        <a href="./favorites.html" class="dropdown_item">
+          <i class="fa-solid fa-heart"></i>
+          Favoritos
+        </a>
+        <a href="./donations.html" class="dropdown_item">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          Mis Contribuciones
+        </a>
+        <a href="./profile.html" class="dropdown_item">
+          <i class="fa-solid fa-user-circle"></i>
+          Mi Perfil
+        </a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin.html" class="dropdown_item admin" id="adminLink" style="display: none;">
+          <i class="fa-solid fa-shield"></i>
+          Admin
+        </a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="category_header">
+      <div class="category_header_content">
+        <h1 class="category_title">Mis Favoritos</h1>
+        <p class="category_description">Campañas que has guardado como favoritas</p>
+      </div>
+    </section>
+
+    <section class="category_campaigns">
+      <div class="campaigns_grid" id="favoritesGrid">
+        <!-- Las campañas favoritas se cargarán aquí dinámicamente -->
+        <div class="campaign_grid_card">
+          <div class="campaign_grid_image">
+            <img src="../assets/images/img-1.jpg" alt="Campaña 1">
+          </div>
+          <div class="campaign_grid_content">
+            <div class="campaign_grid_user">
+              <div class="grid_user_avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <span class="grid_user_name">Juan Pérez</span>
+            </div>
+            <h3 class="campaign_grid_title">Nombre de la Campaña</h3>
+            <div class="campaign_grid_progress">
+              <div class="grid_progress_bar">
+                <div class="grid_progress_fill" style="width: 75%;"></div>
+              </div>
+              <p class="grid_progress_text">$375,000 de $500,000 | 75% financiado</p>
+            </div>
+            <div class="campaign_grid_footer">
+              <span class="grid_days_left">
+                <i class="fa-solid fa-clock"></i> 15 días restantes
+              </span>
+              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="campaign_grid_card">
+          <div class="campaign_grid_image">
+            <img src="../assets/images/img-2.jpg" alt="Campaña 2">
+          </div>
+          <div class="campaign_grid_content">
+            <div class="campaign_grid_user">
+              <div class="grid_user_avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <span class="grid_user_name">María García</span>
+            </div>
+            <h3 class="campaign_grid_title">Otra Campaña Favorita</h3>
+            <div class="campaign_grid_progress">
+              <div class="grid_progress_bar">
+                <div class="grid_progress_fill" style="width: 60%;"></div>
+              </div>
+              <p class="grid_progress_text">$300,000 de $500,000 | 60% financiado</p>
+            </div>
+            <div class="campaign_grid_footer">
+              <span class="grid_days_left">
+                <i class="fa-solid fa-clock"></i> 22 días restantes
+              </span>
+              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="campaign_grid_card">
+          <div class="campaign_grid_image">
+            <img src="../assets/images/img-3.jpg" alt="Campaña 3">
+          </div>
+          <div class="campaign_grid_content">
+            <div class="campaign_grid_user">
+              <div class="grid_user_avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <span class="grid_user_name">Carlos López</span>
+            </div>
+            <h3 class="campaign_grid_title">Proyecto Innovador</h3>
+            <div class="campaign_grid_progress">
+              <div class="grid_progress_bar">
+                <div class="grid_progress_fill" style="width: 85%;"></div>
+              </div>
+              <p class="grid_progress_text">$425,000 de $500,000 | 85% financiado</p>
+            </div>
+            <div class="campaign_grid_footer">
+              <span class="grid_days_left">
+                <i class="fa-solid fa-clock"></i> 8 días restantes
+              </span>
+              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button class="pagination_btn" disabled>
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="pagination_btn active">1</button>
+        <button class="pagination_btn">2</button>
+        <button class="pagination_btn">3</button>
+        <span class="pagination_dots">...</span>
+        <button class="pagination_btn">10</button>
+        <button class="pagination_btn">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_section footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">
+          Conectando ideas innovadoras con personas que creen en ellas.
+        </p>
+        <div class="footer_social">
+          <a href="#" aria-label="Instagram" class="social_link">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="X (Twitter)" class="social_link">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a href="#" aria-label="Facebook" class="social_link">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="#" aria-label="GitHub" class="social_link">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/auth-check.js"></script>
+  <script>
+    // Mostrar opción admin si el usuario es admin
+    document.addEventListener('DOMContentLoaded', function() {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user.role_id === 1) {
+        document.getElementById('adminLink').style.display = 'flex';
+      }
+      
+      // Logout
+      document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = './login.html';
+      });
+
+      // Cerrar menu al hacer click fuera
+      document.addEventListener('click', function(e) {
+        const toggle = document.getElementById('userMenuToggle');
+        const container = document.querySelector('.user_menu_container');
+        if (!container.contains(e.target)) {
+          toggle.checked = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

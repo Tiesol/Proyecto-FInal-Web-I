@@ -1,0 +1,56 @@
+/* Seccion de donadores */
+.top_donators_section {
+  background-color: #FFFFFF;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.donators_list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.donator_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #FFF8F2;
+  border-radius: 12px;
+}
+
+.donator_info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.donator_avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #FFD166;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donator_avatar i {
+  font-size: 24px;
+  color: #000000;
+}
+
+.donator_name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1E293B;
+}
+
+.donator_amount {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #FF7A59;
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/campaigns.css" />
+  <link rel="stylesheet" href="../assets/css/category.css" />
+  <link rel="stylesheet" href="../assets/css/filters.css" />
+  <link rel="stylesheet" href="../assets/css/pagination.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Tecnología - RiseUp</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="login_register_container">
+      <a href="./profile.html" class="btn_registro">
+        <i class="fa-solid fa-user"></i> Mi Perfil
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Category Header -->
+    <section class="category_header">
+      <div class="category_header_content">
+        <h1 class="category_title">Tecnología</h1>
+        <p class="category_description">Descubre proyectos innovadores que están cambiando el mundo de la tecnología</p>
+      </div>
+    </section>
+
+    <!-- Filters Bar -->
+    <section class="filters_section">
+      <div class="filters_container">
+        <div class="filters_left">
+          <button class="filter_btn active">Todos</button>
+          <button class="filter_btn">En progreso</button>
+          <button class="filter_btn">Financiados</button>
+          <button class="filter_btn">Recientes</button>
+        </div>
+        <div class="filters_right">
+          <select class="sort_select">
+            <option value="recent">Más recientes</option>
+            <option value="popular">Más populares</option>
+            <option value="funded">Más financiados</option>
+            <option value="ending">Por terminar</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Campaigns List -->
+    <section class="category_campaigns">
+      <div class="campaigns_grid">
+        <!-- Campaign Card -->
+        <article class="campaign_grid_card">
+          <div class="campaign_grid_image">
+            <img src="https://placehold.co/400x250/FF7A59/FFFFFF?text=App+Movil" alt="Campaña 1">
+            <span class="campaign_category">Tecnología</span>
+          </div>
+          <div class="campaign_grid_content">
+            <div class="campaign_grid_user">
+              <div class="grid_user_avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <span class="grid_user_name">@tech_innovator</span>
+            </div>
+            <h3 class="campaign_grid_title">Aplicación Móvil Revolucionaria</h3>
+            <div class="campaign_grid_progress">
+              <div class="grid_progress_bar">
+                <div class="grid_progress_fill" style="width: 75%"></div>
+              </div>
+              <p class="grid_progress_text">$375,000 de $500,000 | 75% financiado</p>
+            </div>
+            <div class="campaign_grid_footer">
+              <span class="grid_days_left">
+                <i class="fa-solid fa-clock"></i> 15 días restantes
+              </span>
+              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
+            </div>
+          </div>
+        </article>
+        <!-- Añade más cards según necesites -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="pagination_btn" disabled>
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="pagination_btn active">1</button>
+        <button class="pagination_btn">2</button>
+        <button class="pagination_btn">3</button>
+        <span class="pagination_dots">...</span>
+        <button class="pagination_btn">10</button>
+        <button class="pagination_btn">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+        <div class="footer_social">
+          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

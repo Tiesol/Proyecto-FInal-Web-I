@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/campaign-form.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Crear Campaña - RiseUp</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="login_register_container">
+      <a href="./profile.html" class="btn_registro">
+        <i class="fa-solid fa-user"></i> Mi Perfil
+      </a>
+    </div>
+  </header>
+
+  <main class="campaign-form-page">
+    <!-- Profile Navigation -->
+    <nav class="profile-nav">
+      <div class="container">
+        <a href="./profile.html" class="nav-link">My Profile</a>
+        <a href="./my-campaigns.html" class="nav-link">My campaigns</a>
+      </div>
+    </nav>
+
+    <!-- Campaign Form Section -->
+    <section class="campaign-form-section">
+      <div class="container">
+        <div class="form-card">
+          <form>
+            <!-- Top Section: Main Image + Basic Info -->
+            <div class="form-layout">
+              <!-- Left: Main Image -->
+              <div class="form-column">
+                <div class="image-upload-section">
+                  <label>Imagen Principal</label>
+                  <div class="image-upload">
+                    <div class="image-placeholder">
+                      <i class="fa-solid fa-image"></i>
+                    </div>
+                  </div>
+                  <input 
+                    type="url" 
+                    placeholder="URL de la imagen principal" 
+                    class="image-url-input"
+                  >
+                </div>
+              </div>
+
+              <!-- Right: Basic Info -->
+              <div class="form-column">
+                <div class="form-group">
+                  <label>Nombre de la Campaña</label>
+                  <input type="text" placeholder="Ingresa el nombre">
+                </div>
+
+                <div class="form-group">
+                  <label>Descripción Corta</label>
+                  <textarea rows="3" placeholder="Descripción breve"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>Meta de Financiación</label>
+                  <input type="number" placeholder="$0">
+                </div>
+
+                <div class="form-group">
+                  <label>Categoría</label>
+                  <select>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="arte">Arte</option>
+                    <option value="educacion">Educación</option>
+                    <option value="salud">Salud</option>
+                    <option value="sostenibilidad">Sostenibilidad</option>
+                    <option value="musica">Música</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Secondary Image -->
+            <div class="card-button-section">
+              <label>Imagen Secundaria (Opcional)</label>
+              <button type="button" class="card-button">
+                <i class="fa-solid fa-plus"></i>
+                <span>Agregar Imagen</span>
+              </button>
+              <input 
+                type="url" 
+                placeholder="URL de la imagen secundaria" 
+                class="image-url-input"
+              >
+            </div>
+
+            <!-- Rich Text Editor -->
+            <div class="editor-section">
+              <label>Descripción Completa</label>
+              <div class="editor-toolbar">
+                <button type="button" title="Negrita"><i class="fa-solid fa-bold"></i></button>
+                <button type="button" title="Cursiva"><i class="fa-solid fa-italic"></i></button>
+                <button type="button" title="Subrayado"><i class="fa-solid fa-underline"></i></button>
+                <span class="divider"></span>
+                <button type="button" title="Lista"><i class="fa-solid fa-list-ul"></i></button>
+                <button type="button" title="Lista numerada"><i class="fa-solid fa-list-ol"></i></button>
+                <span class="divider"></span>
+                <button type="button" title="Alinear izquierda"><i class="fa-solid fa-align-left"></i></button>
+                <button type="button" title="Centrar"><i class="fa-solid fa-align-center"></i></button>
+                <button type="button" title="Alinear derecha"><i class="fa-solid fa-align-right"></i></button>
+                <span class="divider"></span>
+                <button type="button" title="Enlace"><i class="fa-solid fa-link"></i></button>
+                <button type="button" title="Imagen"><i class="fa-solid fa-image"></i></button>
+              </div>
+              <textarea 
+                class="rich-editor" 
+                placeholder="Describe tu proyecto en detalle..."
+              ></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+              <button type="button" class="btn btn-cancel">Cancel</button>
+              <button type="button" class="btn btn-draft">Guardar como borrador</button>
+              <button type="submit" class="btn btn-publish">Publicar Campaña</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_section footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+        <div class="footer_social">
+          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>
