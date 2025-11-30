@@ -102,5 +102,28 @@ class CampaignPublic(SQLModel):
     favorites_counting: int
     user_first_name: Optional[str] = None
     user_last_name: Optional[str] = None
+    user_profile_image_url: Optional[str] = None
     category_name: Optional[str] = None
+    progress_percentage: float = 0.0
+
+class CampaignDetailPublic(SQLModel):
+    """Respuesta detallada de campaña pública con datos del usuario"""
+    id: int
+    tittle: str
+    description: str
+    goal_amount: Decimal
+    current_amount: Decimal
+    expiration_date: Optional[date] = None
+    main_image_url: Optional[str] = None
+    rich_text: Optional[str] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    view_counting: int
+    favorites_counting: int
+    category_id: Optional[int] = None
+    category_name: Optional[str] = None
+    user_id: int
+    user_first_name: Optional[str] = None
+    user_last_name: Optional[str] = None
+    user_profile_image_url: Optional[str] = None
     progress_percentage: float = 0.0

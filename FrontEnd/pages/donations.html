@@ -30,12 +30,44 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
     </div>
 
-    <div class="login_register_container">
-      <a href="./profile.html" class="btn_registro">
-        <i class="fa-solid fa-user"></i> Mi Perfil
-      </a>
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item">
+          <i class="fa-solid fa-bullhorn"></i>
+          Mis Campañas
+        </a>
+        <a href="./favorites.html" class="dropdown_item">
+          <i class="fa-solid fa-heart"></i>
+          Favoritos
+        </a>
+        <a href="./donations.html" class="dropdown_item">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          Mis Contribuciones
+        </a>
+        <a href="./profile.html" class="dropdown_item">
+          <i class="fa-solid fa-user-circle"></i>
+          Mi Perfil
+        </a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin.html" class="dropdown_item admin" id="adminLink" style="display: none;">
+          <i class="fa-solid fa-shield"></i>
+          Admin
+        </a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar Sesión
+        </a>
+      </div>
     </div>
   </header>
 
@@ -43,8 +75,8 @@
     <!-- Total Collection Banner -->
     <section class="total-banner">
       <div class="container">
-        <p class="project-name">[Nombre del Proyecto] Colletion:</p>
-        <h1 class="total-amount">0$</h1>
+        <p class="project-name">Cargando...</p>
+        <h1 class="total-amount">$0</h1>
       </div>
     </section>
 
@@ -53,34 +85,16 @@
       <div class="container">
         <div class="top-donators-card">
           <div class="card-header">
-            <h2>Top Donators</h2>
+            <h2>Top Donadores</h2>
             <i class="fa-solid fa-trophy"></i>
           </div>
           <div class="donators-table">
             <div class="table-header">
-              <span>Username</span>
-              <span>Quantity</span>
+              <span>Usuario</span>
+              <span>Cantidad</span>
             </div>
-            <div class="donator-row">
-              <div class="donator-info">
-                <img src="https://placehold.co/50x50/FFD166/1E293B?text=P" alt="Donador">
-                <span>Pepito Perez</span>
-              </div>
-              <span class="amount">100$</span>
-            </div>
-            <div class="donator-row">
-              <div class="donator-info">
-                <img src="https://placehold.co/50x50/FF7A59/FFFFFF?text=P" alt="Donador">
-                <span>Pepito Perez</span>
-              </div>
-              <span class="amount">100$</span>
-            </div>
-            <div class="donator-row">
-              <div class="donator-info">
-                <img src="https://placehold.co/50x50/FFD166/1E293B?text=P" alt="Donador">
-                <span>Pepito Perez</span>
-              </div>
-              <span class="amount">100$</span>
+            <div style="text-align: center; padding: 2rem;">
+              <i class="fa-solid fa-spinner fa-spin" style="color: #FF7A59;"></i>
             </div>
           </div>
         </div>
@@ -90,84 +104,11 @@
     <!-- All Donators Section -->
     <section class="all-donators-section">
       <div class="container">
-        <h2>Donators</h2>
+        <h2>Donadores</h2>
         <div class="donators-list">
-          <!-- Donator Item 1 -->
-          <div class="donator-item">
-            <div class="donator-avatar">
-              <img src="https://placehold.co/60x60/FFD166/1E293B?text=P" alt="Donador">
-            </div>
-            <div class="donator-details">
-              <span class="label">Username</span>
-              <span class="value">Pepito Perez</span>
-            </div>
-            <div class="donator-amount">
-              <span class="label">Quantity</span>
-              <span class="value">1000$</span>
-            </div>
+          <div style="text-align: center; padding: 2rem;">
+            <i class="fa-solid fa-spinner fa-spin" style="color: #FF7A59;"></i>
           </div>
-
-          <!-- Donator Item 2 -->
-          <div class="donator-item">
-            <div class="donator-avatar">
-              <img src="https://placehold.co/60x60/FF7A59/FFFFFF?text=P" alt="Donador">
-            </div>
-            <div class="donator-details">
-              <span class="label">Username</span>
-              <span class="value">Pepito Perez</span>
-            </div>
-            <div class="donator-amount">
-              <span class="label">Quantity</span>
-              <span class="value">1000$</span>
-            </div>
-          </div>
-
-          <!-- Donator Item 3 -->
-          <div class="donator-item">
-            <div class="donator-avatar">
-              <img src="https://placehold.co/60x60/FFD166/1E293B?text=P" alt="Donador">
-            </div>
-            <div class="donator-details">
-              <span class="label">Username</span>
-              <span class="value">Pepito Perez</span>
-            </div>
-            <div class="donator-amount">
-              <span class="label">Quantity</span>
-              <span class="value">1000$</span>
-            </div>
-          </div>
-
-          <!-- Donator Item 4 -->
-          <div class="donator-item">
-            <div class="donator-avatar">
-              <img src="https://placehold.co/60x60/FF7A59/FFFFFF?text=P" alt="Donador">
-            </div>
-            <div class="donator-details">
-              <span class="label">Username</span>
-              <span class="value">Pepito Perez</span>
-            </div>
-            <div class="donator-amount">
-              <span class="label">Quantity</span>
-              <span class="value">1000$</span>
-            </div>
-          </div>
-
-          <!-- Donator Item 5 -->
-          <div class="donator-item">
-            <div class="donator-avatar">
-              <img src="https://placehold.co/60x60/FFD166/1E293B?text=P" alt="Donador">
-            </div>
-            <div class="donator-details">
-              <span class="label">Username</span>
-              <span class="value">Pepito Perez</span>
-            </div>
-            <div class="donator-amount">
-              <span class="label">Quantity</span>
-              <span class="value">1000$</span>
-            </div>
-          </div>
-
-          <!-- Añade más donadores según necesites -->
         </div>
       </div>
     </section>
@@ -208,5 +149,8 @@
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
+  <script src="../js/search-categories.js"></script>
+  <script src="../js/header-user.js"></script>
+  <script src="../js/donations.js"></script>
 </body>
 </html>

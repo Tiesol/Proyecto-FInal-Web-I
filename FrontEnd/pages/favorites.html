@@ -33,6 +33,10 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
     </div>
 
     <div class="user_menu_container">
@@ -81,100 +85,10 @@
     <section class="category_campaigns">
       <div class="campaigns_grid" id="favoritesGrid">
         <!-- Las campañas favoritas se cargarán aquí dinámicamente -->
-        <div class="campaign_grid_card">
-          <div class="campaign_grid_image">
-            <img src="../assets/images/img-1.jpg" alt="Campaña 1">
-          </div>
-          <div class="campaign_grid_content">
-            <div class="campaign_grid_user">
-              <div class="grid_user_avatar">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <span class="grid_user_name">Juan Pérez</span>
-            </div>
-            <h3 class="campaign_grid_title">Nombre de la Campaña</h3>
-            <div class="campaign_grid_progress">
-              <div class="grid_progress_bar">
-                <div class="grid_progress_fill" style="width: 75%;"></div>
-              </div>
-              <p class="grid_progress_text">$375,000 de $500,000 | 75% financiado</p>
-            </div>
-            <div class="campaign_grid_footer">
-              <span class="grid_days_left">
-                <i class="fa-solid fa-clock"></i> 15 días restantes
-              </span>
-              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
-            </div>
-          </div>
+        <div class="loading_favorites" style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: #FF7A59;"></i>
+          <p style="margin-top: 1rem; color: #666;">Cargando favoritos...</p>
         </div>
-
-        <div class="campaign_grid_card">
-          <div class="campaign_grid_image">
-            <img src="../assets/images/img-2.jpg" alt="Campaña 2">
-          </div>
-          <div class="campaign_grid_content">
-            <div class="campaign_grid_user">
-              <div class="grid_user_avatar">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <span class="grid_user_name">María García</span>
-            </div>
-            <h3 class="campaign_grid_title">Otra Campaña Favorita</h3>
-            <div class="campaign_grid_progress">
-              <div class="grid_progress_bar">
-                <div class="grid_progress_fill" style="width: 60%;"></div>
-              </div>
-              <p class="grid_progress_text">$300,000 de $500,000 | 60% financiado</p>
-            </div>
-            <div class="campaign_grid_footer">
-              <span class="grid_days_left">
-                <i class="fa-solid fa-clock"></i> 22 días restantes
-              </span>
-              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="campaign_grid_card">
-          <div class="campaign_grid_image">
-            <img src="../assets/images/img-3.jpg" alt="Campaña 3">
-          </div>
-          <div class="campaign_grid_content">
-            <div class="campaign_grid_user">
-              <div class="grid_user_avatar">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <span class="grid_user_name">Carlos López</span>
-            </div>
-            <h3 class="campaign_grid_title">Proyecto Innovador</h3>
-            <div class="campaign_grid_progress">
-              <div class="grid_progress_bar">
-                <div class="grid_progress_fill" style="width: 85%;"></div>
-              </div>
-              <p class="grid_progress_text">$425,000 de $500,000 | 85% financiado</p>
-            </div>
-            <div class="campaign_grid_footer">
-              <span class="grid_days_left">
-                <i class="fa-solid fa-clock"></i> 8 días restantes
-              </span>
-              <a href="campaign-detail-logged.html" class="btn_more_details">Ver más</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pagination">
-        <button class="pagination_btn" disabled>
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <button class="pagination_btn active">1</button>
-        <button class="pagination_btn">2</button>
-        <button class="pagination_btn">3</button>
-        <span class="pagination_dots">...</span>
-        <button class="pagination_btn">10</button>
-        <button class="pagination_btn">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
       </div>
     </section>
   </main>
@@ -225,32 +139,8 @@
     </div>
   </footer>
 
-  <script type="module" src="../js/auth-check.js"></script>
-  <script>
-    // Mostrar opción admin si el usuario es admin
-    document.addEventListener('DOMContentLoaded', function() {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      if (user.role_id === 1) {
-        document.getElementById('adminLink').style.display = 'flex';
-      }
-      
-      // Logout
-      document.getElementById('logoutBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = './login.html';
-      });
-
-      // Cerrar menu al hacer click fuera
-      document.addEventListener('click', function(e) {
-        const toggle = document.getElementById('userMenuToggle');
-        const container = document.querySelector('.user_menu_container');
-        if (!container.contains(e.target)) {
-          toggle.checked = false;
-        }
-      });
-    });
-  </script>
+  <script src="../js/search-categories.js"></script>
+  <script src="../js/header-user.js"></script>
+  <script src="../js/favorites.js"></script>
 </body>
 </html>

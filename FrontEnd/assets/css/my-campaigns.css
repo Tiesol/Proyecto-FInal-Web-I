@@ -61,8 +61,9 @@
 .my-campaign-card {
   background-color: #FFFFFF;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .my-campaign-card .campaign-image {
@@ -70,6 +71,7 @@
   height: 200px;
   overflow: hidden;
   position: relative;
+  border-radius: 16px 16px 0 0;
 }
 
 .my-campaign-card .campaign-image img {
@@ -95,6 +97,101 @@
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 5;
+  border: none;
+}
+
+.campaign-menu-btn:hover {
+  background-color: #FFFFFF;
+}
+
+/* Menu Container */
+.campaign-menu-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+/* Dropdown Menu */
+.campaign-dropdown {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  padding: 8px 0;
+  display: none;
+  z-index: 100;
+}
+
+.campaign-dropdown.show {
+  display: block;
+}
+
+.campaign-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #1E293B;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.campaign-dropdown-item i {
+  width: 20px;
+  color: #FF7A59;
+  text-align: center;
+}
+
+.campaign-dropdown-item.danger {
+  color: #e74c3c;
+}
+
+.campaign-dropdown-item.danger i {
+  color: #e74c3c;
+}
+
+.campaign-dropdown-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+/* Submenu */
+.campaign-dropdown-item.has-submenu {
+  position: relative;
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.campaign-submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  padding: 8px 0;
+  display: none;
+}
+
+.campaign-submenu.show {
+  display: block;
 }
 
 .campaign-badge {
@@ -110,6 +207,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  z-index: 5;
 }
 
 .campaign-badge.approved {

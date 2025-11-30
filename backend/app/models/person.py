@@ -15,6 +15,7 @@ class PersonBase(SQLModel):
     last_name: str = Field(max_length=100)
     email: str = Field(max_length=100, unique=True, index=True)
     profile_image_url: Optional[str] = Field(default=None, max_length=255)
+    description: Optional[str] = Field(default=None, max_length=200)
     birthday_date: Optional[date] = None
     country_id: Optional[int] = Field(default=None, foreign_key="country.id")
 
@@ -47,6 +48,7 @@ class PersonUpdate(SQLModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     profile_image_url: Optional[str] = None
+    description: Optional[str] = None
     birthday_date: Optional[date] = None
     country_id: Optional[int] = None
 
@@ -56,6 +58,7 @@ class PersonResponse(SQLModel):
     last_name: str
     email: str
     profile_image_url: Optional[str] = None
+    description: Optional[str] = None
     birthday_date: Optional[date] = None
     is_active: bool
     country_id: Optional[int] = None
@@ -67,3 +70,4 @@ class PersonPublic(SQLModel):
     first_name: str
     last_name: str
     profile_image_url: Optional[str] = None
+    description: Optional[str] = None

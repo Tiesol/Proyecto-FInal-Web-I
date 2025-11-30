@@ -205,6 +205,7 @@ async def get_profile(
         last_name=current_user.last_name,
         email=current_user.email,
         profile_image_url=current_user.profile_image_url,
+        description=current_user.description,
         birthday_date=current_user.birthday_date,
         is_active=current_user.is_active,
         country_id=current_user.country_id,
@@ -226,6 +227,8 @@ async def update_profile(
         current_user.last_name = profile_data.last_name
     if profile_data.profile_image_url is not None:
         current_user.profile_image_url = profile_data.profile_image_url
+    if profile_data.description is not None:
+        current_user.description = profile_data.description
     if profile_data.birthday_date is not None:
         current_user.birthday_date = profile_data.birthday_date
     if profile_data.country_id is not None:
@@ -243,6 +246,7 @@ async def update_profile(
         last_name=current_user.last_name,
         email=current_user.email,
         profile_image_url=current_user.profile_image_url,
+        description=current_user.description,
         birthday_date=current_user.birthday_date,
         is_active=current_user.is_active,
         country_id=current_user.country_id,

@@ -1,0 +1,313 @@
+/* Create Campaign - Simple Form */
+.create-campaign-page {
+  background-color: #FFF8F2;
+  min-height: calc(100vh - 90px);
+  padding: 40px 0;
+}
+
+.campaign-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 32px;
+}
+
+/* Mensajes de Error y Éxito */
+.error-message {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 14px 18px;
+  border: 1px solid #fca5a5;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.success-message {
+  background-color: #d1fae5;
+  color: #059669;
+  padding: 14px 18px;
+  border: 1px solid #6ee7b7;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Form Sections */
+.form-section {
+  background-color: #FFFFFF;
+  border: 1px solid #e0e0e0;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.form-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 8px;
+}
+
+.section-description {
+  color: #64748B;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  font-size: 1rem;
+  color: #1E293B;
+  background-color: #FFFFFF;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #FF7A59;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Rewards Section */
+.reward-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+}
+
+.reward-info strong {
+  color: #1E293B;
+}
+
+.reward-info p {
+  margin: 4px 0 0;
+  color: #64748B;
+  font-size: 0.9rem;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.add-reward-form {
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 16px;
+}
+
+.add-reward-form .form-row {
+  grid-template-columns: 2fr 1fr;
+}
+
+.btn-add {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Quill Editor */
+#quillEditor {
+  min-height: 250px;
+  background-color: #FFFFFF;
+}
+
+.ql-toolbar {
+  border-color: #d0d0d0 !important;
+}
+
+.ql-container {
+  border-color: #d0d0d0 !important;
+}
+
+/* Imágenes y videos en Quill ocupan todo el ancho */
+#quillEditor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px 0;
+}
+
+#quillEditor iframe,
+#quillEditor .ql-video {
+  width: 100%;
+  height: 400px;
+  display: block;
+  margin: 16px 0;
+}
+
+/* Modal para insertar media */
+.media-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-modal-content {
+  background-color: #FFFFFF;
+  width: 90%;
+  max-width: 500px;
+  border: 1px solid #e0e0e0;
+}
+
+.media-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.media-modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1E293B;
+}
+
+.media-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748B;
+  line-height: 1;
+}
+
+.media-modal-body {
+  padding: 20px;
+}
+
+.media-modal-body .form-group {
+  margin-bottom: 12px;
+}
+
+.media-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Action Buttons */
+.campaign-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid #e0e0e0;
+  padding: 20px 24px;
+}
+
+.actions-left,
+.actions-right {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background-color: #1E293B;
+  color: #FFFFFF;
+}
+
+.btn-warning {
+  background-color: #FFD166;
+  color: #1E293B;
+}
+
+.btn-cancel {
+  background-color: #f0f0f0;
+  color: #64748B;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .campaign-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .actions-left,
+  .actions-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .add-reward-form .form-row {
+    grid-template-columns: 1fr;
+  }
+}

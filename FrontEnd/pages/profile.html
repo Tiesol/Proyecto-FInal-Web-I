@@ -30,12 +30,44 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
     </div>
 
-    <div class="login_register_container">
-      <a href="./profile.html" class="btn_registro">
-        <i class="fa-solid fa-user"></i> Mi Perfil
-      </a>
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item">
+          <i class="fa-solid fa-bullhorn"></i>
+          Mis Campañas
+        </a>
+        <a href="./favorites.html" class="dropdown_item">
+          <i class="fa-solid fa-heart"></i>
+          Favoritos
+        </a>
+        <a href="./donations.html" class="dropdown_item">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          Mis Contribuciones
+        </a>
+        <a href="./profile.html" class="dropdown_item">
+          <i class="fa-solid fa-user-circle"></i>
+          Mi Perfil
+        </a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin.html" class="dropdown_item admin" id="adminLink" style="display: none;">
+          <i class="fa-solid fa-shield"></i>
+          Admin
+        </a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar Sesión
+        </a>
+      </div>
     </div>
   </header>
 
@@ -60,8 +92,8 @@
             <h2>About Me</h2>
             <div class="about-info">
               <div class="info-item">
-                <strong>Username:</strong>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis donec nulla euismod, conubia nascetur vivamus semper massa. Hendrerit cursus bibendum erat dui curabitur etiam, porttitor potenti class pretium suscipit integer, litora penatibus dictumst vehicula nunc potent habitant, eleifin lorem porta ante mollis in, ultrice non vitae pellentesque porttitor vulputate. Diam conubia ultricies turpis cubilia.</p>
+                <strong id="profileUsername">Cargando...</strong>
+                <p id="profileDescription">Cargando descripción...</p>
               </div>
             </div>
           </div>
@@ -105,5 +137,8 @@
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
+  <script src="../js/search-categories.js"></script>
+  <script src="../js/header-user.js"></script>
+  <script src="../js/profile.js"></script>
 </body>
 </html>

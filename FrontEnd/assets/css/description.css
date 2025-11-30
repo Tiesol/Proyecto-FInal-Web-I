@@ -62,3 +62,22 @@
 .description_video iframe {
   display: block;
 }
+
+/* Imágenes y videos insertados desde Quill */
+.description_content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 24px 0;
+  border-radius: 8px;
+}
+
+.description_content iframe,
+.description_content .ql-video {
+  width: 100%;
+  height: 450px;
+  display: block;
+  margin: 24px 0;
+  border-radius: 8px;
+  border: none;
+}

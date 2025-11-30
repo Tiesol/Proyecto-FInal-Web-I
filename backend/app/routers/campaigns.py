@@ -11,7 +11,8 @@ from app.models.campaign import (
     CampaignCreate, 
     CampaignUpdate, 
     CampaignResponse, 
-    CampaignPublic
+    CampaignPublic,
+    CampaignDetailPublic
 )
 from app.models.category import Category
 
@@ -70,6 +71,7 @@ async def get_public_campaigns(
             favorites_counting=campaign.favorites_counting,
             user_first_name=user.first_name if user else None,
             user_last_name=user.last_name if user else None,
+            user_profile_image_url=user.profile_image_url if user else None,
             category_name=category.name if category else None,
             progress_percentage=round(progress, 2)
         ))
@@ -111,13 +113,14 @@ async def get_featured_campaigns(
             favorites_counting=campaign.favorites_counting,
             user_first_name=user.first_name if user else None,
             user_last_name=user.last_name if user else None,
+            user_profile_image_url=user.profile_image_url if user else None,
             category_name=category.name if category else None,
             progress_percentage=round(progress, 2)
         ))
     
     return result
 
-@router.get("/public/{campaign_id}", response_model=CampaignResponse)
+@router.get("/public/{campaign_id}", response_model=CampaignDetailPublic)
 async def get_public_campaign_detail(
     campaign_id: int,
     session: Session = Depends(get_session)
@@ -145,7 +148,36 @@ async def get_public_campaign_detail(
     session.commit()
     session.refresh(campaign)
     
-    return campaign
+    # Obtener datos del usuario y categoría
+    user = session.get(Person, campaign.user_id)
+    category = session.get(Category, campaign.category_id) if campaign.category_id else None
+    
+    # Calcular progreso
+    progress = 0.0
+    if campaign.goal_amount and campaign.goal_amount > 0:
+        progress = float(campaign.current_amount / campaign.goal_amount * 100)
+    
+    return CampaignDetailPublic(
+        id=campaign.id,
+        tittle=campaign.tittle,
+        description=campaign.description,
+        goal_amount=campaign.goal_amount,
+        current_amount=campaign.current_amount,
+        expiration_date=campaign.expiration_date,
+        main_image_url=campaign.main_image_url,
+        rich_text=campaign.rich_text,
+        start_date=campaign.start_date,
+        end_date=campaign.end_date,
+        view_counting=campaign.view_counting,
+        favorites_counting=campaign.favorites_counting,
+        category_id=campaign.category_id,
+        category_name=category.name if category else None,
+        user_id=campaign.user_id,
+        user_first_name=user.first_name if user else None,
+        user_last_name=user.last_name if user else None,
+        user_profile_image_url=user.profile_image_url if user else None,
+        progress_percentage=round(progress, 2)
+    )
 
 # ============== ENDPOINTS PARA USUARIOS AUTENTICADOS ==============
 
@@ -306,6 +338,52 @@ async def delete_campaign(
     session.commit()
     
     return {"message": "Campaña eliminada exitosamente"}
+
+@router.patch("/{campaign_id}/state", response_model=CampaignResponse)
+async def change_campaign_state(
+    campaign_id: int,
+    state_data: dict,
+    session: Session = Depends(get_session),
+    current_user: Person = Depends(get_current_active_user)
+):
+    """Cambia el estado de una campaña (iniciar, pausar)"""
+    
+    campaign = session.get(Campaign, campaign_id)
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaña no encontrada"
+        )
+    
+    if campaign.user_id != current_user.id and current_user.role_id != 1:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="No tienes permiso para cambiar el estado de esta campaña"
+        )
+    
+    # Solo campañas publicadas pueden cambiar de estado
+    if campaign.workflow_state_id != 5:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Solo puedes cambiar el estado de campañas publicadas"
+        )
+    
+    new_state = state_data.get('campaign_state_id')
+    if new_state not in [1, 2, 3, 4]:  # No Iniciada, En Progreso, En Pausa, Finalizada
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Estado de campaña inválido"
+        )
+    
+    campaign.campaign_state_id = new_state
+    campaign.updated_at = datetime.utcnow()
+    
+    session.add(campaign)
+    session.commit()
+    session.refresh(campaign)
+    
+    return campaign
 
 @router.post("/{campaign_id}/submit-for-review")
 async def submit_for_review(
