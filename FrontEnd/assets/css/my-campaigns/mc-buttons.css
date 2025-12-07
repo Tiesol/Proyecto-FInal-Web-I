@@ -1,0 +1,26 @@
+/* My Campaigns - Botones */
+
+.btn-small {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-success {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+}
+
+.btn-warning {
+  background-color: #FFD166;
+  color: #1E293B;
+}
+
+.btn-primary {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+}

@@ -1,0 +1,30 @@
+/* Admin Panel - Filtros */
+
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.filtro-btn.activo {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+  border-color: #FF7A59;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filtros {
+    overflow-x: auto;
+  }
+}

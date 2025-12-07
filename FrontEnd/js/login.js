@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Limpiar mensajes de error previos
     if (errorMessage) {
       errorMessage.textContent = '';
-      errorMessage.style.display = 'none';
+      errorMessage.classList.add('hidden');
     }
 
     // Obtener valores
@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function showError(message) {
     if (errorMessage) {
       errorMessage.textContent = message;
-      errorMessage.style.display = 'block';
+      errorMessage.classList.remove('hidden');
     } else {
-      alert(message);
+      console.error('Error:', message);
     }
   }
 });

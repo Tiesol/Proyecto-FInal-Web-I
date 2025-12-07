@@ -20,22 +20,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const data = await verifyEmail(token);
     
     // Ocultar spinner
-    loadingSpinner.style.display = 'none';
+    loadingSpinner.classList.add('hidden');
     
     // Mostrar éxito
     verifyTitle.textContent = '¡Cuenta Verificada!';
     verifyMessage.textContent = data.message || 'Tu cuenta ha sido activada correctamente.';
-    successContainer.style.display = 'block';
+    successContainer.classList.remove('hidden');
     
   } catch (error) {
     showError(error.message || 'Error al verificar la cuenta');
   }
 
   function showError(message) {
-    loadingSpinner.style.display = 'none';
+    loadingSpinner.classList.add('hidden');
     verifyTitle.textContent = 'Error de Verificación';
     verifyMessage.textContent = 'No pudimos verificar tu cuenta.';
     errorText.textContent = message;
-    errorContainer.style.display = 'block';
+    errorContainer.classList.remove('hidden');
   }
 });

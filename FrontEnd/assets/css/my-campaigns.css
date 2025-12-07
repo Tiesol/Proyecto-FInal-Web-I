@@ -100,10 +100,6 @@
   border: none;
 }
 
-.campaign-menu-btn:hover {
-  background-color: #FFFFFF;
-}
-
 /* Menu Container */
 .campaign-menu-container {
   position: absolute;
@@ -180,7 +176,8 @@
 
 .campaign-submenu {
   position: absolute;
-  left: 100%;
+  right: 100%;
+  left: auto;
   top: 0;
   background-color: #FFFFFF;
   border-radius: 12px;

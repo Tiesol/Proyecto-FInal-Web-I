@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Limpiar mensajes previos
     if (errorMessage) {
       errorMessage.textContent = '';
-      errorMessage.style.display = 'none';
+      errorMessage.classList.add('hidden');
     }
     if (successMessage) {
       successMessage.textContent = '';
-      successMessage.style.display = 'none';
+      successMessage.classList.add('hidden');
     }
 
     // Obtener valores
@@ -114,18 +114,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   function showError(message) {
     if (errorMessage) {
       errorMessage.textContent = message;
-      errorMessage.style.display = 'block';
+      errorMessage.classList.remove('hidden');
     } else {
-      alert(message);
+      console.error('Error:', message);
     }
   }
 
   function showSuccess(message) {
     if (successMessage) {
       successMessage.textContent = message;
-      successMessage.style.display = 'block';
+      successMessage.classList.remove('hidden');
     } else {
-      alert(message);
+      console.log('Success:', message);
     }
   }
 });

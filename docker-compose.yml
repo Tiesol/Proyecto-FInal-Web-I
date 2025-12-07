@@ -4,10 +4,12 @@ services:
     image: postgres:15
     container_name: riseup_db
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: database_crowdfunding
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5433:5432"
     volumes:
@@ -29,18 +31,20 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/database_crowdfunding
-      JWT_SECRET_KEY: super_secret_key_crowdfunding_2024_riseup_platform
-      JWT_ALGORITHM: HS256
-      JWT_EXPIRATION_HOURS: 24
-      MAIL_SERVER: sandbox.smtp.mailtrap.io
-      MAIL_PORT: 2525
-      MAIL_USERNAME: fa163225aeb808
-      MAIL_PASSWORD: 36f6634583814f
-      MAIL_FROM: noreply@riseup.com
-      MAIL_FROM_NAME: RiseUp Platform
-      FRONTEND_URL: http://localhost:8080
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
+      JWT_EXPIRATION_HOURS: ${JWT_EXPIRATION_HOURS}
+      MAIL_SERVER: ${MAIL_SERVER}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
+      FRONTEND_URL: ${FRONTEND_URL}
     ports:
       - "3000:8000"
     depends_on:

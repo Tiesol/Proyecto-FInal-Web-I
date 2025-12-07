@@ -42,7 +42,7 @@ function setupUserMenu() {
   
   // Mostrar admin link si es admin
   if (user && user.role_id === 1 && adminLink) {
-    adminLink.style.display = 'flex';
+    adminLink.classList.remove('hidden');
   }
   
   // Configurar logout

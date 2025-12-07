@@ -11,7 +11,6 @@ from app.models.category import Category
 from app.models.requirement_type import RequirementType
 from app.models.workflow_state import WorkflowState
 from app.models.campaign_state import CampaignState
-from app.models.observation_action import ObservationAction
 from app.models.donation_state import DonationState
 from app.models.payment_method import PaymentMethod
 from app.models.person import Person
@@ -102,15 +101,6 @@ def init_campaign_states():
     ]
     return states
 
-def init_observation_actions():
-    """Inicializa las acciones de observación"""
-    actions = [
-        ObservationAction(id=1, name="Observado"),
-        ObservationAction(id=2, name="Rechazado"),
-        ObservationAction(id=3, name="Aprobado"),
-    ]
-    return actions
-
 def init_donation_states():
     """Inicializa los estados de donación"""
     states = [
@@ -183,11 +173,6 @@ def init_database():
         for state in init_campaign_states():
             session.add(state)
         print("✓ Estados de campaña creados")
-        
-        # Insertar acciones de observación
-        for action in init_observation_actions():
-            session.add(action)
-        print("✓ Acciones de observación creadas")
         
         # Insertar estados de donación
         for state in init_donation_states():

@@ -1,5 +1,4 @@
 // my-campaigns.js - Funcionalidad de Mis Campañas
-const API_URL = 'http://localhost:3000';
 
 // Estados de workflow
 const WORKFLOW_STATES = {
@@ -21,6 +20,112 @@ const CAMPAIGN_STATES = {
 let allCampaigns = [];
 let currentFilter = 'all';
 let openMenuId = null;
+let pendingDeleteId = null;
+
+// Paginación
+let currentPage = 1;
+const PAGE_SIZE = 9;
+
+// Referencias a los divs de mensaje
+const errorMessageDiv = document.getElementById('errorMessage');
+const successMessageDiv = document.getElementById('successMessage');
+
+// Mostrar mensaje de error
+function showError(message) {
+  if (successMessageDiv) successMessageDiv.classList.add('hidden');
+  if (errorMessageDiv) {
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.classList.remove('hidden');
+    errorMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Mostrar mensaje de éxito
+function showSuccess(message) {
+  if (errorMessageDiv) errorMessageDiv.classList.add('hidden');
+  if (successMessageDiv) {
+    successMessageDiv.textContent = message;
+    successMessageDiv.classList.remove('hidden');
+    successMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+
+// Mostrar modal de confirmación
+function showConfirmModal(message, onConfirm) {
+  // Crear modal si no existe
+  let modal = document.getElementById('confirmModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'confirmModal';
+    modal.innerHTML = `
+      <div class="confirm-modal-overlay">
+        <div class="confirm-modal-content">
+          <p id="confirmModalMessage"></p>
+          <div class="confirm-modal-buttons">
+            <button type="button" class="btn btn-cancel" id="confirmModalCancel">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmModalConfirm">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    `;
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    `;
+    modal.querySelector('.confirm-modal-content').style.cssText = `
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+    `;
+    modal.querySelector('.confirm-modal-buttons').style.cssText = `
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    `;
+    modal.querySelector('.btn-cancel').style.cssText = `
+      padding: 10px 20px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    `;
+    modal.querySelector('.btn-danger').style.cssText = `
+      padding: 10px 20px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  document.getElementById('confirmModalMessage').textContent = message;
+  modal.classList.remove('hidden');
+  
+  const cancelBtn = document.getElementById('confirmModalCancel');
+  const confirmBtn = document.getElementById('confirmModalConfirm');
+  
+  const closeModal = () => { modal.classList.add('hidden'); };
+  
+  cancelBtn.onclick = closeModal;
+  confirmBtn.onclick = () => {
+    closeModal();
+    onConfirm();
+  };
+}
 
 // Obtener token
 function getToken() {
@@ -98,10 +203,91 @@ function renderCampaigns(campaigns) {
         <a href="./create-campaign.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block; padding: 12px 24px; text-decoration: none;">Crear Campaña</a>
       </div>
     `;
+    renderMyCampaignsPagination(0, 0);
     return;
   }
   
-  gallery.innerHTML = filtered.map(campaign => createCampaignCard(campaign)).join('');
+  // Paginación del lado del cliente
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+  
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const paginatedCampaigns = filtered.slice(startIndex, endIndex);
+  
+  gallery.innerHTML = paginatedCampaigns.map(campaign => createCampaignCard(campaign)).join('');
+  renderMyCampaignsPagination(totalPages, filtered.length);
+}
+
+// Renderizar paginación
+function renderMyCampaignsPagination(totalPages, totalItems) {
+  let paginationContainer = document.querySelector('.my-campaigns .pagination');
+  
+  // Crear contenedor si no existe
+  if (!paginationContainer) {
+    const section = document.querySelector('.my-campaigns');
+    if (section) {
+      paginationContainer = document.createElement('div');
+      paginationContainer.className = 'pagination';
+      section.appendChild(paginationContainer);
+    } else {
+      return;
+    }
+  }
+  
+  if (totalPages <= 1) {
+    paginationContainer.innerHTML = '';
+    return;
+  }
+  
+  let html = '';
+  
+  // Botón anterior
+  html += `<button class="pagination_btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToMyCampaignsPage(${currentPage - 1})">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>`;
+  
+  // Páginas
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  
+  if (endPage - startPage < maxVisiblePages - 1) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+  
+  if (startPage > 1) {
+    html += `<button class="pagination_btn" onclick="goToMyCampaignsPage(1)">1</button>`;
+    if (startPage > 2) {
+      html += `<span class="pagination_dots">...</span>`;
+    }
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    html += `<button class="pagination_btn ${i === currentPage ? 'active' : ''}" onclick="goToMyCampaignsPage(${i})">${i}</button>`;
+  }
+  
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      html += `<span class="pagination_dots">...</span>`;
+    }
+    html += `<button class="pagination_btn" onclick="goToMyCampaignsPage(${totalPages})">${totalPages}</button>`;
+  }
+  
+  // Botón siguiente
+  html += `<button class="pagination_btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToMyCampaignsPage(${currentPage + 1})">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>`;
+  
+  paginationContainer.innerHTML = html;
+}
+
+// Ir a página específica
+function goToMyCampaignsPage(page) {
+  currentPage = page;
+  renderCampaigns(allCampaigns);
+  document.querySelector('.my-campaigns')?.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Crear card de campaña
@@ -110,6 +296,7 @@ function createCampaignCard(campaign) {
   const workflow = WORKFLOW_STATES[campaign.workflow_state_id] || { name: 'Desconocido', class: 'draft' };
   const campaignState = CAMPAIGN_STATES[campaign.campaign_state_id] || 'Desconocido';
   const isDraft = campaign.workflow_state_id === 1;
+  const isPublished = campaign.workflow_state_id === 5;
   
   return `
     <article class="my-campaign-card" data-id="${campaign.id}">
@@ -122,21 +309,23 @@ function createCampaignCard(campaign) {
             <i class="fa-solid fa-pen"></i>
             Editar
           </a>
-          <div class="campaign-dropdown-item has-submenu" onclick="toggleStateSubmenu(${campaign.id}, event)">
-            <i class="fa-solid fa-toggle-on"></i>
-            Cambiar Estado
-            <i class="fa-solid fa-chevron-right submenu-arrow"></i>
-            <div class="campaign-submenu" id="submenu-${campaign.id}">
-              <a href="#" class="campaign-dropdown-item" onclick="changeCampaignState(${campaign.id}, 2, event)">
-                <i class="fa-solid fa-play"></i>
-                Iniciar
-              </a>
-              <a href="#" class="campaign-dropdown-item" onclick="changeCampaignState(${campaign.id}, 3, event)">
-                <i class="fa-solid fa-pause"></i>
-                Pausar
-              </a>
+          ${isPublished ? `
+            <div class="campaign-dropdown-item has-submenu" onclick="toggleStateSubmenu(${campaign.id}, event)">
+              <i class="fa-solid fa-toggle-on"></i>
+              Cambiar Estado
+              <i class="fa-solid fa-chevron-left submenu-arrow"></i>
+              <div class="campaign-submenu" id="submenu-${campaign.id}">
+                <a href="#" class="campaign-dropdown-item" onclick="changeCampaignState(${campaign.id}, 2, event)">
+                  <i class="fa-solid fa-play"></i>
+                  Iniciar
+                </a>
+                <a href="#" class="campaign-dropdown-item" onclick="changeCampaignState(${campaign.id}, 3, event)">
+                  <i class="fa-solid fa-pause"></i>
+                  Pausar
+                </a>
+              </div>
             </div>
-          </div>
+          ` : ''}
           <a href="./donations.html?campaign_id=${campaign.id}" class="campaign-dropdown-item">
             <i class="fa-solid fa-hand-holding-dollar"></i>
             Ver Contribuciones
@@ -218,10 +407,11 @@ async function changeCampaignState(campaignId, newState, event) {
     // Recargar campañas
     closeAllMenus();
     loadMyCampaigns();
+    showSuccess('Estado de campaña actualizado');
     
   } catch (error) {
     console.error('Error:', error);
-    alert('Error al cambiar el estado de la campaña');
+    showError('Error al cambiar el estado de la campaña');
   }
 }
 
@@ -230,28 +420,27 @@ async function deleteCampaign(campaignId, event) {
   event.preventDefault();
   event.stopPropagation();
   
-  if (!confirm('¿Estás seguro de que deseas eliminar esta campaña? Esta acción no se puede deshacer.')) {
-    return;
-  }
-  
-  try {
-    const response = await fetch(`${API_URL}/campaigns/${campaignId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${getToken()}`
-      }
-    });
-    
-    if (!response.ok) throw new Error('Error al eliminar');
-    
-    // Recargar campañas
-    closeAllMenus();
-    loadMyCampaigns();
-    
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error al eliminar la campaña');
-  }
+  showConfirmModal('¿Estás seguro de que deseas eliminar esta campaña? Esta acción no se puede deshacer.', async () => {
+    try {
+      const response = await fetch(`${API_URL}/campaigns/${campaignId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        }
+      });
+      
+      if (!response.ok) throw new Error('Error al eliminar');
+      
+      // Recargar campañas
+      closeAllMenus();
+      loadMyCampaigns();
+      showSuccess('Campaña eliminada');
+      
+    } catch (error) {
+      console.error('Error:', error);
+      showError('Error al eliminar la campaña');
+    }
+  });
 }
 
 // Cerrar todos los menús
@@ -289,6 +478,8 @@ function setupFilters() {
         currentFilter = 'all';
       }
       
+      // Resetear a página 1 al cambiar filtro
+      currentPage = 1;
       renderCampaigns(allCampaigns);
     });
   });

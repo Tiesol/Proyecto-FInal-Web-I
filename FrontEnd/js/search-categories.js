@@ -3,8 +3,6 @@
   if (window._searchCategoriesLoaded) return;
   window._searchCategoriesLoaded = true;
 
-  const SEARCH_API_URL = 'http://localhost:3000';
-
   // Iconos para cada categoría
   const categoryIcons = {
     'Tecnología': 'fa-microchip',
@@ -33,7 +31,7 @@
     if (!grid) return;
 
     try {
-      const response = await fetch(`${SEARCH_API_URL}/categories/`);
+      const response = await fetch(`${API_URL}/categories/`);
       if (!response.ok) throw new Error('Error al cargar categorías');
       
       const categories = await response.json();

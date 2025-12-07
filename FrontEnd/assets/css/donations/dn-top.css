@@ -1,0 +1,94 @@
+/* Donations - Top Donadores */
+
+.top-donators-section {
+  padding: 60px 40px;
+  background-color: #FFF8F2;
+}
+
+.top-donators-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.top-donators-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 32px;
+  color: #1E293B;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #FFD166;
+}
+
+.card-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  text-align: left;
+  color: #1E293B;
+}
+
+.card-header i {
+  font-size: 2rem;
+  color: #FFD166;
+}
+
+.donators-table {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #FF7A59;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.donator-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #FFF8F2;
+  border-radius: 8px;
+}
+
+.donator-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.donator-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FF7A59;
+}
+
+.donator-info span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1E293B;
+}
+
+.donator-row .amount {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #FF7A59;
+}

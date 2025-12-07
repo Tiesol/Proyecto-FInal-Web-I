@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/css/normalize.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/admin/admin-nav.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-filters.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-table.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-states.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-buttons.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-forms.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-details.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-misc.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-modal.css">
+  <link rel="stylesheet" href="../assets/css/admin/admin-responsive.css">
+  <link rel="stylesheet" href="../assets/css/utilities.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css">
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Admin - Detalle Campaña - RiseUp</title>
+</head>
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="../assets/images/riseup.svg" alt="Logo RiseUp">
+      </a>
+    </div>
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar...">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div>
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item"><i class="fa-solid fa-bullhorn"></i> Mis Campañas</a>
+        <a href="./favorites.html" class="dropdown_item"><i class="fa-solid fa-heart"></i> Favoritos</a>
+        <a href="./donations.html" class="dropdown_item"><i class="fa-solid fa-hand-holding-dollar"></i> Mis Contribuciones</a>
+        <a href="./profile.html" class="dropdown_item"><i class="fa-solid fa-user-circle"></i> Mi Perfil</a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin-projects.html" class="dropdown_item admin" id="adminLink"><i class="fa-solid fa-shield"></i> Admin</a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="admin-nav">
+    <div class="container">
+      <a href="./admin-projects.html" class="nav-link active">Proyectos</a>
+      <a href="./admin-categories.html" class="nav-link">Categorías</a>
+      <a href="./admin-admins.html" class="nav-link">Administradores</a>
+    </div>
+  </nav>
+
+  <main class="admin-content">
+    <div class="container">
+      <!-- Mensaje -->
+      <div id="mensaje" class="mensaje hidden"></div>
+
+      <!-- Botón volver -->
+      <a href="./admin-projects.html" class="btn btn-volver">
+        <i class="fa-solid fa-arrow-left"></i> Volver a proyectos
+      </a>
+
+      <!-- Información de la campaña -->
+      <div class="detalle-campania" id="infoCampania">
+        <p>Cargando...</p>
+      </div>
+
+      <!-- Sección de requerimientos -->
+      <div class="seccion-requerimientos">
+        <h2>Respuestas a Requerimientos</h2>
+        <div id="listaRequerimientos">
+          <p>Cargando requerimientos...</p>
+        </div>
+      </div>
+
+      <!-- Sección de observaciones -->
+      <div class="seccion-observaciones">
+        <h2>Historial de Observaciones</h2>
+        <div id="listaObservaciones">
+          <p>Cargando observaciones...</p>
+        </div>
+      </div>
+
+      <!-- Formulario para agregar observación (visible solo en estado 2) -->
+      <div id="formularioObservacion" class="formulario oculto">
+        <h2>Agregar Observación</h2>
+        <div class="campo">
+          <label for="textoObservacion">Observación *</label>
+          <textarea id="textoObservacion" placeholder="Escribe la observación o corrección necesaria..."></textarea>
+        </div>
+        <div class="formulario-botones">
+          <button type="button" class="btn btn-cancelar" onclick="cancelarObservacion()">Cancelar</button>
+          <button type="button" class="btn btn-guardar" onclick="enviarObservacion()">Enviar Observación</button>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div id="botonesAccion" class="detalle-acciones">
+        <!-- Se llena dinámicamente -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_section footer_brand">
+        <img src="../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+      </div>
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/header-user.js"></script>
+  <script src="../js/admin-campaign-detail.js"></script>
+</body>
+</html>

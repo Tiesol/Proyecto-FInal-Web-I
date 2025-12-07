@@ -1,0 +1,59 @@
+/* Create Campaign - Observaciones */
+
+.observations-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.observation-item {
+  background-color: #FFF8F2;
+  border: 1px solid #FFD6C9;
+  border-left: 4px solid #FF7A59;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.observation-item:last-child {
+  margin-bottom: 0;
+}
+
+.observation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+.observation-admin {
+  color: #FF7A59;
+  font-weight: 600;
+}
+
+.observation-admin i {
+  margin-right: 6px;
+}
+
+.observation-date {
+  color: #64748B;
+}
+
+.observation-text {
+  color: #1E293B;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.no-observations {
+  text-align: center;
+  color: #64748B;
+  padding: 40px 20px;
+}
+
+/* Botón para ver observaciones activo */
+.btn-obs-active {
+  background-color: #FFF8F2;
+  color: #FF7A59;
+  border: 1px solid #FF7A59;
+}

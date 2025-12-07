@@ -56,11 +56,6 @@ CREATE TABLE IF NOT EXISTS workflow_state (
     name VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS observation_action (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100)
-);
-
 CREATE TABLE IF NOT EXISTS campaign (
     id SERIAL PRIMARY KEY,
     tittle VARCHAR(200),
@@ -87,7 +82,6 @@ CREATE TABLE IF NOT EXISTS campaign_observations (
     observation_text TEXT,
     user_id INT REFERENCES person(id),
     campaign_id INT REFERENCES campaign(id),
-    action_id INT REFERENCES observation_action(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -386,13 +380,6 @@ INSERT INTO campaign_state (id, name) VALUES
     (2, 'En Progreso'),
     (3, 'En Pausa'),
     (4, 'Finalizada')
-ON CONFLICT (id) DO NOTHING;
-
--- Acciones de observación
-INSERT INTO observation_action (id, name) VALUES 
-    (1, 'Observado'),
-    (2, 'Rechazado'),
-    (3, 'Aprobado')
 ON CONFLICT (id) DO NOTHING;
 
 -- Estados de donación

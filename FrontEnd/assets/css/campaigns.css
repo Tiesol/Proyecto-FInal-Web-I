@@ -227,12 +227,3 @@
   font-size: 1rem;
   color: #ef4444;
 }
-
-.btn_remove_favorite:hover {
-  background: #ef4444;
-}
-
-.btn_remove_favorite:hover i {
-  color: white;
-}
-

@@ -1,0 +1,54 @@
+/* Auth - Formulario */
+
+.auth_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1E293B;
+}
+
+.input_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input_wrapper i {
+  position: absolute;
+  left: 16px;
+  color: #1E293B;
+  opacity: 0.4;
+  font-size: 1rem;
+}
+
+.input_wrapper input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  background-color: #FFFFFF;
+  color: #1E293B;
+}
+
+.input_wrapper select {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  cursor: pointer;
+}

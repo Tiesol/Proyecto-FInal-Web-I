@@ -1,0 +1,40 @@
+/* Profile - Responsive */
+
+@media (max-width: 968px) {
+  .about-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px;
+  }
+
+  .about-content h2 {
+    text-align: center;
+  }
+
+  .links-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-nav .container {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .profile-nav .btn {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+
+  .profile-image img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .about-content h2 {
+    font-size: 2rem;
+  }
+}

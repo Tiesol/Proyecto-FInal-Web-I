@@ -1,0 +1,30 @@
+/* Create Campaign - Quill Editor */
+
+#quillEditor {
+  min-height: 250px;
+  background-color: #FFFFFF;
+}
+
+.ql-toolbar {
+  border-color: #d0d0d0 !important;
+}
+
+.ql-container {
+  border-color: #d0d0d0 !important;
+}
+
+/* Imágenes y videos en Quill ocupan todo el ancho */
+#quillEditor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px 0;
+}
+
+#quillEditor iframe,
+#quillEditor .ql-video {
+  width: 100%;
+  height: 400px;
+  display: block;
+  margin: 16px 0;
+}

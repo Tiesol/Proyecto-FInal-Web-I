@@ -1,5 +1,4 @@
 // donations.js - Ver contribuciones de una campaña
-const API_URL = 'http://localhost:3000';
 
 // Obtener parámetro de URL
 function getUrlParam(param) {

@@ -1,5 +1,4 @@
-// API Base URL
-const API_URL = 'http://localhost:3000';
+// API de Autenticación
 
 /**
  * Registra un nuevo usuario
@@ -142,11 +141,55 @@ export function logout() {
 }
 
 /**
- * Verifica si el usuario está autenticado
+ * Decodifica un JWT sin verificar la firma (solo para leer el payload)
+ * @param {string} token 
+ * @returns {Object|null}
+ */
+function decodeJWT(token) {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    
+    const payload = parts[1];
+    // Decodificar base64url
+    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * Verifica si el token JWT ha expirado
+ * @param {string} token 
+ * @returns {boolean} true si expiró o es inválido
+ */
+function isTokenExpired(token) {
+  const payload = decodeJWT(token);
+  if (!payload || !payload.exp) return true;
+  
+  // exp está en segundos, Date.now() en milisegundos
+  const now = Math.floor(Date.now() / 1000);
+  return payload.exp < now;
+}
+
+/**
+ * Verifica si el usuario está autenticado (token existe y no ha expirado)
  * @returns {boolean}
  */
 export function isAuthenticated() {
-  return !!localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  if (!token) return false;
+  
+  // Verificar si el token expiró
+  if (isTokenExpired(token)) {
+    // Limpiar datos de sesión expirada
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    return false;
+  }
+  
+  return true;
 }
 
 /**

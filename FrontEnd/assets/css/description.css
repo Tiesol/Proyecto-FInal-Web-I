@@ -66,18 +66,27 @@
 /* Imágenes y videos insertados desde Quill */
 .description_content img {
   max-width: 100%;
+  width: auto;
   height: auto;
   display: block;
   margin: 24px 0;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 .description_content iframe,
 .description_content .ql-video {
   width: 100%;
+  max-width: 100%;
   height: 450px;
   display: block;
   margin: 24px 0;
   border-radius: 8px;
   border: none;
+}
+
+/* Contenedor de descripción no puede desbordar */
+.description_content {
+  overflow: hidden;
+  word-wrap: break-word;
 }

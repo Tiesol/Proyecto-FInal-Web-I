@@ -1,0 +1,43 @@
+/* My Campaigns - Filtros */
+
+.campaigns-filters {
+  background-color: #FFFFFF;
+  padding: 24px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.campaigns-filters .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.filter-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag.active {
+  background-color: #FF7A59;
+  border-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.tag i {
+  font-size: 0.8rem;
+}

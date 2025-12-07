@@ -1,0 +1,57 @@
+/* ===========================================
+   FAQ - Estilos Base
+   =========================================== */
+
+.faq_container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.faq_header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq_header h1 {
+  font-size: 2.5rem;
+  color: #2D3748;
+  margin-bottom: 10px;
+}
+
+.faq_header h1 i {
+  color: #FF7A59;
+}
+
+.faq_header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.faq_search {
+  max-width: 500px;
+  margin: 30px auto;
+  position: relative;
+}
+
+.faq_search input {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 1rem;
+}
+
+.faq_search button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FF7A59;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+}

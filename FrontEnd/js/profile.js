@@ -1,5 +1,4 @@
 // profile.js - Cargar datos del perfil del usuario
-const PROFILE_API_URL = 'http://localhost:3000';
 
 async function loadProfile() {
   const token = localStorage.getItem('token');
@@ -10,7 +9,7 @@ async function loadProfile() {
   }
   
   try {
-    const response = await fetch(`${PROFILE_API_URL}/auth/profile`, {
+    const response = await fetch(`${API_URL}/auth/profile`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

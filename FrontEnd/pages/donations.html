@@ -5,14 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/donations.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/category.css" />
+  <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
-  <title>Recaudaciones - RiseUp</title>
+  <title>Mis Contribuciones - RiseUp</title>
 </head>
 
 <body>
@@ -59,7 +64,7 @@
           Mi Perfil
         </a>
         <div class="dropdown_divider"></div>
-        <a href="./admin.html" class="dropdown_item admin" id="adminLink" style="display: none;">
+        <a href="./admin-projects.html" class="dropdown_item admin hidden" id="adminLink">
           <i class="fa-solid fa-shield"></i>
           Admin
         </a>
@@ -72,44 +77,16 @@
   </header>
 
   <main>
-    <!-- Total Collection Banner -->
-    <section class="total-banner">
-      <div class="container">
-        <p class="project-name">Cargando...</p>
-        <h1 class="total-amount">$0</h1>
+    <section class="category_header">
+      <div class="category_header_content">
+        <h1 class="category_title">Mis Contribuciones</h1>
+        <p class="category_description">Historial de aportes que has realizado a campañas</p>
       </div>
     </section>
 
-    <!-- Top Donators Section -->
-    <section class="top-donators-section">
-      <div class="container">
-        <div class="top-donators-card">
-          <div class="card-header">
-            <h2>Top Donadores</h2>
-            <i class="fa-solid fa-trophy"></i>
-          </div>
-          <div class="donators-table">
-            <div class="table-header">
-              <span>Usuario</span>
-              <span>Cantidad</span>
-            </div>
-            <div style="text-align: center; padding: 2rem;">
-              <i class="fa-solid fa-spinner fa-spin" style="color: #FF7A59;"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- All Donators Section -->
-    <section class="all-donators-section">
-      <div class="container">
-        <h2>Donadores</h2>
-        <div class="donators-list">
-          <div style="text-align: center; padding: 2rem;">
-            <i class="fa-solid fa-spinner fa-spin" style="color: #FF7A59;"></i>
-          </div>
-        </div>
+    <section class="category_campaigns">
+      <div class="donations_list" id="donationsList">
+        <!-- Las donaciones se cargarán aquí -->
       </div>
     </section>
   </main>
@@ -149,8 +126,10 @@
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
+  
+  <script src="../js/config.js"></script>
   <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>
-  <script src="../js/donations.js"></script>
+  <script src="../js/my-donations.js"></script>
 </body>
 </html>

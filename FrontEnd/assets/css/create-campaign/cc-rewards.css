@@ -1,0 +1,51 @@
+/* Create Campaign - Recompensas */
+
+.reward-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+}
+
+.reward-info strong {
+  color: #1E293B;
+}
+
+.reward-info p {
+  margin: 4px 0 0;
+  color: #64748B;
+  font-size: 0.9rem;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.add-reward-form {
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 16px;
+}
+
+.add-reward-form .form-row {
+  grid-template-columns: 2fr 1fr;
+}
+
+.btn-add {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}

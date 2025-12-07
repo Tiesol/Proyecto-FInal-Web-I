@@ -1,0 +1,68 @@
+/* Create Campaign - Requisitos */
+
+.requirements-section h2 {
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.requirements-section h2 i {
+  color: #FF7A59;
+}
+
+.requirement-item {
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #FFFFFF;
+  border: 1px solid #e0e0e0;
+}
+
+.requirement-item label {
+  display: block;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.required-mark {
+  color: #dc2626;
+  margin-left: 4px;
+}
+
+.requirement-description {
+  color: #64748B;
+  font-size: 0.85rem;
+  margin: 0 0 12px 0;
+}
+
+.requirement-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  font-size: 1rem;
+  color: #1E293B;
+  background-color: #FFFFFF;
+}
+
+.requirement-textarea {
+  resize: none;
+  min-height: 60px;
+}
+
+/* Errores en requisitos */
+.requirement-item .error-mensaje {
+  color: #DC2626;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: none;
+}
+
+.requirement-item.error .requirement-input {
+  border-color: #DC2626;
+}
+
+.requirement-item.error .error-mensaje {
+  display: block;
+}

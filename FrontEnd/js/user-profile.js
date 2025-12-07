@@ -1,5 +1,4 @@
 // user-profile.js - Ver perfil de otro usuario
-const USER_PROFILE_API_URL = 'http://localhost:3000';
 
 function getUserIdFromURL() {
   const params = new URLSearchParams(window.location.search);
@@ -16,7 +15,7 @@ async function loadUserProfile() {
   }
   
   try {
-    const response = await fetch(`${USER_PROFILE_API_URL}/users/${userId}`);
+    const response = await fetch(`${API_URL}/users/${userId}`);
     
     if (!response.ok) {
       throw new Error('Usuario no encontrado');

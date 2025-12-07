@@ -1,7 +1,30 @@
 // edit-profile.js - Editar perfil del usuario
-const EDIT_PROFILE_API_URL = 'http://localhost:3000';
 
 let currentUser = null;
+
+// Referencias a los divs de mensaje
+const errorMessageDiv = document.getElementById('errorMessage');
+const successMessageDiv = document.getElementById('successMessage');
+
+// Mostrar mensaje de error
+function showError(message) {
+  if (successMessageDiv) successMessageDiv.classList.add('hidden');
+  if (errorMessageDiv) {
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.classList.remove('hidden');
+    errorMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Mostrar mensaje de éxito
+function showSuccess(message) {
+  if (errorMessageDiv) errorMessageDiv.classList.add('hidden');
+  if (successMessageDiv) {
+    successMessageDiv.textContent = message;
+    successMessageDiv.classList.remove('hidden');
+    successMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
 
 async function loadCurrentProfile() {
   const token = localStorage.getItem('token');
@@ -12,7 +35,7 @@ async function loadCurrentProfile() {
   }
   
   try {
-    const response = await fetch(`${EDIT_PROFILE_API_URL}/auth/profile`, {
+    const response = await fetch(`${API_URL}/auth/profile`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -102,7 +125,7 @@ async function saveProfile() {
   }
   
   try {
-    const response = await fetch(`${EDIT_PROFILE_API_URL}/auth/profile`, {
+    const response = await fetch(`${API_URL}/auth/profile`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -121,12 +144,14 @@ async function saveProfile() {
     // Actualizar localStorage
     localStorage.setItem('user', JSON.stringify(updatedUser));
     
-    alert('¡Perfil actualizado correctamente!');
-    window.location.href = './profile.html';
+    showSuccess('¡Perfil actualizado correctamente!');
+    setTimeout(() => {
+      window.location.href = './profile.html';
+    }, 1500);
     
   } catch (error) {
     console.error('Error guardando perfil:', error);
-    alert('Error al guardar: ' + error.message);
+    showError('Error al guardar: ' + error.message);
   }
 }
 

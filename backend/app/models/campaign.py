@@ -120,6 +120,8 @@ class CampaignDetailPublic(SQLModel):
     end_date: Optional[date] = None
     view_counting: int
     favorites_counting: int
+    workflow_state_id: Optional[int] = None
+    campaign_state_id: Optional[int] = None
     category_id: Optional[int] = None
     category_name: Optional[str] = None
     user_id: int
@@ -127,3 +129,11 @@ class CampaignDetailPublic(SQLModel):
     user_last_name: Optional[str] = None
     user_profile_image_url: Optional[str] = None
     progress_percentage: float = 0.0
+
+class CampaignPaginatedResponse(SQLModel):
+    """Respuesta paginada de campañas"""
+    items: List[CampaignPublic]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int

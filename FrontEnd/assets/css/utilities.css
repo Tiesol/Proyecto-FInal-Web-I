@@ -1,0 +1,161 @@
+/* Common Utility Styles */
+
+/* Hidden elements */
+.hidden {
+  display: none !important;
+}
+
+/* Loading states */
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.loading-spinner i {
+  font-size: 2rem;
+  color: #FF7A59;
+}
+
+.loading-placeholder {
+  width: 100%;
+  height: 400px;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-placeholder i {
+  font-size: 2rem;
+  color: #999;
+}
+
+/* Text utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #666;
+}
+
+/* Status messages */
+.status-success {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-success.fa-check-circle {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.status-error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.status-error.fa-times-circle {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+/* Verify page specific */
+.verify-loading {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.verify-loading i {
+  font-size: 48px;
+  color: #FF7A59;
+}
+
+.verify-status {
+  text-align: center;
+}
+
+/* Progress bar initial state */
+.detail_progress_fill {
+  width: 0%;
+}
+
+/* Grid span utilities */
+.grid-full {
+  grid-column: 1 / -1;
+}
+
+/* Inline block links */
+.btn-inline {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
+/* Secondary button style */
+.btn-secondary {
+  background-color: #6c757d !important;
+}
+
+/* Modal width modifiers */
+.modal-narrow {
+  max-width: 600px;
+}
+
+/* Page container */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.page-container-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Alert messages */
+.alert {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.alert-success {
+  background-color: #d1fae5;
+  color: #059669;
+  border: 1px solid #6ee7b7;
+}
+
+/* Auth page alerts */
+.alert-error-auth {
+  background-color: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #fcc;
+}
+
+.alert-success-auth {
+  background-color: #efe;
+  color: #3a3;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #cfc;
+}
+
+/* Button secondary */
+.btn-secondary {
+  background-color: #6c757d;
+}

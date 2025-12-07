@@ -1,7 +1,8 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlmodel import Session, select
+from sqlmodel import Session, select, func
 from datetime import datetime
+import math
 
 from app.core.database import get_session
 from app.core.security import get_current_active_user, get_current_admin_user
@@ -12,40 +13,51 @@ from app.models.campaign import (
     CampaignUpdate, 
     CampaignResponse, 
     CampaignPublic,
-    CampaignDetailPublic
+    CampaignDetailPublic,
+    CampaignPaginatedResponse
 )
 from app.models.category import Category
+from app.models.campaign_observation import CampaignObservation, CampaignObservationResponse
 
 router = APIRouter(prefix="/campaigns", tags=["Campañas"])
 
 # ============== ENDPOINTS PÚBLICOS ==============
 
-@router.get("/public", response_model=List[CampaignPublic])
+@router.get("/public", response_model=CampaignPaginatedResponse)
 async def get_public_campaigns(
     category_id: Optional[int] = None,
     search: Optional[str] = None,
-    limit: int = Query(default=20, le=100),
-    offset: int = 0,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=9, le=100),
     session: Session = Depends(get_session)
 ):
-    """Obtiene campañas públicas (publicadas y con campaña en progreso)"""
+    """Obtiene campañas públicas (publicadas y con campaña en progreso) con paginación"""
     
-    # Solo campañas publicadas (workflow_state_id = 5) y en progreso (campaign_state_id = 2)
-    statement = select(Campaign).where(
+    # Base query para filtros
+    base_where = [
         Campaign.workflow_state_id == 5,
         Campaign.campaign_state_id == 2
-    )
+    ]
     
     if category_id:
-        statement = statement.where(Campaign.category_id == category_id)
+        base_where.append(Campaign.category_id == category_id)
     
     if search:
-        statement = statement.where(
+        base_where.append(
             Campaign.tittle.ilike(f"%{search}%") | 
             Campaign.description.ilike(f"%{search}%")
         )
     
-    statement = statement.offset(offset).limit(limit)
+    # Contar total
+    count_statement = select(func.count(Campaign.id)).where(*base_where)
+    total = session.exec(count_statement).one()
+    
+    # Calcular offset
+    offset = (page - 1) * page_size
+    total_pages = math.ceil(total / page_size) if total > 0 else 1
+    
+    # Obtener campañas paginadas
+    statement = select(Campaign).where(*base_where).offset(offset).limit(page_size)
     campaigns = session.exec(statement).all()
     
     result = []
@@ -76,19 +88,67 @@ async def get_public_campaigns(
             progress_percentage=round(progress, 2)
         ))
     
-    return result
+    return CampaignPaginatedResponse(
+        items=result,
+        total=total,
+        page=page,
+        page_size=page_size,
+        total_pages=total_pages
+    )
 
 @router.get("/featured", response_model=List[CampaignPublic])
 async def get_featured_campaigns(
     limit: int = Query(default=6, le=20),
     session: Session = Depends(get_session)
 ):
-    """Obtiene campañas destacadas (más vistas o con más favoritos)"""
+    """Obtiene campañas destacadas (más favoritos)"""
     
     statement = select(Campaign).where(
         Campaign.workflow_state_id == 5,
         Campaign.campaign_state_id == 2
-    ).order_by(Campaign.favorites_counting.desc(), Campaign.view_counting.desc()).limit(limit)
+    ).order_by(Campaign.favorites_counting.desc()).limit(limit)
+    
+    campaigns = session.exec(statement).all()
+    
+    result = []
+    for campaign in campaigns:
+        progress = 0.0
+        if campaign.goal_amount and campaign.goal_amount > 0:
+            progress = float(campaign.current_amount / campaign.goal_amount * 100)
+        
+        user = session.get(Person, campaign.user_id)
+        category = session.get(Category, campaign.category_id) if campaign.category_id else None
+        
+        result.append(CampaignPublic(
+            id=campaign.id,
+            tittle=campaign.tittle,
+            description=campaign.description,
+            goal_amount=campaign.goal_amount,
+            current_amount=campaign.current_amount,
+            expiration_date=campaign.expiration_date,
+            main_image_url=campaign.main_image_url,
+            view_counting=campaign.view_counting,
+            favorites_counting=campaign.favorites_counting,
+            user_first_name=user.first_name if user else None,
+            user_last_name=user.last_name if user else None,
+            user_profile_image_url=user.profile_image_url if user else None,
+            category_name=category.name if category else None,
+            progress_percentage=round(progress, 2)
+        ))
+    
+    return result
+
+@router.get("/popular", response_model=List[CampaignPublic])
+async def get_popular_campaigns(
+    limit: int = Query(default=6, le=20),
+    session: Session = Depends(get_session)
+):
+    """Obtiene campañas populares (más vistas)"""
+    
+    statement = select(Campaign).where(
+        Campaign.workflow_state_id == 5,
+        Campaign.campaign_state_id == 2
+    ).order_by(Campaign.view_counting.desc()).limit(limit)
     
     campaigns = session.exec(statement).all()
     
@@ -170,6 +230,8 @@ async def get_public_campaign_detail(
         end_date=campaign.end_date,
         view_counting=campaign.view_counting,
         favorites_counting=campaign.favorites_counting,
+        workflow_state_id=campaign.workflow_state_id,
+        campaign_state_id=campaign.campaign_state_id,
         category_id=campaign.category_id,
         category_name=category.name if category else None,
         user_id=campaign.user_id,
@@ -225,13 +287,13 @@ async def create_campaign(
     
     return new_campaign
 
-@router.get("/{campaign_id}", response_model=CampaignResponse)
+@router.get("/{campaign_id}", response_model=CampaignDetailPublic)
 async def get_campaign(
     campaign_id: int,
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene una campaña del usuario autenticado"""
+    """Obtiene una campaña del usuario autenticado con datos completos"""
     
     campaign = session.get(Campaign, campaign_id)
     
@@ -249,7 +311,38 @@ async def get_campaign(
                 detail="No tienes permiso para ver esta campaña"
             )
     
-    return campaign
+    # Obtener datos del usuario y categoría
+    user = session.get(Person, campaign.user_id)
+    category = session.get(Category, campaign.category_id) if campaign.category_id else None
+    
+    # Calcular progreso
+    progress = 0.0
+    if campaign.goal_amount and campaign.goal_amount > 0:
+        progress = float(campaign.current_amount / campaign.goal_amount * 100)
+    
+    return CampaignDetailPublic(
+        id=campaign.id,
+        tittle=campaign.tittle,
+        description=campaign.description,
+        goal_amount=campaign.goal_amount,
+        current_amount=campaign.current_amount,
+        expiration_date=campaign.expiration_date,
+        main_image_url=campaign.main_image_url,
+        rich_text=campaign.rich_text,
+        start_date=campaign.start_date,
+        end_date=campaign.end_date,
+        view_counting=campaign.view_counting,
+        favorites_counting=campaign.favorites_counting,
+        workflow_state_id=campaign.workflow_state_id,
+        campaign_state_id=campaign.campaign_state_id,
+        category_id=campaign.category_id,
+        category_name=category.name if category else None,
+        user_id=campaign.user_id,
+        user_first_name=user.first_name if user else None,
+        user_last_name=user.last_name if user else None,
+        user_profile_image_url=user.profile_image_url if user else None,
+        progress_percentage=round(progress, 2)
+    )
 
 @router.put("/{campaign_id}", response_model=CampaignResponse)
 async def update_campaign(
@@ -428,6 +521,51 @@ async def submit_for_review(
     session.commit()
     
     return {"message": "Campaña enviada para revisión exitosamente"}
+
+# ============== VER OBSERVACIONES DE MI CAMPAÑA ==============
+
+@router.get("/{campaign_id}/observations", response_model=List[CampaignObservationResponse])
+async def get_my_campaign_observations(
+    campaign_id: int,
+    session: Session = Depends(get_session),
+    current_user: Person = Depends(get_current_active_user)
+):
+    """Obtiene las observaciones de una campaña (solo el dueño puede verlas)"""
+    
+    campaign = session.get(Campaign, campaign_id)
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaña no encontrada"
+        )
+    
+    # Solo el dueño puede ver las observaciones
+    if campaign.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="No tienes permiso para ver las observaciones de esta campaña"
+        )
+    
+    statement = select(CampaignObservation).where(
+        CampaignObservation.campaign_id == campaign_id
+    ).order_by(CampaignObservation.created_at.desc())
+    
+    observations = session.exec(statement).all()
+    
+    result = []
+    for obs in observations:
+        admin = session.get(Person, obs.user_id) if obs.user_id else None
+        result.append(CampaignObservationResponse(
+            id=obs.id,
+            observation_text=obs.observation_text,
+            user_id=obs.user_id,
+            campaign_id=obs.campaign_id,
+            created_at=obs.created_at,
+            admin_name=f"{admin.first_name} {admin.last_name}" if admin else "Administrador"
+        ))
+    
+    return result
 
 # ============== CONTROL DE ESTADO DE CAMPAÑA DE RECAUDACIÓN ==============
 

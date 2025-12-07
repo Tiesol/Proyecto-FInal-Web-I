@@ -1,0 +1,75 @@
+/* Admin Panel - Navegación */
+
+.admin-nav {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 0;
+}
+
+.admin-nav .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.admin-nav .nav-link {
+  color: #1E293B;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding-bottom: 4px;
+  border-bottom: 3px solid transparent;
+}
+
+.admin-nav .nav-link.active {
+  color: #FF7A59;
+  border-bottom-color: #FF7A59;
+}
+
+/* Header con botón */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Contenido principal */
+.admin-content {
+  padding: 40px;
+  background-color: #FFF8F2;
+  min-height: calc(100vh - 200px);
+}
+
+.admin-content .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-content h1 {
+  font-size: 1.75rem;
+  color: #1E293B;
+  margin-bottom: 24px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-nav .container {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 20px;
+  }
+
+  .admin-content {
+    padding: 20px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}

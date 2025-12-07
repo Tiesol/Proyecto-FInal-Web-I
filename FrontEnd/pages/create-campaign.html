@@ -5,8 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
+  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-base.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-messages.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-forms.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-rewards.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-editor.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-modal.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-buttons.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-requirements.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign/cc-observations.css" />
+  <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
@@ -61,7 +74,7 @@
           Mi Perfil
         </a>
         <div class="dropdown_divider"></div>
-        <a href="./admin.html" class="dropdown_item admin" id="adminLink" style="display: none;">
+        <a href="./admin-projects.html" class="dropdown_item admin hidden" id="adminLink">
           <i class="fa-solid fa-shield"></i>
           Admin
         </a>
@@ -78,39 +91,53 @@
       <h1 class="page-title">Crear Nueva Campaña</h1>
 
       <!-- Mensaje de Error -->
-      <div id="errorMessage" class="error-message" style="display: none;"></div>
-      <div id="successMessage" class="success-message" style="display: none;"></div>
+      <div id="errorMessage" class="error-message hidden"></div>
+      <div id="successMessage" class="success-message hidden"></div>
+
+      <!-- Sección de Requisitos (dinámica según categoría) -->
+      <section class="form-section requirements-section hidden" id="requirementsSection">
+        <h2><i class="fa-solid fa-clipboard-check"></i> Requisitos de la Categoría</h2>
+        <p class="section-description">Completa los requisitos específicos para esta categoría. Los campos marcados con * son obligatorios.</p>
+        <div id="requirementsContainer">
+          <!-- Los requisitos se cargan dinámicamente -->
+        </div>
+      </section>
 
       <!-- Información Básica -->
       <section class="form-section">
         <h2>Información Básica</h2>
         
-        <div class="form-group">
+        <div class="form-group" id="grupoTitulo">
           <label for="campaignTitle">Título de la Campaña *</label>
-          <input type="text" id="campaignTitle" placeholder="Ej: Ayuda para construir una escuela" required>
+          <input type="text" id="campaignTitle" placeholder="Ej: Ayuda para construir una escuela">
+          <span class="error-mensaje">El título es obligatorio</span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="grupoDescripcion">
           <label for="shortDescription">Descripción Corta *</label>
-          <textarea id="shortDescription" rows="3" placeholder="Breve descripción de tu campaña (máx. 300 caracteres)" maxlength="300" required></textarea>
+          <textarea id="shortDescription" rows="3" placeholder="Breve descripción de tu campaña (máx. 300 caracteres)"></textarea>
+          <span class="error-mensaje">La descripción es obligatoria</span>
         </div>
 
         <div class="form-row">
-          <div class="form-group">
+          <div class="form-group" id="grupoCategoria">
             <label for="categorySelect">Categoría *</label>
-            <select id="categorySelect" required>
+            <select id="categorySelect">
               <option value="">Selecciona una categoría</option>
             </select>
+            <span class="error-mensaje">Selecciona una categoría</span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" id="grupoMeta">
             <label for="goalAmount">Meta de Financiación ($) *</label>
-            <input type="number" id="goalAmount" placeholder="10000" min="1" required>
+            <input type="number" id="goalAmount" placeholder="10000">
+            <span class="error-mensaje">Ingresa una meta válida</span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" id="grupoFecha">
             <label for="expirationDate">Fecha de Expiración *</label>
-            <input type="date" id="expirationDate" required>
+            <input type="date" id="expirationDate">
+            <span class="error-mensaje">Selecciona una fecha</span>
           </div>
         </div>
 
@@ -156,7 +183,7 @@
       </section>
 
       <!-- Modal para insertar imagen/video -->
-      <div id="mediaModal" class="media-modal" style="display: none;">
+      <div id="mediaModal" class="media-modal hidden">
         <div class="media-modal-content">
           <div class="media-modal-header">
             <h3 id="mediaModalTitle">Insertar Imagen</h3>
@@ -172,6 +199,24 @@
           <div class="media-modal-footer">
             <button type="button" class="btn btn-cancel" id="cancelMediaBtn">Cancelar</button>
             <button type="button" class="btn btn-primary" id="insertMediaBtn">Insertar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para ver observaciones -->
+      <div id="observationsModal" class="media-modal hidden">
+        <div class="media-modal-content modal-narrow">
+          <div class="media-modal-header">
+            <h3><i class="fa-solid fa-comment-dots"></i> Observaciones del Administrador</h3>
+            <button type="button" class="media-modal-close" id="closeObservationsModal">&times;</button>
+          </div>
+          <div class="media-modal-body">
+            <div id="observationsList" class="observations-list">
+              <!-- Las observaciones se cargan dinámicamente -->
+            </div>
+          </div>
+          <div class="media-modal-footer">
+            <button type="button" class="btn btn-primary" id="closeObservationsBtn">Entendido</button>
           </div>
         </div>
       </div>
@@ -236,388 +281,9 @@
   
   <!-- Quill JS -->
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/create-campaign-page.js"></script>
   <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>
-  <script>
-    const API_URL = 'http://localhost:3000';
-    const rewards = [];
-    let editingCampaignId = null;
-    let currentMediaType = null;
-
-    // Obtener ID de campaña si estamos editando
-    function getCampaignId() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('id');
-    }
-
-    // Inicializar Quill con handler de imagen por URL
-    const quill = new Quill('#quillEditor', {
-      theme: 'snow',
-      placeholder: 'Describe tu campaña en detalle...',
-      modules: {
-        toolbar: {
-          container: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'align': [] }],
-            ['link', 'image', 'video'],
-            ['clean']
-          ],
-          handlers: {
-            image: imageHandler,
-            video: videoHandler
-          }
-        }
-      }
-    });
-
-    // Mostrar modal para media
-    function showMediaModal(type) {
-      currentMediaType = type;
-      const modal = document.getElementById('mediaModal');
-      const title = document.getElementById('mediaModalTitle');
-      const label = document.getElementById('mediaModalLabel');
-      const help = document.getElementById('mediaModalHelp');
-      const input = document.getElementById('mediaUrlInput');
-
-      if (type === 'image') {
-        title.textContent = 'Insertar Imagen';
-        label.textContent = 'URL de la imagen:';
-        help.textContent = 'Pega la URL directa de la imagen (ej: https://ejemplo.com/foto.jpg)';
-        input.placeholder = 'https://ejemplo.com/imagen.jpg';
-      } else {
-        title.textContent = 'Insertar Video';
-        label.textContent = 'URL del video:';
-        help.textContent = 'Pega el enlace de YouTube o Vimeo. Ej: https://youtube.com/watch?v=xxxxx';
-        input.placeholder = 'https://youtube.com/watch?v=...';
-      }
-
-      input.value = '';
-      modal.style.display = 'flex';
-      input.focus();
-    }
-
-    // Cerrar modal
-    function closeMediaModal() {
-      document.getElementById('mediaModal').style.display = 'none';
-      currentMediaType = null;
-    }
-
-    // Insertar media desde modal
-    function insertMedia() {
-      let url = document.getElementById('mediaUrlInput').value.trim();
-      if (!url) {
-        return;
-      }
-
-      const range = quill.getSelection(true);
-
-      if (currentMediaType === 'video') {
-        // Convertir URL de YouTube a embed
-        if (url.includes('youtube.com/watch')) {
-          const videoId = url.split('v=')[1]?.split('&')[0];
-          if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
-        } else if (url.includes('youtu.be/')) {
-          const videoId = url.split('youtu.be/')[1]?.split('?')[0];
-          if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
-        }
-        quill.insertEmbed(range.index, 'video', url);
-      } else {
-        quill.insertEmbed(range.index, 'image', url);
-      }
-
-      quill.setSelection(range.index + 1);
-      closeMediaModal();
-    }
-
-    // Handler para insertar imagen
-    function imageHandler() {
-      showMediaModal('image');
-    }
-
-    // Handler para insertar video
-    function videoHandler() {
-      showMediaModal('video');
-    }
-
-    // Mostrar error visual
-    function showError(message) {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = message;
-      errorDiv.style.display = 'block';
-      document.getElementById('successMessage').style.display = 'none';
-      errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Mostrar éxito visual
-    function showSuccess(message) {
-      const successDiv = document.getElementById('successMessage');
-      successDiv.textContent = message;
-      successDiv.style.display = 'block';
-      document.getElementById('errorMessage').style.display = 'none';
-    }
-
-    // Ocultar mensajes
-    function hideMessages() {
-      document.getElementById('errorMessage').style.display = 'none';
-      document.getElementById('successMessage').style.display = 'none';
-    }
-
-    // Cargar categorías
-    async function loadCategories() {
-      try {
-        const response = await fetch(`${API_URL}/categories/`);
-        if (response.ok) {
-          const categories = await response.json();
-          const select = document.getElementById('categorySelect');
-          categories.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = cat.name;
-            select.appendChild(option);
-          });
-        }
-      } catch (error) {
-        console.error('Error cargando categorías:', error);
-      }
-    }
-
-    // Cargar datos de campaña existente (modo edición)
-    async function loadCampaignData(campaignId) {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      try {
-        const response = await fetch(`${API_URL}/campaigns/${campaignId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (response.ok) {
-          const campaign = await response.json();
-          
-          // Cambiar título de la página
-          document.querySelector('.page-title').textContent = 'Editar Campaña';
-          document.title = 'Editar Campaña - RiseUp';
-          
-          // Rellenar campos
-          document.getElementById('campaignTitle').value = campaign.tittle || '';
-          document.getElementById('shortDescription').value = campaign.description || '';
-          document.getElementById('goalAmount').value = campaign.goal_amount || '';
-          document.getElementById('mainImageUrl').value = campaign.main_image_url || '';
-          
-          if (campaign.expiration_date) {
-            document.getElementById('expirationDate').value = campaign.expiration_date;
-          }
-          
-          if (campaign.category_id) {
-            document.getElementById('categorySelect').value = campaign.category_id;
-          }
-          
-          // Cargar rich text en Quill
-          if (campaign.rich_text) {
-            quill.root.innerHTML = campaign.rich_text;
-          }
-
-          editingCampaignId = campaignId;
-        } else {
-          showError('No se pudo cargar la campaña');
-        }
-      } catch (error) {
-        console.error('Error cargando campaña:', error);
-        showError('Error al cargar los datos de la campaña');
-      }
-    }
-
-    // Renderizar rewards
-    function renderRewards() {
-      const container = document.getElementById('rewardsList');
-      container.innerHTML = rewards.map((r, i) => `
-        <div class="reward-card">
-          <div class="reward-info">
-            <strong>${r.title}</strong> - Mínimo: $${r.minAmount}
-            <p>${r.description}</p>
-          </div>
-          <button type="button" class="btn-remove" onclick="removeReward(${i})">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    // Añadir reward
-    function addReward() {
-      const title = document.getElementById('rewardTitle').value.trim();
-      const minAmount = document.getElementById('rewardMinAmount').value;
-      const description = document.getElementById('rewardDescription').value.trim();
-
-      if (!title || !minAmount) {
-        showError('Ingresa título y monto mínimo para la recompensa');
-        return;
-      }
-
-      rewards.push({ title, minAmount: parseFloat(minAmount), description });
-      renderRewards();
-      hideMessages();
-
-      document.getElementById('rewardTitle').value = '';
-      document.getElementById('rewardMinAmount').value = '';
-      document.getElementById('rewardDescription').value = '';
-    }
-
-    // Remover reward
-    function removeReward(index) {
-      rewards.splice(index, 1);
-      renderRewards();
-    }
-
-    document.addEventListener('DOMContentLoaded', async function() {
-      await loadCategories();
-      
-      // Verificar si estamos en modo edición
-      const campaignId = getCampaignId();
-      if (campaignId) {
-        await loadCampaignData(campaignId);
-      }
-
-      // Event listeners para el modal de media
-      document.getElementById('closeMediaModal').addEventListener('click', closeMediaModal);
-      document.getElementById('cancelMediaBtn').addEventListener('click', closeMediaModal);
-      document.getElementById('insertMediaBtn').addEventListener('click', insertMedia);
-      
-      // Cerrar modal con Escape o click fuera
-      document.getElementById('mediaModal').addEventListener('click', function(e) {
-        if (e.target === this) closeMediaModal();
-      });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeMediaModal();
-      });
-      
-      // Enter en el input inserta el media
-      document.getElementById('mediaUrlInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          insertMedia();
-        }
-      });
-
-      document.getElementById('btnAddReward').addEventListener('click', addReward);
-
-      document.getElementById('btnCancel').addEventListener('click', function() {
-        window.location.href = 'my-campaigns.html';
-      });
-
-      document.getElementById('btnSave').addEventListener('click', function() {
-        saveCampaign(false);
-      });
-
-      document.getElementById('btnSendCampaign').addEventListener('click', function() {
-        saveCampaign(true);
-      });
-
-      document.getElementById('btnObservations').addEventListener('click', function() {
-        showError('Las observaciones estarán disponibles después de enviar la campaña para revisión.');
-      });
-    });
-
-    async function saveCampaign(send) {
-      hideMessages();
-      
-      const token = localStorage.getItem('token');
-      if (!token) {
-        window.location.href = 'login.html';
-        return;
-      }
-
-      const tittle = document.getElementById('campaignTitle').value.trim();
-      const description = document.getElementById('shortDescription').value.trim();
-      const categoryId = document.getElementById('categorySelect').value;
-      const goalAmount = document.getElementById('goalAmount').value;
-      const expirationDate = document.getElementById('expirationDate').value;
-      const mainImageUrl = document.getElementById('mainImageUrl').value.trim();
-      const richText = quill.root.innerHTML;
-
-      // Validación
-      if (!tittle) {
-        showError('El título de la campaña es obligatorio');
-        return;
-      }
-      if (!description) {
-        showError('La descripción corta es obligatoria');
-        return;
-      }
-      if (!categoryId) {
-        showError('Selecciona una categoría');
-        return;
-      }
-      if (!goalAmount || parseFloat(goalAmount) <= 0) {
-        showError('Ingresa una meta de financiación válida');
-        return;
-      }
-      if (!expirationDate) {
-        showError('Selecciona una fecha de expiración');
-        return;
-      }
-
-      // Datos con los nombres correctos del backend
-      const data = {
-        tittle: tittle,
-        description: description,
-        goal_amount: parseFloat(goalAmount),
-        expiration_date: expirationDate,
-        main_image_url: mainImageUrl || null,
-        rich_text: richText,
-        category_id: parseInt(categoryId)
-      };
-
-      try {
-        let response;
-        
-        if (editingCampaignId) {
-          // Modo edición: PUT
-          response = await fetch(`${API_URL}/campaigns/${editingCampaignId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-          });
-        } else {
-          // Modo creación: POST
-          response = await fetch(`${API_URL}/campaigns/`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-          });
-        }
-
-        if (response.ok) {
-          const msg = editingCampaignId 
-            ? '¡Campaña actualizada exitosamente!' 
-            : (send ? '¡Campaña creada!' : '¡Borrador guardado!');
-          showSuccess(msg);
-          setTimeout(() => {
-            window.location.href = 'my-campaigns.html';
-          }, 1500);
-        } else {
-          const err = await response.json();
-          if (err.detail && Array.isArray(err.detail)) {
-            const messages = err.detail.map(e => e.msg || e.message || 'Error de validación').join(', ');
-            showError(messages);
-          } else {
-            showError(err.detail || 'Error al guardar la campaña');
-          }
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showError('Error de conexión con el servidor');
-      }
-    }
-  </script>
 </body>
 </html>

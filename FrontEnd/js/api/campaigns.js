@@ -1,5 +1,4 @@
-// API Base URL
-const API_URL = 'http://localhost:3000';
+// API de Campañas
 
 /**
  * Obtiene las campañas públicas (publicadas y en progreso)

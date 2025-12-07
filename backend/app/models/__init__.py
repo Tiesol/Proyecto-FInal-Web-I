@@ -7,7 +7,6 @@ from app.models.requirement_type import RequirementType
 from app.models.category_requirement import CategoryRequirement
 from app.models.campaign_state import CampaignState
 from app.models.workflow_state import WorkflowState
-from app.models.observation_action import ObservationAction
 from app.models.campaign import Campaign, CampaignCreate, CampaignUpdate, CampaignResponse
 from app.models.campaign_observation import CampaignObservation
 from app.models.campaign_requirement_response import CampaignRequirementResponse
@@ -26,7 +25,6 @@ __all__ = [
     "CategoryRequirement",
     "CampaignState",
     "WorkflowState",
-    "ObservationAction",
     "Campaign", "CampaignCreate", "CampaignUpdate", "CampaignResponse",
     "CampaignObservation",
     "CampaignRequirementResponse",

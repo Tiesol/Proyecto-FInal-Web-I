@@ -1,0 +1,76 @@
+/* Admin Panel - Formularios */
+
+.formulario {
+  background-color: #FFFFFF;
+  border: 1px solid #e0e0e0;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.formulario h2 {
+  font-size: 1.25rem;
+  color: #1E293B;
+  margin-bottom: 20px;
+}
+
+.campo {
+  margin-bottom: 16px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+  color: #1E293B;
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.campo .error-mensaje {
+  color: #DC2626;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: none;
+}
+
+.campo.error input,
+.campo.error textarea,
+.campo.error select {
+  border-color: #DC2626;
+}
+
+.campo.error .error-mensaje {
+  display: block;
+}
+
+.campos-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formulario-botones {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .campos-fila {
+    grid-template-columns: 1fr;
+  }
+}

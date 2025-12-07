@@ -1,0 +1,64 @@
+/* Edit Profile - Responsive */
+
+@media (max-width: 968px) {
+  .edit-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-form h2 {
+    text-align: center;
+  }
+
+  .image-url-input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-nav .container {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 20px;
+  }
+
+  .profile-nav .btn {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+
+  .edit-profile {
+    padding: 40px 20px 80px;
+  }
+
+  .edit-card {
+    padding: 32px 24px;
+  }
+
+  .profile-form h2 {
+    font-size: 2rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .image-placeholder i {
+    font-size: 3rem;
+  }
+
+  .profile-form h2 {
+    font-size: 1.75rem;
+  }
+}

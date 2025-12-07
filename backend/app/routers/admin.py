@@ -7,6 +7,7 @@ from app.core.database import get_session
 from app.core.security import get_current_admin_user
 from app.models.person import Person
 from app.models.campaign import Campaign
+from app.models.category import Category
 from app.models.campaign_observation import CampaignObservation, CampaignObservationCreate, CampaignObservationResponse
 from datetime import datetime
 
@@ -144,6 +145,9 @@ async def get_all_campaigns(
     
     if workflow_state_id:
         statement = statement.where(Campaign.workflow_state_id == workflow_state_id)
+    else:
+        # Por defecto excluir borradores (estado 1)
+        statement = statement.where(Campaign.workflow_state_id != 1)
     
     campaigns = session.exec(statement).all()
     
@@ -174,10 +178,57 @@ async def get_all_campaigns(
     
     return result
 
+@router.get("/campaigns/{campaign_id}")
+async def get_campaign_detail(
+    campaign_id: int,
+    session: Session = Depends(get_session),
+    current_user: Person = Depends(get_current_admin_user)
+):
+    """Obtiene el detalle completo de una campaña para admin"""
+    
+    campaign = session.get(Campaign, campaign_id)
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaña no encontrada"
+        )
+    
+    user = session.get(Person, campaign.user_id)
+    category = session.get(Category, campaign.category_id) if campaign.category_id else None
+    
+    workflow_states = {
+        1: "Borrador",
+        2: "En Revisión",
+        3: "Observado",
+        4: "Rechazado",
+        5: "Publicado"
+    }
+    
+    return {
+        "id": campaign.id,
+        "tittle": campaign.tittle,
+        "description": campaign.description,
+        "goal_amount": float(campaign.goal_amount),
+        "current_amount": float(campaign.current_amount),
+        "expiration_date": str(campaign.expiration_date) if campaign.expiration_date else None,
+        "main_image_url": campaign.main_image_url,
+        "rich_text": campaign.rich_text,
+        "workflow_state_id": campaign.workflow_state_id,
+        "workflow_state_name": workflow_states.get(campaign.workflow_state_id, "Desconocido"),
+        "campaign_state_id": campaign.campaign_state_id,
+        "category_id": campaign.category_id,
+        "category_name": category.name if category else None,
+        "user_id": campaign.user_id,
+        "user_name": f"{user.first_name} {user.last_name}" if user else "Usuario desconocido",
+        "user_email": user.email if user else "",
+        "created_at": campaign.created_at
+    }
+
 @router.post("/campaigns/{campaign_id}/approve")
 async def approve_campaign(
     campaign_id: int,
-    action_data: ApprovalAction,
+    action_data: ApprovalAction = ApprovalAction(),
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
@@ -191,10 +242,11 @@ async def approve_campaign(
             detail="Campaña no encontrada"
         )
     
-    if campaign.workflow_state_id != 2:  # Solo desde "En Revisión"
+    # Permitir aprobar desde "En Revisión" o "Observado"
+    if campaign.workflow_state_id not in [2, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Solo puedes aprobar campañas en estado 'En Revisión'"
+            detail="Solo puedes aprobar campañas en estado 'En Revisión' u 'Observado'"
         )
     
     # Crear observación de aprobación
@@ -202,7 +254,6 @@ async def approve_campaign(
         observation_text=action_data.observation_text or "Campaña aprobada",
         user_id=current_user.id,
         campaign_id=campaign_id,
-        action_id=3,  # Aprobado
         created_at=datetime.utcnow()
     )
     session.add(observation)
@@ -249,7 +300,6 @@ async def observe_campaign(
         observation_text=action_data.observation_text,
         user_id=current_user.id,
         campaign_id=campaign_id,
-        action_id=1,  # Observado
         created_at=datetime.utcnow()
     )
     session.add(observation)
@@ -279,10 +329,11 @@ async def reject_campaign(
             detail="Campaña no encontrada"
         )
     
-    if campaign.workflow_state_id != 2:  # Solo desde "En Revisión"
+    # Permitir rechazar desde "En Revisión" o "Observado"
+    if campaign.workflow_state_id not in [2, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Solo puedes rechazar campañas en estado 'En Revisión'"
+            detail="Solo puedes rechazar campañas en estado 'En Revisión' u 'Observado'"
         )
     
     if not action_data.observation_text:
@@ -296,7 +347,6 @@ async def reject_campaign(
         observation_text=action_data.observation_text,
         user_id=current_user.id,
         campaign_id=campaign_id,
-        action_id=2,  # Rechazado
         created_at=datetime.utcnow()
     )
     session.add(observation)
@@ -323,12 +373,6 @@ async def get_campaign_observations(
     
     observations = session.exec(statement).all()
     
-    action_names = {
-        1: "Observado",
-        2: "Rechazado",
-        3: "Aprobado"
-    }
-    
     result = []
     for obs in observations:
         admin = session.get(Person, obs.user_id) if obs.user_id else None
@@ -337,10 +381,8 @@ async def get_campaign_observations(
             observation_text=obs.observation_text,
             user_id=obs.user_id,
             campaign_id=obs.campaign_id,
-            action_id=obs.action_id,
             created_at=obs.created_at,
-            admin_name=f"{admin.first_name} {admin.last_name}" if admin else None,
-            action_name=action_names.get(obs.action_id, "Desconocido")
+            admin_name=f"{admin.first_name} {admin.last_name}" if admin else None
         ))
     
     return result

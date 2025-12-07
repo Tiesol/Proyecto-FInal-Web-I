@@ -1,0 +1,70 @@
+/* Admin Panel - Botones */
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ver {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.btn-aprobar {
+  background-color: #059669;
+  color: #FFFFFF;
+}
+
+.btn-observar {
+  background-color: #D97706;
+  color: #FFFFFF;
+}
+
+.btn-rechazar {
+  background-color: #DC2626;
+  color: #FFFFFF;
+}
+
+.btn-editar {
+  background-color: #3B82F6;
+  color: #FFFFFF;
+}
+
+.btn-eliminar {
+  background-color: #EF4444;
+  color: #FFFFFF;
+}
+
+.btn-nuevo {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+.btn-volver {
+  background-color: transparent;
+  color: #FF7A59;
+  border: 1px solid #FF7A59;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.btn-cancelar {
+  background-color: #e0e0e0;
+  color: #1E293B;
+}
+
+.btn-guardar {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}

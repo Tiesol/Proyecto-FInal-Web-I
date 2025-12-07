@@ -1,4 +1,9 @@
-const API_URL = 'http://localhost:3000';
+// favorites.js - Gestión de favoritos
+
+// Paginación
+let allFavorites = [];
+let currentPage = 1;
+const PAGE_SIZE = 9;
 
 // Verificar autenticación
 function isAuthenticated() {
@@ -106,9 +111,9 @@ async function loadFavorites() {
       throw new Error('Error al cargar favoritos');
     }
 
-    const favorites = await response.json();
+    allFavorites = await response.json();
 
-    if (favorites.length === 0) {
+    if (allFavorites.length === 0) {
       favoritesGrid.innerHTML = `
         <div class="no_favorites" style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
           <i class="fa-regular fa-heart" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
@@ -119,15 +124,11 @@ async function loadFavorites() {
           </a>
         </div>
       `;
+      renderFavoritesPagination(0);
       return;
     }
 
-    // Limpiar grid y renderizar favoritos
-    favoritesGrid.innerHTML = '';
-    favorites.forEach(campaign => {
-      const card = createFavoriteCard(campaign);
-      favoritesGrid.appendChild(card);
-    });
+    renderFavoritesPage();
 
   } catch (error) {
     console.error('Error:', error);
@@ -140,13 +141,106 @@ async function loadFavorites() {
   }
 }
 
+// Renderizar página de favoritos
+function renderFavoritesPage() {
+  const favoritesGrid = document.getElementById('favoritesGrid');
+  
+  // Paginación del lado del cliente
+  const totalPages = Math.ceil(allFavorites.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+  
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const paginatedFavorites = allFavorites.slice(startIndex, endIndex);
+  
+  // Limpiar grid y renderizar favoritos
+  favoritesGrid.innerHTML = '';
+  paginatedFavorites.forEach(campaign => {
+    const card = createFavoriteCard(campaign);
+    favoritesGrid.appendChild(card);
+  });
+  
+  renderFavoritesPagination(totalPages);
+}
+
+// Renderizar paginación de favoritos
+function renderFavoritesPagination(totalPages) {
+  let paginationContainer = document.querySelector('.category_campaigns .pagination');
+  
+  // Crear contenedor si no existe
+  if (!paginationContainer) {
+    const section = document.querySelector('.category_campaigns');
+    if (section) {
+      paginationContainer = document.createElement('div');
+      paginationContainer.className = 'pagination';
+      section.appendChild(paginationContainer);
+    } else {
+      return;
+    }
+  }
+  
+  if (totalPages <= 1) {
+    paginationContainer.innerHTML = '';
+    return;
+  }
+  
+  let html = '';
+  
+  // Botón anterior
+  html += `<button class="pagination_btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToFavoritesPage(${currentPage - 1})">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>`;
+  
+  // Páginas
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  
+  if (endPage - startPage < maxVisiblePages - 1) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+  
+  if (startPage > 1) {
+    html += `<button class="pagination_btn" onclick="goToFavoritesPage(1)">1</button>`;
+    if (startPage > 2) {
+      html += `<span class="pagination_dots">...</span>`;
+    }
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    html += `<button class="pagination_btn ${i === currentPage ? 'active' : ''}" onclick="goToFavoritesPage(${i})">${i}</button>`;
+  }
+  
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      html += `<span class="pagination_dots">...</span>`;
+    }
+    html += `<button class="pagination_btn" onclick="goToFavoritesPage(${totalPages})">${totalPages}</button>`;
+  }
+  
+  // Botón siguiente
+  html += `<button class="pagination_btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToFavoritesPage(${currentPage + 1})">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>`;
+  
+  paginationContainer.innerHTML = html;
+}
+
+// Ir a página específica de favoritos
+function goToFavoritesPage(page) {
+  currentPage = page;
+  renderFavoritesPage();
+  document.querySelector('.category_campaigns')?.scrollIntoView({ behavior: 'smooth' });
+}
+
 // Quitar de favoritos
 async function handleRemoveFavorite(e) {
   e.preventDefault();
   e.stopPropagation();
   
   const btn = e.currentTarget;
-  const campaignId = btn.dataset.campaignId;
+  const campaignId = parseInt(btn.dataset.campaignId);
   const card = btn.closest('.campaign_grid_card');
 
   try {
@@ -158,12 +252,17 @@ async function handleRemoveFavorite(e) {
     });
 
     if (response.ok) {
-      // Remover la card inmediatamente
-      card.remove();
+      // Remover del array
+      allFavorites = allFavorites.filter(f => f.id !== campaignId);
+      
       // Verificar si quedan favoritos
-      const remaining = document.querySelectorAll('.campaign_grid_card');
-      if (remaining.length === 0) {
+      if (allFavorites.length === 0) {
         loadFavorites();
+      } else {
+        // Ajustar página si es necesario
+        const totalPages = Math.ceil(allFavorites.length / PAGE_SIZE);
+        if (currentPage > totalPages) currentPage = totalPages;
+        renderFavoritesPage();
       }
     }
   } catch (error) {
@@ -181,7 +280,7 @@ function initFavoritesPage() {
   const logoutBtn = document.getElementById('logoutBtn');
 
   if (user && user.role_id === 1 && adminLink) {
-    adminLink.style.display = 'flex';
+    adminLink.classList.remove('hidden');
   }
 
   if (logoutBtn) {

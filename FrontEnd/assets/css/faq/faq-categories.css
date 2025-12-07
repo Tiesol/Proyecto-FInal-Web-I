@@ -1,0 +1,31 @@
+/* ===========================================
+   FAQ - Categorías / Navegación
+   =========================================== */
+
+.faq_categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.faq_category_btn {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  background: white;
+  color: #666;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.faq_category_btn.active {
+  background: #FF7A59;
+  border-color: #FF7A59;
+  color: white;
+}
+
+.faq_category_btn i {
+  margin-right: 8px;
+}
