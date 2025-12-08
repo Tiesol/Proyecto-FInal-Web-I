@@ -1,4 +1,4 @@
-/* Category Header */
+
 .category_header {
   background: linear-gradient(135deg, #FF7A59, #FFD166);
   padding: 60px 40px;
@@ -26,13 +26,11 @@
   margin: 0 auto;
 }
 
-/* Category Campaigns Section */
 .category_campaigns {
   padding: 60px 40px 100px;
   background-color: #FFF8F2;
 }
 
-/* No Results */
 .no_results {
   grid-column: 1 / -1;
   text-align: center;
@@ -76,7 +74,6 @@
   }
 }
 
-/* Donations Table */
 .donations_list {
   max-width: 900px;
   margin: 0 auto;
@@ -160,4 +157,46 @@
     padding: 10px;
     font-size: 0.9rem;
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  padding: 20px 0;
+}
+
+.pagination_btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.pagination_btn:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #FF7A59;
+}
+
+.pagination_btn.active {
+  background: #FF7A59;
+  color: white;
+  border-color: #FF7A59;
+}
+
+.pagination_btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination_dots {
+  padding: 0 8px;
+  color: #666;
 }

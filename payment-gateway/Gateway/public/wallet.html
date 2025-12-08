@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Confirmar Pago - RiseUp</title>
+  <link rel="stylesheet" href="/css/wallet.css">
+</head>
+<body>
+  <div class="card">
+    <div class="card-body">
+      <img src="https://raw.githubusercontent.com/Tiesol/Proyecto-FInal-Web-I/main/FrontEnd/assets/images/riseup.svg" alt="RiseUp" class="logo">
+      <h3 class="card-title">Confirmar Pago</h3>
+      
+      <div id="loading">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Cargando información...</p>
+      </div>
+      
+      <div id="paymentInfo" style="display: none;">
+        <p class="amount-label">Monto a pagar</p>
+        <p id="amount" class="amount">$0.00</p>
+        
+        <p style="margin-bottom: 1rem;">
+          <span id="status" class="status-badge status-pending">Pendiente</span>
+        </p>
+        
+        <p class="payment-id">ID: <code id="paymentId"></code></p>
+        
+        <div id="confirmSection">
+          <button id="btnConfirm" class="btn-confirm" onclick="confirmPayment()">
+            Confirmar Pago
+          </button>
+          <p class="confirm-note">Al confirmar, el pago será procesado.</p>
+        </div>
+        
+        <div id="confirmedSection" style="display: none;">
+          <div class="success-box">
+            Pago confirmado exitosamente
+          </div>
+        </div>
+      </div>
+      
+      <div id="errorInfo" style="display: none;">
+        <div class="error-box">
+          <span id="errorMessage">No se pudo cargar el pago.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/wallet.js"></script>
+</body>
+</html>

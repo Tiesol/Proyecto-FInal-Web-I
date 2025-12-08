@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <meta name="author" content="Sebastian Alejandro Gonzales Villarroel" />
   <meta name="description" content="Verifica tu cuenta en RiseUp." />
   <meta name="theme-color" content="#FF7A59" />
-  
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-base.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-form.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/login.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <title>Verificar Cuenta - RiseUp</title>
@@ -25,16 +20,13 @@
     <a href="./index.html" class="auth_logo">
       <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" />
     </a>
-    
     <div class="auth_header">
       <h1 id="verifyTitle">Verificando tu cuenta...</h1>
       <p id="verifyMessage">Por favor espera mientras verificamos tu correo electrónico.</p>
     </div>
-
     <div id="loadingSpinner" class="verify-loading">
       <i class="fa-solid fa-spinner fa-spin"></i>
     </div>
-
     <div id="successContainer" class="verify-status hidden">
       <i class="fa-solid fa-check-circle status-success"></i>
       <p class="status-success">¡Tu cuenta ha sido verificada exitosamente!</p>
@@ -42,7 +34,6 @@
         Iniciar Sesión
       </a>
     </div>
-
     <div id="errorContainer" class="verify-status hidden">
       <i class="fa-solid fa-times-circle status-error"></i>
       <p id="errorText" class="status-error">Error al verificar la cuenta.</p>
@@ -50,7 +41,6 @@
         Volver a Registrarse
       </a>
     </div>
-
     <div class="auth_footer">
       <p><a href="./index.html">Volver al inicio</a></p>
     </div>

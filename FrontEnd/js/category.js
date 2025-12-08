@@ -1,4 +1,3 @@
-// category.js - Búsqueda de campañas por categoría y por texto
 
 let allCampaigns = [];
 let currentCategory = null;
@@ -8,7 +7,6 @@ let totalPages = 1;
 let totalCampaigns = 0;
 const PAGE_SIZE = 9;
 
-// Obtener parámetros de URL
 function getURLParams() {
   const params = new URLSearchParams(window.location.search);
   return {
@@ -17,7 +15,6 @@ function getURLParams() {
   };
 }
 
-// Cargar información de la categoría
 async function loadCategoryInfo(categoryId) {
   try {
     const response = await fetch(`${API_URL}/categories/${categoryId}`);
@@ -29,24 +26,21 @@ async function loadCategoryInfo(categoryId) {
   }
 }
 
-// Cargar campañas con paginación
 async function loadCampaigns(categoryId = null, searchQuery = null, page = 1) {
   try {
     let url = `${API_URL}/campaigns/public?page=${page}&page_size=${PAGE_SIZE}`;
-    
+
     if (categoryId) url += `&category_id=${categoryId}`;
     if (searchQuery) url += `&search=${encodeURIComponent(searchQuery)}`;
-    
+
     const response = await fetch(url);
     if (!response.ok) throw new Error('Error al cargar campañas');
     const data = await response.json();
-    
-    // Actualizar estado de paginación
+
     currentPage = data.page || 1;
     totalPages = data.total_pages || 1;
     totalCampaigns = data.total || 0;
-    
-    // Asegurar que siempre devuelve un array
+
     return Array.isArray(data.items) ? data.items : [];
   } catch (error) {
     console.error('Error cargando campañas:', error);
@@ -57,7 +51,6 @@ async function loadCampaigns(categoryId = null, searchQuery = null, page = 1) {
   }
 }
 
-// Calcular días restantes
 function calculateDaysLeft(expirationDate) {
   const now = new Date();
   const expDate = new Date(expirationDate);
@@ -66,14 +59,13 @@ function calculateDaysLeft(expirationDate) {
   return days > 0 ? days : 0;
 }
 
-// Crear card de campaña
 function createCampaignCard(campaign) {
   const daysLeft = calculateDaysLeft(campaign.expiration_date);
   const progress = campaign.progress_percentage || 0;
   const isLogged = !!localStorage.getItem('token');
   const detailPage = isLogged ? './campaign-detail-logged.html' : './campaign-detail.html';
   const creatorName = campaign.user_first_name ? `${campaign.user_first_name} ${campaign.user_last_name || ''}` : 'Anónimo';
-  
+
   return `
     <div class="campaign_grid_card">
       <div class="campaign_grid_image">
@@ -105,7 +97,6 @@ function createCampaignCard(campaign) {
   `;
 }
 
-// Filtrar campañas (ya vienen filtradas del backend, esto es solo para filtros locales adicionales)
 function filterCampaigns() {
   if (!Array.isArray(allCampaigns)) {
     console.error('allCampaigns no es un array:', allCampaigns);
@@ -114,13 +105,12 @@ function filterCampaigns() {
   return [...allCampaigns];
 }
 
-// Renderizar campañas
 function renderCampaigns() {
   const grid = document.querySelector('.campaigns_grid');
   if (!grid) return;
-  
+
   const filtered = filterCampaigns();
-  
+
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div class="no_results">
@@ -132,16 +122,14 @@ function renderCampaigns() {
     renderPagination();
     return;
   }
-  
+
   grid.innerHTML = filtered.map(c => createCampaignCard(c)).join('');
   renderPagination();
 }
 
-// Renderizar paginación
 function renderPagination() {
   let paginationContainer = document.querySelector('.pagination');
-  
-  // Crear contenedor si no existe
+
   if (!paginationContainer) {
     const section = document.querySelector('.category_campaigns');
     if (section) {
@@ -152,59 +140,54 @@ function renderPagination() {
       return;
     }
   }
-  
+
   if (totalPages <= 1) {
     paginationContainer.innerHTML = '';
     return;
   }
-  
+
   let html = '';
-  
-  // Botón anterior
+
   html += `<button class="pagination_btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
     <i class="fa-solid fa-chevron-left"></i>
   </button>`;
-  
-  // Páginas
+
   const maxVisiblePages = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
   let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-  
+
   if (endPage - startPage < maxVisiblePages - 1) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
   }
-  
+
   if (startPage > 1) {
     html += `<button class="pagination_btn" onclick="goToPage(1)">1</button>`;
     if (startPage > 2) {
       html += `<span class="pagination_dots">...</span>`;
     }
   }
-  
+
   for (let i = startPage; i <= endPage; i++) {
     html += `<button class="pagination_btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
   }
-  
+
   if (endPage < totalPages) {
     if (endPage < totalPages - 1) {
       html += `<span class="pagination_dots">...</span>`;
     }
     html += `<button class="pagination_btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
   }
-  
-  // Botón siguiente
+
   html += `<button class="pagination_btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
     <i class="fa-solid fa-chevron-right"></i>
   </button>`;
-  
+
   paginationContainer.innerHTML = html;
 }
 
-// Ir a página específica
 async function goToPage(page) {
   if (page < 1 || page > totalPages || page === currentPage) return;
-  
-  // Mostrar loading
+
   const grid = document.querySelector('.campaigns_grid');
   if (grid) {
     grid.innerHTML = `
@@ -214,20 +197,17 @@ async function goToPage(page) {
       </div>
     `;
   }
-  
-  // Cargar campañas de la página
+
   allCampaigns = await loadCampaigns(currentCategory, currentSearch, page);
   renderCampaigns();
-  
-  // Scroll al inicio del grid
+
   document.querySelector('.category_campaigns')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Actualizar header de la página
 function updatePageHeader(category, searchQuery) {
   const titleEl = document.querySelector('.category_title');
   const descEl = document.querySelector('.category_description');
-  
+
   if (category) {
     if (titleEl) titleEl.textContent = category.name;
     if (descEl) descEl.textContent = category.description || `Explora proyectos de ${category.name}`;
@@ -243,26 +223,23 @@ function updatePageHeader(category, searchQuery) {
   }
 }
 
-// Configurar filtros de estado
 function setupFilters() {
   const filterBtns = document.querySelectorAll('.filter_btn');
-  
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       const filter = btn.textContent.trim().toLowerCase();
       let filtered = [...allCampaigns];
-      
+
       if (filter === 'financiados') {
         filtered = filtered.filter(c => c.progress_percentage >= 100);
       } else if (filter === 'recientes') {
-        // Ya vienen ordenados del backend, pero podemos reordenar
         filtered = filtered.slice().reverse();
       }
-      // "todos" y "en progreso" muestran todo (ya están en progreso del backend)
-      
+
       const grid = document.querySelector('.campaigns_grid');
       if (grid) {
         if (filtered.length === 0) {
@@ -281,36 +258,28 @@ function setupFilters() {
   });
 }
 
-// Inicializar página
 async function initCategoryPage() {
   const params = getURLParams();
   currentCategory = params.category;
   currentSearch = params.search || '';
-  
-  // Actualizar el input de búsqueda si hay un término
+
   const searchInput = document.querySelector('.search_container input');
   if (searchInput && currentSearch) {
     searchInput.value = currentSearch;
   }
-  
-  // Cargar info de categoría si se especificó
+
   let categoryInfo = null;
   if (currentCategory) {
     categoryInfo = await loadCategoryInfo(currentCategory);
   }
-  
-  // Actualizar header
+
   updatePageHeader(categoryInfo, currentSearch);
-  
-  // Cargar campañas con paginación (página 1)
+
   allCampaigns = await loadCampaigns(currentCategory, currentSearch, 1);
-  
-  // Renderizar
+
   renderCampaigns();
-  
-  // Configurar filtros
+
   setupFilters();
 }
 
-// Inicializar al cargar
 document.addEventListener('DOMContentLoaded', initCategoryPage);

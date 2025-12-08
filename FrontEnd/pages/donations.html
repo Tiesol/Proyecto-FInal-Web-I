@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/category.css" />
-  <link rel="stylesheet" href="../assets/css/utilities.css" />
-  <link rel="stylesheet" href="../assets/css/footer.css" />
-  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
-  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
-  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
-  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mis Contribuciones - RiseUp</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/normalize.css">
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/utilities.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/my-donations.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css">
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
 </head>
-
 <body>
   <header>
     <div class="logo_container">
       <a href="./index-logged.html">
-        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp">
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
-        <input type="search" name="search" placeholder="Buscar..." />
+        <input type="search" name="search" placeholder="Buscar...">
         <button type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -40,7 +33,6 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -77,56 +69,45 @@
   </header>
 
   <main>
-    <section class="category_header">
-      <div class="category_header_content">
-        <h1 class="category_title">Mis Contribuciones</h1>
-        <p class="category_description">Historial de aportes que has realizado a campañas</p>
-      </div>
+    <section class="my-donations-header">
+      <h1>Mis Contribuciones</h1>
+      <p>Campañas que has apoyado con tus donaciones</p>
     </section>
 
-    <section class="category_campaigns">
-      <div class="donations_list" id="donationsList">
-        <!-- Las donaciones se cargarán aquí -->
+    <section class="donations-container">
+      <div class="donations-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalDonated">$0</div>
+          <div class="stat-label">Total Donado</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalCampaigns">0</div>
+          <div class="stat-label">Campañas Apoyadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalDonations">0</div>
+          <div class="stat-label">Donaciones Realizadas</div>
+        </div>
+      </div>
+
+      <div class="donations-grid" id="donationsGrid">
+        <p style="text-align: center; color: #666; grid-column: 1/-1;">Cargando tus contribuciones...</p>
       </div>
     </section>
   </main>
 
   <footer class="site_footer">
     <div class="footer_container">
-      <div class="footer_section footer_brand">
+      <div class="footer_brand">
         <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
         <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
-        <div class="footer_social">
-          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        </div>
-      </div>
-
-      <div class="footer_section">
-        <h3 class="footer_title">Legal</h3>
-        <ul class="footer_links">
-          <li><a href="#">Términos y condiciones</a></li>
-          <li><a href="#">Política de privacidad</a></li>
-        </ul>
-      </div>
-
-      <div class="footer_section">
-        <h3 class="footer_title">Soporte</h3>
-        <ul class="footer_links">
-          <li><a href="#">Centro de ayuda</a></li>
-          <li><a href="#">Guías para creadores</a></li>
-          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
-        </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-  
+
   <script src="../js/config.js"></script>
   <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>

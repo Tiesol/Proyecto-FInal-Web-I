@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procesar Pago - RiseUp</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/normalize.css">
+  <link rel="stylesheet" href="../assets/css/utilities.css">
+  <link rel="stylesheet" href="../assets/css/payment.css">
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="payment-page">
+    <div class="payment-card">
+      <img src="../assets/images/riseup.svg" alt="RiseUp" class="payment-logo">
+      
+      <h1 class="payment-title">Procesar Pago</h1>
+      
+      <div id="paymentAmount" class="payment-amount">$0.00</div>
+      
+      <div id="paymentStatus" class="payment-status pending">
+        <div class="spinner"></div>
+        <p>Verificando estado del pago...</p>
+      </div>
+      
+      <div id="qrContainer" class="payment-qr hidden">
+        <img id="qrImage" src="" alt="QR de pago">
+      </div>
+      
+      <p class="payment-instructions">
+        Escanea el código QR con tu billetera digital para confirmar el pago.
+      </p>
+      
+      <div id="paymentActions" class="payment-actions hidden">
+        <button id="simulateBtn" class="btn-payment btn-simulate" onclick="simulatePayment()">
+          Simular Pago
+        </button>
+        <button id="cancelBtn" class="btn-payment btn-cancel" onclick="cancelPayment()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/payment.js"></script>
+</body>
+</html>

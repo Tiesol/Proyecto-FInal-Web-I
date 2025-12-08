@@ -11,11 +11,10 @@ router = APIRouter(prefix="/countries", tags=["Países"])
 async def get_countries(
     session: Session = Depends(get_session)
 ):
-    """Obtiene todos los países"""
-    
+
     statement = select(Country).order_by(Country.name)
     countries = session.exec(statement).all()
-    
+
     return [
         {
             "id": country.id,

@@ -1,17 +1,18 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlmodel import Session, select, func
-from datetime import datetime
+from datetime import datetime, date
 import math
 
 from app.core.database import get_session
 from app.core.security import get_current_active_user, get_current_admin_user
 from app.models.person import Person
+from app.models.donation import Donation
 from app.models.campaign import (
-    Campaign, 
-    CampaignCreate, 
-    CampaignUpdate, 
-    CampaignResponse, 
+    Campaign,
+    CampaignCreate,
+    CampaignUpdate,
+    CampaignResponse,
     CampaignPublic,
     CampaignDetailPublic,
     CampaignPaginatedResponse
@@ -21,8 +22,6 @@ from app.models.campaign_observation import CampaignObservation, CampaignObserva
 
 router = APIRouter(prefix="/campaigns", tags=["Campañas"])
 
-# ============== ENDPOINTS PÚBLICOS ==============
-
 @router.get("/public", response_model=CampaignPaginatedResponse)
 async def get_public_campaigns(
     category_id: Optional[int] = None,
@@ -31,46 +30,39 @@ async def get_public_campaigns(
     page_size: int = Query(default=9, le=100),
     session: Session = Depends(get_session)
 ):
-    """Obtiene campañas públicas (publicadas y con campaña en progreso) con paginación"""
-    
-    # Base query para filtros
+
     base_where = [
         Campaign.workflow_state_id == 5,
         Campaign.campaign_state_id == 2
     ]
-    
+
     if category_id:
         base_where.append(Campaign.category_id == category_id)
-    
+
     if search:
         base_where.append(
-            Campaign.tittle.ilike(f"%{search}%") | 
+            Campaign.tittle.ilike(f"%{search}%") |
             Campaign.description.ilike(f"%{search}%")
         )
-    
-    # Contar total
+
     count_statement = select(func.count(Campaign.id)).where(*base_where)
     total = session.exec(count_statement).one()
-    
-    # Calcular offset
+
     offset = (page - 1) * page_size
     total_pages = math.ceil(total / page_size) if total > 0 else 1
-    
-    # Obtener campañas paginadas
+
     statement = select(Campaign).where(*base_where).offset(offset).limit(page_size)
     campaigns = session.exec(statement).all()
-    
+
     result = []
     for campaign in campaigns:
-        # Calcular porcentaje de progreso
         progress = 0.0
         if campaign.goal_amount and campaign.goal_amount > 0:
             progress = float(campaign.current_amount / campaign.goal_amount * 100)
-        
-        # Obtener datos del usuario
+
         user = session.get(Person, campaign.user_id)
         category = session.get(Category, campaign.category_id) if campaign.category_id else None
-        
+
         result.append(CampaignPublic(
             id=campaign.id,
             tittle=campaign.tittle,
@@ -87,7 +79,7 @@ async def get_public_campaigns(
             category_name=category.name if category else None,
             progress_percentage=round(progress, 2)
         ))
-    
+
     return CampaignPaginatedResponse(
         items=result,
         total=total,
@@ -101,24 +93,23 @@ async def get_featured_campaigns(
     limit: int = Query(default=6, le=20),
     session: Session = Depends(get_session)
 ):
-    """Obtiene campañas destacadas (más favoritos)"""
-    
+
     statement = select(Campaign).where(
         Campaign.workflow_state_id == 5,
         Campaign.campaign_state_id == 2
     ).order_by(Campaign.favorites_counting.desc()).limit(limit)
-    
+
     campaigns = session.exec(statement).all()
-    
+
     result = []
     for campaign in campaigns:
         progress = 0.0
         if campaign.goal_amount and campaign.goal_amount > 0:
             progress = float(campaign.current_amount / campaign.goal_amount * 100)
-        
+
         user = session.get(Person, campaign.user_id)
         category = session.get(Category, campaign.category_id) if campaign.category_id else None
-        
+
         result.append(CampaignPublic(
             id=campaign.id,
             tittle=campaign.tittle,
@@ -135,7 +126,7 @@ async def get_featured_campaigns(
             category_name=category.name if category else None,
             progress_percentage=round(progress, 2)
         ))
-    
+
     return result
 
 @router.get("/popular", response_model=List[CampaignPublic])
@@ -143,24 +134,23 @@ async def get_popular_campaigns(
     limit: int = Query(default=6, le=20),
     session: Session = Depends(get_session)
 ):
-    """Obtiene campañas populares (más vistas)"""
-    
+
     statement = select(Campaign).where(
         Campaign.workflow_state_id == 5,
         Campaign.campaign_state_id == 2
     ).order_by(Campaign.view_counting.desc()).limit(limit)
-    
+
     campaigns = session.exec(statement).all()
-    
+
     result = []
     for campaign in campaigns:
         progress = 0.0
         if campaign.goal_amount and campaign.goal_amount > 0:
             progress = float(campaign.current_amount / campaign.goal_amount * 100)
-        
+
         user = session.get(Person, campaign.user_id)
         category = session.get(Category, campaign.category_id) if campaign.category_id else None
-        
+
         result.append(CampaignPublic(
             id=campaign.id,
             tittle=campaign.tittle,
@@ -177,7 +167,7 @@ async def get_popular_campaigns(
             category_name=category.name if category else None,
             progress_percentage=round(progress, 2)
         ))
-    
+
     return result
 
 @router.get("/public/{campaign_id}", response_model=CampaignDetailPublic)
@@ -185,38 +175,33 @@ async def get_public_campaign_detail(
     campaign_id: int,
     session: Session = Depends(get_session)
 ):
-    """Obtiene el detalle de una campaña pública"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Solo campañas publicadas pueden verse públicamente
+
     if campaign.workflow_state_id != 5:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Esta campaña no está disponible públicamente"
         )
-    
-    # Incrementar contador de vistas
+
     campaign.view_counting += 1
     session.add(campaign)
     session.commit()
     session.refresh(campaign)
-    
-    # Obtener datos del usuario y categoría
+
     user = session.get(Person, campaign.user_id)
     category = session.get(Category, campaign.category_id) if campaign.category_id else None
-    
-    # Calcular progreso
+
     progress = 0.0
     if campaign.goal_amount and campaign.goal_amount > 0:
         progress = float(campaign.current_amount / campaign.goal_amount * 100)
-    
+
     return CampaignDetailPublic(
         id=campaign.id,
         tittle=campaign.tittle,
@@ -241,18 +226,15 @@ async def get_public_campaign_detail(
         progress_percentage=round(progress, 2)
     )
 
-# ============== ENDPOINTS PARA USUARIOS AUTENTICADOS ==============
-
 @router.get("/my-campaigns", response_model=List[CampaignResponse])
 async def get_my_campaigns(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene las campañas del usuario autenticado"""
-    
+
     statement = select(Campaign).where(Campaign.user_id == current_user.id)
     campaigns = session.exec(statement).all()
-    
+
     return campaigns
 
 @router.post("/", response_model=CampaignResponse)
@@ -261,8 +243,15 @@ async def create_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Crea una nueva campaña (en estado borrador)"""
-    
+
+    if campaign_data.expiration_date:
+        today = date.today()
+        if campaign_data.expiration_date <= today:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="La fecha de expiración debe ser futura"
+            )
+
     new_campaign = Campaign(
         tittle=campaign_data.tittle,
         description=campaign_data.description,
@@ -272,19 +261,19 @@ async def create_campaign(
         rich_text=campaign_data.rich_text,
         category_id=campaign_data.category_id,
         user_id=current_user.id,
-        workflow_state_id=1,  # Borrador
-        campaign_state_id=1,  # No iniciada
+        workflow_state_id=1,
+        campaign_state_id=1,
         current_amount=0,
         view_counting=0,
         favorites_counting=0,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
-    
+
     session.add(new_campaign)
     session.commit()
     session.refresh(new_campaign)
-    
+
     return new_campaign
 
 @router.get("/{campaign_id}", response_model=CampaignDetailPublic)
@@ -293,33 +282,29 @@ async def get_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene una campaña del usuario autenticado con datos completos"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Solo el dueño o admin puede ver campañas no publicadas
+
     if campaign.user_id != current_user.id and current_user.role_id != 1:
         if campaign.workflow_state_id != 5:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="No tienes permiso para ver esta campaña"
             )
-    
-    # Obtener datos del usuario y categoría
+
     user = session.get(Person, campaign.user_id)
     category = session.get(Category, campaign.category_id) if campaign.category_id else None
-    
-    # Calcular progreso
+
     progress = 0.0
     if campaign.goal_amount and campaign.goal_amount > 0:
         progress = float(campaign.current_amount / campaign.goal_amount * 100)
-    
+
     return CampaignDetailPublic(
         id=campaign.id,
         tittle=campaign.tittle,
@@ -351,30 +336,27 @@ async def update_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Actualiza una campaña (solo si está en borrador u observado)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para editar esta campaña"
         )
-    
-    # Solo se puede editar en estados: Borrador (1) u Observado (3)
+
     if campaign.workflow_state_id not in [1, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No puedes editar una campaña en este estado"
         )
-    
-    # Actualizar campos
+
     if campaign_data.tittle is not None:
         campaign.tittle = campaign_data.tittle
     if campaign_data.description is not None:
@@ -389,13 +371,13 @@ async def update_campaign(
         campaign.rich_text = campaign_data.rich_text
     if campaign_data.category_id is not None:
         campaign.category_id = campaign_data.category_id
-    
+
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
     session.refresh(campaign)
-    
+
     return campaign
 
 @router.delete("/{campaign_id}")
@@ -404,32 +386,30 @@ async def delete_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Elimina una campaña (solo si está en borrador)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id and current_user.role_id != 1:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para eliminar esta campaña"
         )
-    
-    # Solo se puede eliminar en estado borrador
+
     if campaign.workflow_state_id != 1:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes eliminar campañas en estado borrador"
         )
-    
+
     session.delete(campaign)
     session.commit()
-    
+
     return {"message": "Campaña eliminada exitosamente"}
 
 @router.patch("/{campaign_id}/state", response_model=CampaignResponse)
@@ -439,43 +419,41 @@ async def change_campaign_state(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Cambia el estado de una campaña (iniciar, pausar)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id and current_user.role_id != 1:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para cambiar el estado de esta campaña"
         )
-    
-    # Solo campañas publicadas pueden cambiar de estado
+
     if campaign.workflow_state_id != 5:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes cambiar el estado de campañas publicadas"
         )
-    
+
     new_state = state_data.get('campaign_state_id')
-    if new_state not in [1, 2, 3, 4]:  # No Iniciada, En Progreso, En Pausa, Finalizada
+    if new_state not in [1, 2, 3, 4]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Estado de campaña inválido"
         )
-    
+
     campaign.campaign_state_id = new_state
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
     session.refresh(campaign)
-    
+
     return campaign
 
 @router.post("/{campaign_id}/submit-for-review")
@@ -484,45 +462,40 @@ async def submit_for_review(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Envía una campaña para revisión"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para esta acción"
         )
-    
-    # Solo desde Borrador (1) u Observado (3) se puede enviar a revisión
+
     if campaign.workflow_state_id not in [1, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No puedes enviar esta campaña a revisión en su estado actual"
         )
-    
-    # Validar datos obligatorios
+
     if not campaign.tittle or not campaign.description or not campaign.goal_amount:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="La campaña debe tener título, descripción y meta de financiación"
         )
-    
-    campaign.workflow_state_id = 2  # En Revisión
+
+    campaign.workflow_state_id = 2
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
-    return {"message": "Campaña enviada para revisión exitosamente"}
 
-# ============== VER OBSERVACIONES DE MI CAMPAÑA ==============
+    return {"message": "Campaña enviada para revisión exitosamente"}
 
 @router.get("/{campaign_id}/observations", response_model=List[CampaignObservationResponse])
 async def get_my_campaign_observations(
@@ -530,29 +503,27 @@ async def get_my_campaign_observations(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene las observaciones de una campaña (solo el dueño puede verlas)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Solo el dueño puede ver las observaciones
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para ver las observaciones de esta campaña"
         )
-    
+
     statement = select(CampaignObservation).where(
         CampaignObservation.campaign_id == campaign_id
     ).order_by(CampaignObservation.created_at.desc())
-    
+
     observations = session.exec(statement).all()
-    
+
     result = []
     for obs in observations:
         admin = session.get(Person, obs.user_id) if obs.user_id else None
@@ -564,10 +535,8 @@ async def get_my_campaign_observations(
             created_at=obs.created_at,
             admin_name=f"{admin.first_name} {admin.last_name}" if admin else "Administrador"
         ))
-    
-    return result
 
-# ============== CONTROL DE ESTADO DE CAMPAÑA DE RECAUDACIÓN ==============
+    return result
 
 @router.post("/{campaign_id}/start")
 async def start_campaign(
@@ -575,44 +544,41 @@ async def start_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Inicia la campaña de recaudación"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para esta acción"
         )
-    
-    # Solo campañas publicadas pueden iniciar recaudación
+
     if campaign.workflow_state_id != 5:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="La campaña debe estar publicada para iniciar la recaudación"
         )
-    
-    # Solo desde No Iniciada (1) o En Pausa (3)
+
     if campaign.campaign_state_id not in [1, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No puedes iniciar la campaña en su estado actual"
         )
-    
-    campaign.campaign_state_id = 2  # En Progreso
+
+    campaign.campaign_state_id = 2
     if not campaign.start_date:
         campaign.start_date = datetime.utcnow().date()
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña de recaudación iniciada exitosamente"}
 
 @router.post("/{campaign_id}/pause")
@@ -621,35 +587,33 @@ async def pause_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Pausa la campaña de recaudación"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para esta acción"
         )
-    
-    # Solo desde En Progreso (2)
+
     if campaign.campaign_state_id != 2:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes pausar una campaña en progreso"
         )
-    
-    campaign.campaign_state_id = 3  # En Pausa
+
+    campaign.campaign_state_id = 3
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña pausada exitosamente"}
 
 @router.post("/{campaign_id}/finish")
@@ -658,34 +622,85 @@ async def finish_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Finaliza la campaña de recaudación"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     if campaign.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para esta acción"
         )
-    
-    # Solo desde En Progreso (2) o En Pausa (3)
+
     if campaign.campaign_state_id not in [2, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No puedes finalizar la campaña en su estado actual"
         )
-    
-    campaign.campaign_state_id = 4  # Finalizada
+
+    campaign.campaign_state_id = 4
     campaign.end_date = datetime.utcnow().date()
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña finalizada exitosamente"}
+
+@router.post("/process-expired")
+async def process_expired_campaigns(
+    session: Session = Depends(get_session)
+):
+
+    today = date.today()
+
+    statement = select(Campaign).where(
+        Campaign.campaign_state_id == 2,
+        Campaign.expiration_date < today
+    )
+    expired_campaigns = session.exec(statement).all()
+
+    processed = []
+
+    for campaign in expired_campaigns:
+        campaign.campaign_state_id = 4
+        campaign.end_date = today
+        campaign.updated_at = datetime.utcnow()
+
+        if campaign.current_amount < campaign.goal_amount:
+            donations_stmt = select(Donation).where(
+                Donation.campaign_id == campaign.id,
+                Donation.donation_state_id == 2
+            )
+            donations = session.exec(donations_stmt).all()
+
+            for donation in donations:
+                donation.donation_state_id = 4
+                session.add(donation)
+
+            processed.append({
+                "campaign_id": campaign.id,
+                "title": campaign.tittle,
+                "donations_refunded": len(donations)
+            })
+        else:
+            processed.append({
+                "campaign_id": campaign.id,
+                "title": campaign.tittle,
+                "donations_refunded": 0,
+                "goal_reached": True
+            })
+
+        session.add(campaign)
+
+    session.commit()
+
+    return {
+        "message": f"Procesadas {len(processed)} campañas expiradas",
+        "campaigns": processed
+    }

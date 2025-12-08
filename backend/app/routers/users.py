@@ -11,16 +11,15 @@ async def get_user_public(
     user_id: int,
     session: Session = Depends(get_session)
 ):
-    """Obtiene información pública de un usuario"""
-    
+
     user = session.get(Person, user_id)
-    
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Usuario no encontrado"
         )
-    
+
     return PersonPublic(
         id=user.id,
         first_name=user.first_name,

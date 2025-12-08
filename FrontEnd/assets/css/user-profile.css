@@ -1,4 +1,4 @@
-/* User Profile Page */
+
 .user-profile-section {
   padding: 80px 40px;
   background-color: #FFF8F2;
@@ -46,7 +46,6 @@
   max-width: 500px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .user-profile-section {
     padding: 40px 20px;

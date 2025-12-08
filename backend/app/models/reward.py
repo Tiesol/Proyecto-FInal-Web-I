@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class Reward(SQLModel, table=True):
     __tablename__ = "reward"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     tittle: str = Field(max_length=100)
     description: Optional[str] = None
@@ -17,8 +17,7 @@ class Reward(SQLModel, table=True):
     campaign_id: Optional[int] = Field(default=None, foreign_key="campaign.id")
     image_url: Optional[str] = Field(default=None, max_length=500)
     created_ad: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    
-    # Relationships
+
     campaign: Optional["Campaign"] = Relationship(back_populates="rewards")
 
 class RewardCreate(SQLModel):

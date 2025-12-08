@@ -5,19 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/profile/pf-nav.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-filters.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-gallery.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-dropdown.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-badges.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-pagination.css" />
-  <link rel="stylesheet" href="../assets/css/my-campaigns/mc-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/my-campaigns.css" />
+  <link rel="stylesheet" href="../assets/css/profile.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
@@ -26,7 +16,6 @@
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
   <title>Mis Campañas - RiseUp</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
@@ -34,7 +23,6 @@
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -47,7 +35,6 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -82,15 +69,13 @@
       </div>
     </div>
   </header>
-
   <main>
-    <!-- Mensajes de estado -->
+    
     <div class="container page-container">
       <div id="errorMessage" class="alert alert-error hidden"></div>
       <div id="successMessage" class="alert alert-success hidden"></div>
     </div>
-
-    <!-- Profile Navigation -->
+    
     <nav class="profile-nav">
       <div class="container">
         <a href="./profile.html" class="nav-link">My Profile</a>
@@ -98,8 +83,7 @@
         <a href="./create-campaign.html" class="btn btn-primary">Create a campaign</a>
       </div>
     </nav>
-
-    <!-- Filters -->
+    
     <section class="campaigns-filters">
       <div class="container">
         <div class="filter-tags">
@@ -112,21 +96,14 @@
         </div>
       </div>
     </section>
-
-    <!-- My Campaigns Grid -->
+    
     <section class="my-campaigns">
       <div class="container">
         <div class="campaigns-gallery">
-          <!-- Loading -->
-          <div class="grid-full loading-spinner">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-            <p class="text-muted">Cargando tus campañas...</p>
-          </div>
         </div>
       </div>
     </section>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_section footer_brand">
@@ -139,7 +116,6 @@
           <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Legal</h3>
         <ul class="footer_links">
@@ -147,7 +123,6 @@
           <li><a href="#">Política de privacidad</a></li>
         </ul>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Soporte</h3>
         <ul class="footer_links">
@@ -157,7 +132,6 @@
         </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>

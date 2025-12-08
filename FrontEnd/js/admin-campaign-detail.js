@@ -1,45 +1,39 @@
-// admin-campaign-detail.js - Detalle de campaña
 var campaniaId = null;
 var campaniaData = null;
 
-// Al cargar la pagina
 document.addEventListener('DOMContentLoaded', function() {
     verificarAdmin();
     obtenerIdCampania();
     cargarDatos();
 });
 
-// Verificar que es admin
 function verificarAdmin() {
     var token = localStorage.getItem('token');
     var user = JSON.parse(localStorage.getItem('user') || '{}');
-    
+
     if (!token || user.role_id !== 1) {
         window.location.href = './index-logged.html';
     }
 }
 
-// Obtener ID de la URL
 function obtenerIdCampania() {
     var params = new URLSearchParams(window.location.search);
     campaniaId = params.get('id');
-    
+
     if (!campaniaId) {
         window.location.href = './admin-projects.html';
     }
 }
 
-// Cargar todos los datos
 function cargarDatos() {
     cargarInfoCampania();
     cargarRequerimientos();
     cargarObservaciones();
 }
 
-// Cargar información de la campaña
 function cargarInfoCampania() {
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/admin/campaigns/' + campaniaId, {
         method: 'GET',
         headers: {
@@ -61,11 +55,10 @@ function cargarInfoCampania() {
     });
 }
 
-// Mostrar info de la campaña
 function mostrarInfoCampania(campania) {
     var estadoTexto = obtenerEstadoTexto(campania.workflow_state_id);
     var estadoClase = obtenerEstadoClase(campania.workflow_state_id);
-    
+
     var html = '' +
         '<h1>' + (campania.tittle || campania.name || 'Sin título') + '</h1>' +
         (campania.main_image_url ? '<img src="' + campania.main_image_url + '" class="detalle-imagen" alt="Imagen">' : '') +
@@ -80,34 +73,30 @@ function mostrarInfoCampania(campania) {
             '<h3>Descripción</h3>' +
             '<p>' + (campania.description || 'Sin descripción') + '</p>' +
         '</div>';
-    
+
     document.getElementById('infoCampania').innerHTML = html;
 }
 
-// Mostrar botones de acción según estado
 function mostrarBotonesAccion(campania) {
     var html = '';
-    
-    // Estado 2 = En Revisión
+
     if (campania.workflow_state_id === 2) {
         html += '<button class="btn btn-aprobar" onclick="aprobar()">Aprobar</button>';
         html += '<button class="btn btn-observar" onclick="mostrarFormularioObservacion()">Observar</button>';
         html += '<button class="btn btn-rechazar" onclick="rechazar()">Rechazar</button>';
     }
-    
-    // Estado 3 = Observado
+
     if (campania.workflow_state_id === 3) {
         html += '<button class="btn btn-aprobar" onclick="aprobar()">Aprobar</button>';
         html += '<button class="btn btn-rechazar" onclick="rechazar()">Rechazar</button>';
     }
-    
+
     document.getElementById('botonesAccion').innerHTML = html;
 }
 
-// Cargar requerimientos y respuestas
 function cargarRequerimientos() {
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/requirements/campaign/' + campaniaId, {
         method: 'GET',
         headers: {
@@ -127,43 +116,41 @@ function cargarRequerimientos() {
     });
 }
 
-// Mostrar requerimientos
 function mostrarRequerimientos(requerimientos) {
     var container = document.getElementById('listaRequerimientos');
-    
+
     if (requerimientos.length === 0) {
         container.innerHTML = '<p class="sin-resultados">No hay requerimientos enviados</p>';
         return;
     }
-    
+
     var html = '<div class="tabla-container"><table class="tabla">' +
         '<thead><tr>' +
             '<th>Requisito</th>' +
             '<th>Respuesta</th>' +
             '<th>Archivo</th>' +
         '</tr></thead><tbody>';
-    
+
     for (var i = 0; i < requerimientos.length; i++) {
         var req = requerimientos[i];
-        var archivoHtml = req.file_url 
-            ? '<a href="' + req.file_url + '" target="_blank" class="btn btn-ver">Ver archivo</a>' 
+        var archivoHtml = req.file_url
+            ? '<a href="' + req.file_url + '" target="_blank" class="btn btn-ver">Ver archivo</a>'
             : '-';
-        
+
         html += '<tr>' +
             '<td>' + (req.requirement_name || 'Sin nombre') + '</td>' +
             '<td>' + (req.response_value || '-') + '</td>' +
             '<td>' + archivoHtml + '</td>' +
         '</tr>';
     }
-    
+
     html += '</tbody></table></div>';
     container.innerHTML = html;
 }
 
-// Cargar observaciones
 function cargarObservaciones() {
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/admin/campaigns/' + campaniaId + '/observations', {
         method: 'GET',
         headers: {
@@ -183,59 +170,55 @@ function cargarObservaciones() {
     });
 }
 
-// Mostrar observaciones
 function mostrarObservaciones(observaciones) {
     var container = document.getElementById('listaObservaciones');
-    
+
     if (observaciones.length === 0) {
         container.innerHTML = '<p class="sin-resultados">No hay observaciones registradas</p>';
         return;
     }
-    
+
     var html = '<div class="tabla-container"><table class="tabla">' +
         '<thead><tr>' +
             '<th>Fecha</th>' +
             '<th>Administrador</th>' +
             '<th>Observación</th>' +
         '</tr></thead><tbody>';
-    
+
     for (var i = 0; i < observaciones.length; i++) {
         var obs = observaciones[i];
         var fecha = obs.created_at ? obs.created_at.substring(0, 10) : 'N/A';
-        
+
         html += '<tr>' +
             '<td>' + fecha + '</td>' +
             '<td>' + (obs.admin_name || 'Admin') + '</td>' +
             '<td>' + (obs.observation_text || '-') + '</td>' +
         '</tr>';
     }
-    
+
     html += '</tbody></table></div>';
     container.innerHTML = html;
 }
 
-// Mostrar formulario de observación
 function mostrarFormularioObservacion() {
     document.getElementById('textoObservacion').value = '';
     document.getElementById('formularioObservacion').classList.remove('oculto');
 }
 
-// Cancelar observación
 function cancelarObservacion() {
     document.getElementById('formularioObservacion').classList.add('oculto');
 }
 
-// Enviar observación
 function enviarObservacion() {
     var texto = document.getElementById('textoObservacion').value;
-    
+
     if (!texto || texto.trim() === '') {
         mostrarMensaje('Debes escribir una observación', 'error');
         return;
     }
-    
+
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/admin/campaigns/' + campaniaId + '/observe', {
         method: 'POST',
         headers: {
@@ -259,10 +242,9 @@ function enviarObservacion() {
     });
 }
 
-// Aprobar campaña
 function aprobar() {
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/admin/campaigns/' + campaniaId + '/approve', {
         method: 'POST',
         headers: {
@@ -285,31 +267,21 @@ function aprobar() {
     });
 }
 
-// Rechazar campaña
 function rechazar() {
-    var motivo = prompt('Escribe el motivo del rechazo:');
-    
-    if (!motivo || motivo.trim() === '') {
-        mostrarMensaje('Debes escribir un motivo de rechazo', 'error');
-        return;
-    }
-    
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/admin/campaigns/' + campaniaId + '/reject', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ observation_text: motivo })
+            'Authorization': 'Bearer ' + token
+        }
     })
     .then(function(response) {
         if (!response.ok) throw new Error('Error');
         return response.json();
     })
     .then(function(data) {
-        mostrarMensaje('Campaña rechazada', 'exito');
+        mostrarMensaje('Campaña rechazada exitosamente', 'exito');
         setTimeout(function() {
             window.location.href = './admin-projects.html';
         }, 1500);
@@ -320,7 +292,6 @@ function rechazar() {
     });
 }
 
-// Obtener texto del estado
 function obtenerEstadoTexto(estado) {
     if (estado === 1) return 'Borrador';
     if (estado === 2) return 'En Revisión';
@@ -330,7 +301,6 @@ function obtenerEstadoTexto(estado) {
     return 'Desconocido';
 }
 
-// Obtener clase CSS del estado
 function obtenerEstadoClase(estado) {
     if (estado === 1) return 'estado-borrador';
     if (estado === 2) return 'estado-revision';
@@ -340,13 +310,12 @@ function obtenerEstadoClase(estado) {
     return '';
 }
 
-// Mostrar mensaje
 function mostrarMensaje(texto, tipo) {
     var div = document.getElementById('mensaje');
     div.textContent = texto;
     div.className = 'mensaje mensaje-' + tipo;
     div.classList.remove('hidden');
-    
+
     setTimeout(function() {
         div.classList.add('hidden');
     }, 3000);

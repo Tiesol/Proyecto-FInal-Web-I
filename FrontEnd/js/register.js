@@ -1,6 +1,5 @@
 import { register, isAuthenticated, getCountries } from './api/auth.js';
 
-// Si ya está autenticado, redirigir
 if (isAuthenticated()) {
   window.location.href = './index-logged.html';
 }
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // Cargar países
   try {
     const countries = await getCountries();
     countries.forEach(country => {
@@ -38,7 +36,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Limpiar mensajes previos
     if (errorMessage) {
       errorMessage.textContent = '';
       errorMessage.classList.add('hidden');
@@ -48,7 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       successMessage.classList.add('hidden');
     }
 
-    // Obtener valores
     const firstName = firstNameInput.value.trim();
     const lastName = lastNameInput.value.trim();
     const email = emailInput.value.trim();
@@ -56,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : password;
     const countryId = countrySelect.value ? parseInt(countrySelect.value) : null;
 
-    // Validaciones
     if (!firstName || !lastName || !email || !password) {
       showError('Por favor completa todos los campos');
       return;
@@ -72,14 +67,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Deshabilitar botón
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = 'Registrando...';
     }
 
     try {
-      // Llamar a la API
       const data = await register({
         first_name: firstName,
         last_name: lastName,
@@ -88,22 +81,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         country_id: countryId,
       });
 
-      // Éxito
       console.log('Registro exitoso:', data);
       showSuccess('¡Registro exitoso! Por favor verifica tu email antes de iniciar sesión. Revisa tu bandeja de entrada.');
 
-      // Limpiar formulario
       registerForm.reset();
 
-      // Redirigir al login después de 5 segundos
       setTimeout(() => {
         window.location.href = './login.html';
       }, 5000);
     } catch (error) {
-      // Mostrar error
       showError(error.message || 'Error al registrarse');
 
-      // Rehabilitar botón
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = 'Crear Cuenta';

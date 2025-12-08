@@ -1,24 +1,20 @@
-// admin-categories.js - Gestión de categorías
 var categorias = [];
 var categoriaAEliminar = null;
 
-// Al cargar la pagina
 document.addEventListener('DOMContentLoaded', function() {
     verificarAdmin();
     cargarCategorias();
 });
 
-// Verificar que es admin
 function verificarAdmin() {
     var token = localStorage.getItem('token');
     var user = JSON.parse(localStorage.getItem('user') || '{}');
-    
+
     if (!token || user.role_id !== 1) {
         window.location.href = './index-logged.html';
     }
 }
 
-// Cargar categorias
 function cargarCategorias() {
     fetch(API_URL + '/categories')
     .then(function(response) {
@@ -37,20 +33,19 @@ function cargarCategorias() {
     });
 }
 
-// Mostrar categorias en la tabla
 function mostrarCategorias() {
     var tbody = document.getElementById('tablaCategorias');
     tbody.innerHTML = '';
-    
+
     if (categorias.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4" class="sin-resultados">No hay categorías</td></tr>';
         return;
     }
-    
+
     for (var i = 0; i < categorias.length; i++) {
         var c = categorias[i];
         var tr = document.createElement('tr');
-        
+
         tr.innerHTML = '' +
             '<td>' + c.id + '</td>' +
             '<td>' + c.name + '</td>' +
@@ -59,12 +54,11 @@ function mostrarCategorias() {
                 '<a href="./admin-category-edit.html?id=' + c.id + '" class="btn btn-editar">Editar</a>' +
                 '<button class="btn btn-eliminar" onclick="eliminarCategoria(' + c.id + ')">Eliminar</button>' +
             '</td>';
-        
+
         tbody.appendChild(tr);
     }
 }
 
-// Eliminar categoria - abrir modal
 function eliminarCategoria(id) {
     var categoria = null;
     for (var i = 0; i < categorias.length; i++) {
@@ -73,24 +67,22 @@ function eliminarCategoria(id) {
             break;
         }
     }
-    
+
     categoriaAEliminar = id;
     document.getElementById('textoConfirmar').textContent = '¿Estás seguro de eliminar "' + (categoria ? categoria.name : 'esta categoría') + '"?';
     document.getElementById('modalConfirmar').classList.remove('oculto');
 }
 
-// Cerrar modal
 function cerrarModal() {
     document.getElementById('modalConfirmar').classList.add('oculto');
     categoriaAEliminar = null;
 }
 
-// Confirmar eliminar
 function confirmarEliminar() {
     if (!categoriaAEliminar) return;
-    
+
     var token = localStorage.getItem('token');
-    
+
     fetch(API_URL + '/categories/' + categoriaAEliminar, {
         method: 'DELETE',
         headers: {
@@ -114,13 +106,12 @@ function confirmarEliminar() {
     });
 }
 
-// Mostrar mensaje
 function mostrarMensaje(texto, tipo) {
     var div = document.getElementById('mensaje');
     div.textContent = texto;
     div.className = 'mensaje mensaje-' + tipo;
     div.classList.remove('hidden');
-    
+
     setTimeout(function() {
         div.classList.add('hidden');
     }, 3000);

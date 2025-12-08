@@ -18,15 +18,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     const data = await verifyEmail(token);
-    
-    // Ocultar spinner
+
     loadingSpinner.classList.add('hidden');
-    
-    // Mostrar éxito
+
     verifyTitle.textContent = '¡Cuenta Verificada!';
     verifyMessage.textContent = data.message || 'Tu cuenta ha sido activada correctamente.';
     successContainer.classList.remove('hidden');
-    
+
   } catch (error) {
     showError(error.message || 'Error al verificar la cuenta');
   }

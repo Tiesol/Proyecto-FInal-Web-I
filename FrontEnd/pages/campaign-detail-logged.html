@@ -5,15 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/campaign-detail/cd-base.css" />
-  <link rel="stylesheet" href="../assets/css/campaign-detail/cd-hero.css" />
-  <link rel="stylesheet" href="../assets/css/campaign-detail/cd-progress.css" />
-  <link rel="stylesheet" href="../assets/css/campaign-detail/cd-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/campaign-detail.css" />
   <link rel="stylesheet" href="../assets/css/donators.css" />
   <link rel="stylesheet" href="../assets/css/rewards.css" />
   <link rel="stylesheet" href="../assets/css/description.css" />
@@ -26,7 +19,6 @@
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
   <title>Aplicación Móvil Innovadora - RiseUp</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
@@ -34,7 +26,6 @@
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -47,7 +38,6 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -82,18 +72,17 @@
       </div>
     </div>
   </header>
-
   <main class="campaign_detail_main">
+  
+  <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+    <div id="errorMessage" class="alert alert-error hidden"></div>
+    <div id="successMessage" class="alert alert-success hidden"></div>
+  </div>
   <div class="campaign_detail_container">
-    
     <section class="campaign_hero">
       <div class="campaign_hero_left">
-        <div class="loading-placeholder">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-        </div>
-        <img src="" alt="Campaña" class="hidden">
+        <img src="" alt="Campaña">
       </div>
-      
       <div class="campaign_hero_right">
         <div class="campaign_info_card">
           <div class="creator_info">
@@ -102,22 +91,18 @@
             </div>
             <span class="creator_name">Cargando...</span>
           </div>
-
           <h1 class="campaign_detail_title">Cargando...</h1>
-
           <p class="campaign_short_description">
             Cargando descripción...
           </p>
-
+          <p class="days_remaining_text"><i class="fa-solid fa-clock"></i> <span class="days_count">--</span> días restantes</p>
           <div class="campaign_detail_progress">
             <div class="detail_progress_bar">
               <div class="detail_progress_fill"></div>
             </div>
             <p class="funding_text">Cargando...</p>
           </div>
-
           <button class="btn_donate">DONAR</button>
-
           <a href="#" class="add_favorite">
             <i class="fa-regular fa-bookmark"></i>
             Agregar a favoritos
@@ -125,40 +110,32 @@
         </div>
       </div>
     </section>
-
     <section class="top_donators_section">
       <h2 class="section_title_detail">
         <i class="fa-solid fa-trophy"></i>
         Top Donadores
       </h2>
       <div class="donators_list">
-        <p class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Cargando donadores...</p>
       </div>
     </section>
-
     <section class="rewards_section">
       <h2 class="section_title_detail">
         <i class="fa-solid fa-gift"></i>
         Recompensas
       </h2>
       <div class="rewards_grid">
-        <p class="loading-spinner grid-full"><i class="fa-solid fa-spinner fa-spin"></i> Cargando recompensas...</p>
       </div>
     </section>
-
     <section class="full_description_section">
       <h2 class="section_title_detail">
         <i class="fa-solid fa-file-lines"></i>
         Descripción Completa
       </h2>
       <div class="description_content">
-        <p class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Cargando descripción...</p>
       </div>
     </section>
-
   </div>
 </main>
-
   <footer class="site_footer">
   <div class="footer_container">
     <div class="footer_section footer_brand">
@@ -181,7 +158,6 @@
         </a>
       </div>
     </div>
-
     <div class="footer_section">
       <h3 class="footer_title">Legal</h3>
       <ul class="footer_links">
@@ -189,7 +165,6 @@
         <li><a href="#">Política de privacidad</a></li>
       </ul>
     </div>
-
     <div class="footer_section">
       <h3 class="footer_title">Soporte</h3>
       <ul class="footer_links">
@@ -199,13 +174,11 @@
       </ul>
     </div>
   </div>
-
   <div class="footer_bottom">
     <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
   </div>
 </footer>
 
-<!-- Modal de Donación -->
 <div id="donationModal" class="modal-overlay hidden">
   <div class="modal-content">
     <div class="modal-header">
@@ -222,7 +195,6 @@
     </div>
   </div>
 </div>
-
 <script src="../js/config.js"></script>
 <script src="../js/campaign-detail-logged.js"></script>
 <script src="../js/search-categories.js"></script>

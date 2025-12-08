@@ -6,15 +6,9 @@ if TYPE_CHECKING:
 
 class PaymentMethod(SQLModel, table=True):
     __tablename__ = "payment_method"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(max_length=100)
-    
-    # Relationships
+
     donations: List["Donation"] = Relationship(back_populates="payment_method")
 
-# Métodos de pago:
-# 1 - Tarjeta de Crédito
-# 2 - Tarjeta de Débito
-# 3 - PayPal
-# 4 - Transferencia Bancaria

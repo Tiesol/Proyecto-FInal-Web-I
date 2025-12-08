@@ -18,45 +18,41 @@ async def add_favorite(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Agrega una campaña a favoritos"""
-    
-    # Verificar que la campaña existe
+
     campaign = session.get(Campaign, favorite_data.campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Verificar que no existe ya en favoritos
+
     statement = select(Favorite).where(
         Favorite.user_id == current_user.id,
         Favorite.campaign_id == favorite_data.campaign_id
     )
     existing = session.exec(statement).first()
-    
+
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="La campaña ya está en tus favoritos"
         )
-    
+
     new_favorite = Favorite(
         user_id=current_user.id,
         campaign_id=favorite_data.campaign_id,
         created_at=datetime.utcnow()
     )
-    
+
     session.add(new_favorite)
-    
-    # Incrementar contador de favoritos de la campaña
+
     campaign.favorites_counting += 1
     session.add(campaign)
-    
+
     session.commit()
     session.refresh(new_favorite)
-    
+
     return FavoriteResponse(
         id=new_favorite.id,
         user_id=new_favorite.user_id,
@@ -70,29 +66,27 @@ async def remove_favorite(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Elimina una campaña de favoritos"""
-    
+
     statement = select(Favorite).where(
         Favorite.user_id == current_user.id,
         Favorite.campaign_id == campaign_id
     )
     favorite = session.exec(statement).first()
-    
+
     if not favorite:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="La campaña no está en tus favoritos"
         )
-    
-    # Decrementar contador de favoritos de la campaña
+
     campaign = session.get(Campaign, campaign_id)
     if campaign and campaign.favorites_counting > 0:
         campaign.favorites_counting -= 1
         session.add(campaign)
-    
+
     session.delete(favorite)
     session.commit()
-    
+
     return {"message": "Campaña eliminada de favoritos"}
 
 @router.get("/", response_model=List[CampaignPublic])
@@ -100,11 +94,10 @@ async def get_my_favorites(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene las campañas favoritas del usuario"""
-    
+
     statement = select(Favorite).where(Favorite.user_id == current_user.id)
     favorites = session.exec(statement).all()
-    
+
     result = []
     for favorite in favorites:
         campaign = session.get(Campaign, favorite.campaign_id)
@@ -112,10 +105,10 @@ async def get_my_favorites(
             progress = 0.0
             if campaign.goal_amount and campaign.goal_amount > 0:
                 progress = float(campaign.current_amount / campaign.goal_amount * 100)
-            
+
             user = session.get(Person, campaign.user_id)
             category = session.get(Category, campaign.category_id) if campaign.category_id else None
-            
+
             result.append(CampaignPublic(
                 id=campaign.id,
                 tittle=campaign.tittle,
@@ -131,7 +124,7 @@ async def get_my_favorites(
                 category_name=category.name if category else None,
                 progress_percentage=round(progress, 2)
             ))
-    
+
     return result
 
 @router.get("/check/{campaign_id}")
@@ -140,12 +133,11 @@ async def check_favorite(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Verifica si una campaña está en favoritos"""
-    
+
     statement = select(Favorite).where(
         Favorite.user_id == current_user.id,
         Favorite.campaign_id == campaign_id
     )
     favorite = session.exec(statement).first()
-    
+
     return {"is_favorite": favorite is not None}

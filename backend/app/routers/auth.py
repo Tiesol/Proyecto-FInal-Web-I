@@ -5,9 +5,9 @@ from pydantic import BaseModel, EmailStr
 
 from app.core.database import get_session
 from app.core.security import (
-    get_password_hash, 
-    verify_password, 
-    create_access_token, 
+    get_password_hash,
+    verify_password,
+    create_access_token,
     create_verification_token,
     verify_token,
     get_current_user,
@@ -40,26 +40,22 @@ async def register(
     background_tasks: BackgroundTasks,
     session: Session = Depends(get_session)
 ):
-    """Registra un nuevo usuario y envía email de verificación"""
-    
-    # Verificar si el email ya existe
+
     statement = select(Person).where(Person.email == user_data.email)
     existing_user = session.exec(statement).first()
-    
+
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="El correo electrónico ya está registrado"
         )
-    
-    # Validar longitud de contraseña
+
     if len(user_data.password) < 6:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="La contraseña debe tener al menos 6 caracteres"
         )
-    
-    # Crear usuario
+
     hashed_password = get_password_hash(user_data.password)
     new_user = Person(
         first_name=user_data.first_name,
@@ -67,25 +63,24 @@ async def register(
         email=user_data.email,
         password=hashed_password,
         is_active=False,
-        role_id=2,  # Usuario normal
+        role_id=2,
         country_id=user_data.country_id,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
-    
+
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
-    
-    # Generar token de verificación y enviar email
+
     verification_token = create_verification_token(new_user.email)
     background_tasks.add_task(
-        send_verification_email, 
-        new_user.email, 
-        new_user.first_name, 
+        send_verification_email,
+        new_user.email,
+        new_user.first_name,
         verification_token
     )
-    
+
     return RegisterResponse(
         message="Usuario registrado exitosamente. Por favor verifica tu correo electrónico.",
         user=PersonResponse(
@@ -105,35 +100,30 @@ async def login(
     login_data: LoginRequest,
     session: Session = Depends(get_session)
 ):
-    """Inicia sesión y retorna token JWT"""
-    
-    # Buscar usuario
+
     statement = select(Person).where(Person.email == login_data.email)
     user = session.exec(statement).first()
-    
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciales incorrectas"
         )
-    
-    # Verificar contraseña
+
     if not verify_password(login_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciales incorrectas"
         )
-    
-    # Verificar si el usuario está activo
+
     if not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Tu cuenta no está activada. Por favor verifica tu correo electrónico."
         )
-    
-    # Generar token
+
     access_token = create_access_token(data={"sub": user.email, "role": user.role_id})
-    
+
     return LoginResponse(
         token=access_token,
         user=PersonResponse(
@@ -157,48 +147,43 @@ async def verify_email(
     background_tasks: BackgroundTasks,
     session: Session = Depends(get_session)
 ):
-    """Verifica el email del usuario con el token enviado"""
-    
+
     payload = verify_token(token)
-    
+
     if not payload or payload.get("type") != "verification":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Token de verificación inválido o expirado"
         )
-    
+
     email = payload.get("sub")
-    
-    # Buscar usuario
+
     statement = select(Person).where(Person.email == email)
     user = session.exec(statement).first()
-    
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Usuario no encontrado"
         )
-    
+
     if user.is_active:
         return MessageResponse(message="Tu cuenta ya está verificada")
-    
-    # Activar usuario
+
     user.is_active = True
     user.updated_at = datetime.utcnow()
     session.add(user)
     session.commit()
-    
-    # Enviar email de bienvenida
+
     background_tasks.add_task(send_welcome_email, user.email, user.first_name)
-    
+
     return MessageResponse(message="¡Cuenta verificada exitosamente! Ya puedes iniciar sesión.")
 
 @router.get("/profile", response_model=PersonResponse)
 async def get_profile(
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Obtiene el perfil del usuario autenticado"""
-    
+
     return PersonResponse(
         id=current_user.id,
         first_name=current_user.first_name,
@@ -219,8 +204,7 @@ async def update_profile(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_active_user)
 ):
-    """Actualiza el perfil del usuario autenticado"""
-    
+
     if profile_data.first_name is not None:
         current_user.first_name = profile_data.first_name
     if profile_data.last_name is not None:
@@ -233,13 +217,13 @@ async def update_profile(
         current_user.birthday_date = profile_data.birthday_date
     if profile_data.country_id is not None:
         current_user.country_id = profile_data.country_id
-    
+
     current_user.updated_at = datetime.utcnow()
-    
+
     session.add(current_user)
     session.commit()
     session.refresh(current_user)
-    
+
     return PersonResponse(
         id=current_user.id,
         first_name=current_user.first_name,
@@ -260,25 +244,22 @@ async def resend_verification(
     background_tasks: BackgroundTasks,
     session: Session = Depends(get_session)
 ):
-    """Reenvía el email de verificación"""
-    
+
     statement = select(Person).where(Person.email == email)
     user = session.exec(statement).first()
-    
+
     if not user:
-        # Por seguridad, no revelamos si el email existe o no
         return MessageResponse(message="Si el correo existe, recibirás un email de verificación.")
-    
+
     if user.is_active:
         return MessageResponse(message="Tu cuenta ya está verificada. Puedes iniciar sesión.")
-    
-    # Generar nuevo token y enviar email
+
     verification_token = create_verification_token(user.email)
     background_tasks.add_task(
-        send_verification_email, 
-        user.email, 
-        user.first_name, 
+        send_verification_email,
+        user.email,
+        user.first_name,
         verification_token
     )
-    
+
     return MessageResponse(message="Si el correo existe, recibirás un email de verificación.")

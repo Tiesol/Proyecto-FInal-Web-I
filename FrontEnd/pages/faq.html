@@ -5,13 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/faq/faq-base.css" />
-  <link rel="stylesheet" href="../assets/css/faq/faq-accordion.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/faq.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
@@ -20,15 +15,13 @@
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
   <title>Preguntas Frecuentes - RiseUp</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
-      <a href="./index-logged.html">
+      <a href="./index.html">
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -41,55 +34,22 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
-    <div class="user_menu_container">
-      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
-      <label for="userMenuToggle" class="user_avatar_btn">
-        <i class="fa-solid fa-user"></i>
-      </label>
-      <div class="user_dropdown">
-        <a href="./my-campaigns.html" class="dropdown_item">
-          <i class="fa-solid fa-bullhorn"></i>
-          Mis Campañas
-        </a>
-        <a href="./favorites.html" class="dropdown_item">
-          <i class="fa-solid fa-heart"></i>
-          Favoritos
-        </a>
-        <a href="./donations.html" class="dropdown_item">
-          <i class="fa-solid fa-hand-holding-dollar"></i>
-          Mis Contribuciones
-        </a>
-        <a href="./profile.html" class="dropdown_item">
-          <i class="fa-solid fa-user-circle"></i>
-          Mi Perfil
-        </a>
-        <div class="dropdown_divider"></div>
-        <a href="./admin-projects.html" class="dropdown_item admin hidden" id="adminLink">
-          <i class="fa-solid fa-shield"></i>
-          Admin
-        </a>
-        <a href="#" class="dropdown_item logout" id="logoutBtn">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          Cerrar Sesión
-        </a>
-      </div>
+    <div class="login_register_container">
+      <a class="btn_registro" href="./login.html">Iniciar Sesión</a>
+      <a class="btn_registro" href="./register.html">Registrar</a>
     </div>
   </header>
-
   <main class="faq_container">
-    <!-- Header -->
+    
     <div class="faq_header">
       <h1><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h1>
       <p>Encuentra respuestas a las preguntas más comunes sobre RiseUp</p>
     </div>
-
-    <!-- Sección General -->
+    
     <section class="faq_section">
       <h2 class="faq_section_title">
         <i class="fa-solid fa-circle-info"></i> Preguntas Generales
       </h2>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Qué es RiseUp?</span>
@@ -98,7 +58,6 @@
           <p>RiseUp es una plataforma de crowdfunding que conecta a emprendedores, creativos y personas con proyectos innovadores con una comunidad dispuesta a apoyarlos. Nuestra misión es hacer realidad los sueños de quienes tienen grandes ideas pero necesitan financiamiento.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cómo funciona RiseUp?</span>
@@ -113,7 +72,6 @@
           </ul>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Qué tipos de proyectos puedo financiar?</span>
@@ -123,13 +81,11 @@
         </div>
       </div>
     </section>
-
-    <!-- Sección Campañas -->
+    
     <section class="faq_section">
       <h2 class="faq_section_title">
         <i class="fa-solid fa-bullhorn"></i> Sobre las Campañas
       </h2>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cómo creo una campaña?</span>
@@ -145,7 +101,6 @@
           </ul>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cuánto tiempo puede durar mi campaña?</span>
@@ -154,7 +109,6 @@
           <p>Las campañas pueden durar entre 15 y 60 días. Estadísticamente, las campañas de 30 días tienen mejor tasa de éxito, ya que mantienen el sentido de urgencia sin ser demasiado cortas.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Qué pasa si no alcanzo mi meta?</span>
@@ -163,7 +117,6 @@
           <p>Si tu campaña no alcanza la meta establecida al finalizar el plazo, los fondos son devueltos a los patrocinadores. Este modelo "todo o nada" protege tanto a creadores como a patrocinadores y asegura que los proyectos tengan los recursos necesarios para ejecutarse.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Puedo editar mi campaña después de publicarla?</span>
@@ -173,13 +126,11 @@
         </div>
       </div>
     </section>
-
-    <!-- Sección Donaciones -->
+    
     <section class="faq_section">
       <h2 class="faq_section_title">
         <i class="fa-solid fa-hand-holding-dollar"></i> Sobre las Donaciones
       </h2>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cómo puedo donar a una campaña?</span>
@@ -194,7 +145,6 @@
           </ul>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Qué métodos de pago aceptan?</span>
@@ -203,7 +153,6 @@
           <p>Aceptamos tarjetas de crédito y débito (Visa, MasterCard, American Express), PayPal y transferencias bancarias en algunos países. Todos los pagos son procesados de forma segura con encriptación SSL.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Puedo solicitar un reembolso?</span>
@@ -212,7 +161,6 @@
           <p>Los reembolsos son automáticos si la campaña no alcanza su meta. Si la campaña es exitosa, los reembolsos solo se procesan en casos excepcionales y deben solicitarse antes de que se transfieran los fondos al creador.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cuándo recibiré mi recompensa?</span>
@@ -222,13 +170,11 @@
         </div>
       </div>
     </section>
-
-    <!-- Sección Cuenta -->
+    
     <section class="faq_section">
       <h2 class="faq_section_title">
         <i class="fa-solid fa-user"></i> Mi Cuenta
       </h2>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cómo creo una cuenta?</span>
@@ -237,7 +183,6 @@
           <p>Crear una cuenta es gratis y sencillo. Haz clic en "Registrarse", ingresa tu nombre, correo electrónico y crea una contraseña. Recibirás un correo de verificación para activar tu cuenta.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Olvidé mi contraseña, qué hago?</span>
@@ -246,7 +191,6 @@
           <p>En la página de inicio de sesión, haz clic en "¿Olvidaste tu contraseña?". Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Cómo puedo cambiar mi información de perfil?</span>
@@ -255,7 +199,6 @@
           <p>Ve a "Mi Perfil" y luego haz clic en "Editar Perfil". Desde ahí puedes actualizar tu nombre, foto, biografía y redes sociales.</p>
         </div>
       </div>
-
       <div class="faq_item">
         <div class="faq_question">
           <span>¿Puedo eliminar mi cuenta?</span>
@@ -266,7 +209,6 @@
       </div>
     </section>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_brand">
@@ -279,7 +221,6 @@
           <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Legal</h3>
         <ul class="footer_links">
@@ -287,7 +228,6 @@
           <li><a href="#">Política de privacidad</a></li>
         </ul>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Soporte</h3>
         <ul class="footer_links">
@@ -297,12 +237,10 @@
         </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script src="../js/config.js"></script>
   <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>

@@ -1,7 +1,4 @@
-// Home Public Page JS (index.html)
-// Funciones para la página de inicio pública (usuarios no autenticados)
 
-// Función para calcular días restantes
 function calculateDaysLeft(expirationDate) {
   if (!expirationDate) return 0;
   const today = new Date();
@@ -11,7 +8,6 @@ function calculateDaysLeft(expirationDate) {
   return diffDays > 0 ? diffDays : 0;
 }
 
-// Función para formatear moneda
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -21,11 +17,10 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-// Función para crear card de campaña en el grid
 function createCampaignCard(campaign) {
   const daysLeft = calculateDaysLeft(campaign.expiration_date);
   const progress = campaign.progress_percentage || 0;
-  
+
   return `
     <article class="campaign_grid_card">
       <div class="campaign_grid_image">
@@ -35,8 +30,8 @@ function createCampaignCard(campaign) {
       <div class="campaign_grid_content">
         <div class="campaign_grid_user">
           <div class="grid_user_avatar">
-            ${campaign.user_profile_image_url 
-              ? `<img src="${campaign.user_profile_image_url}" alt="${campaign.user_first_name}">` 
+            ${campaign.user_profile_image_url
+              ? `<img src="${campaign.user_profile_image_url}" alt="${campaign.user_first_name}">`
               : '<i class="fa-solid fa-user"></i>'}
           </div>
           <span class="grid_user_name">${campaign.user_first_name} ${campaign.user_last_name}</span>
@@ -59,10 +54,9 @@ function createCampaignCard(campaign) {
   `;
 }
 
-// Función para crear card del carrusel
 function createCarouselCard(campaign) {
   const progress = campaign.progress_percentage || 0;
-  
+
   return `
     <div class="campaign_card">
       <img src="${campaign.main_image_url || 'https://placehold.co/1200x600/FF7A59/FFFFFF?text=Sin+Imagen'}" alt="${campaign.tittle}" class="campaign_bg">
@@ -70,8 +64,8 @@ function createCarouselCard(campaign) {
         <div class="campaign_content">
           <div class="user_info">
             <div class="user_avatar">
-              ${campaign.user_profile_image_url 
-                ? `<img src="${campaign.user_profile_image_url}" alt="${campaign.user_first_name}">` 
+              ${campaign.user_profile_image_url
+                ? `<img src="${campaign.user_profile_image_url}" alt="${campaign.user_first_name}">`
                 : '<i class="fa-solid fa-user"></i>'}
             </div>
             <span class="user_name">${campaign.user_first_name} ${campaign.user_last_name}</span>
@@ -93,53 +87,47 @@ function createCarouselCard(campaign) {
   `;
 }
 
-// Cargar campañas del carrusel (destacadas)
 async function loadFeaturedCampaigns() {
   const carouselTrack = document.querySelector('.carousel_track');
   const indicatorsContainer = document.querySelector('.carousel_indicators');
-  
+
   try {
     const response = await fetch(`${API_URL}/campaigns/featured?limit=5`);
     const campaigns = await response.json();
-    
+
     if (campaigns.length === 0) {
       carouselTrack.innerHTML = '<p style="text-align:center; padding: 2rem;">No hay campañas destacadas.</p>';
       return;
     }
-    
-    // Renderizar cards
+
     carouselTrack.innerHTML = campaigns.map(campaign => createCarouselCard(campaign)).join('');
-    
-    // Crear indicadores
-    indicatorsContainer.innerHTML = campaigns.map((_, index) => 
+
+    indicatorsContainer.innerHTML = campaigns.map((_, index) =>
       `<button class="indicator ${index === 0 ? 'active' : ''}" data-slide="${index}"></button>`
     ).join('');
-    
-    // Inicializar carrusel
+
     initCarousel(campaigns.length);
-    
+
   } catch (error) {
     console.error('Error cargando campañas destacadas:', error);
     carouselTrack.innerHTML = '<p style="text-align:center; padding: 2rem; color: red;">Error al cargar campañas.</p>';
   }
 }
 
-// Cargar campañas populares (grid) - ordenadas por más vistas
 async function loadPopularCampaigns() {
   const campaignsGrid = document.querySelector('.campaigns_grid');
-  
-  // Mostrar loading
+
   campaignsGrid.innerHTML = `
     <div class="loading_campaigns">
       <i class="fa-solid fa-spinner fa-spin"></i>
       <p>Cargando campañas...</p>
     </div>
   `;
-  
+
   try {
     const response = await fetch(`${API_URL}/campaigns/popular?limit=9`);
     const campaigns = await response.json();
-    
+
     if (campaigns.length === 0) {
       campaignsGrid.innerHTML = `
         <div class="no_campaigns">
@@ -149,10 +137,9 @@ async function loadPopularCampaigns() {
       `;
       return;
     }
-    
-    // Renderizar campañas
+
     campaignsGrid.innerHTML = campaigns.map(campaign => createCampaignCard(campaign)).join('');
-    
+
   } catch (error) {
     console.error('Error cargando campañas:', error);
     campaignsGrid.innerHTML = `
@@ -164,14 +151,13 @@ async function loadPopularCampaigns() {
   }
 }
 
-// Inicializar carrusel
 function initCarousel(totalSlides) {
   let currentSlide = 0;
   const cards = document.querySelectorAll('.carousel_track .campaign_card');
   const indicators = document.querySelectorAll('.indicator');
   const prevBtn = document.querySelector('.carousel_nav_prev');
   const nextBtn = document.querySelector('.carousel_nav_next');
-  
+
   function updateCarousel() {
     cards.forEach((card, index) => {
       card.style.display = index === currentSlide ? 'block' : 'none';
@@ -180,7 +166,7 @@ function initCarousel(totalSlides) {
       ind.classList.toggle('active', index === currentSlide);
     });
   }
-  
+
   if (prevBtn) {
     prevBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -188,7 +174,7 @@ function initCarousel(totalSlides) {
       updateCarousel();
     });
   }
-  
+
   if (nextBtn) {
     nextBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -196,24 +182,22 @@ function initCarousel(totalSlides) {
       updateCarousel();
     });
   }
-  
+
   indicators.forEach((indicator, index) => {
     indicator.addEventListener('click', () => {
       currentSlide = index;
       updateCarousel();
     });
   });
-  
-  // Auto-play
+
   setInterval(() => {
     currentSlide = (currentSlide + 1) % totalSlides;
     updateCarousel();
   }, 5000);
-  
+
   updateCarousel();
 }
 
-// Cargar todo al iniciar
 window.onload = function() {
   loadFeaturedCampaigns();
   loadPopularCampaigns();

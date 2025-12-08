@@ -35,18 +35,15 @@ class CampaignAdminResponse(BaseModel):
 class ApprovalAction(BaseModel):
     observation_text: str = ""
 
-# ============== GESTIÓN DE ADMINISTRADORES ==============
-
 @router.get("/users", response_model=List[dict])
 async def get_admin_users(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Lista todos los usuarios administradores"""
-    
+
     statement = select(Person).where(Person.role_id == 1)
     admins = session.exec(statement).all()
-    
+
     return [
         {
             "id": admin.id,
@@ -65,34 +62,33 @@ async def create_admin_user(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Crea un nuevo usuario administrador (no requiere verificación de email)"""
+
     from app.core.security import get_password_hash
-    
-    # Verificar si el email ya existe
+
     statement = select(Person).where(Person.email == user_data.email)
     existing_user = session.exec(statement).first()
-    
+
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="El correo electrónico ya está registrado"
         )
-    
+
     new_admin = Person(
         first_name=user_data.first_name,
         last_name=user_data.last_name,
         email=user_data.email,
         password=get_password_hash(user_data.password),
-        is_active=True,  # Los admins no necesitan verificar email
-        role_id=1,  # Admin
+        is_active=True,
+        role_id=1,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
-    
+
     session.add(new_admin)
     session.commit()
     session.refresh(new_admin)
-    
+
     return {
         "message": "Administrador creado exitosamente",
         "id": new_admin.id
@@ -104,34 +100,31 @@ async def delete_admin_user(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Elimina un usuario administrador"""
-    
+
     if user_id == current_user.id:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No puedes eliminarte a ti mismo"
         )
-    
+
     user = session.get(Person, user_id)
-    
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Usuario no encontrado"
         )
-    
+
     if user.role_id != 1:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="El usuario no es administrador"
         )
-    
+
     session.delete(user)
     session.commit()
-    
-    return {"message": "Administrador eliminado exitosamente"}
 
-# ============== GESTIÓN DE CAMPAÑAS ==============
+    return {"message": "Administrador eliminado exitosamente"}
 
 @router.get("/campaigns", response_model=List[CampaignAdminResponse])
 async def get_all_campaigns(
@@ -139,18 +132,16 @@ async def get_all_campaigns(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Lista todas las campañas con filtro opcional por estado de workflow"""
-    
+
     statement = select(Campaign)
-    
+
     if workflow_state_id:
         statement = statement.where(Campaign.workflow_state_id == workflow_state_id)
     else:
-        # Por defecto excluir borradores (estado 1)
         statement = statement.where(Campaign.workflow_state_id != 1)
-    
+
     campaigns = session.exec(statement).all()
-    
+
     workflow_states = {
         1: "Borrador",
         2: "En Revisión",
@@ -158,7 +149,7 @@ async def get_all_campaigns(
         4: "Rechazado",
         5: "Publicado"
     }
-    
+
     result = []
     for campaign in campaigns:
         user = session.get(Person, campaign.user_id)
@@ -175,7 +166,7 @@ async def get_all_campaigns(
             user_email=user.email if user else "",
             created_at=campaign.created_at
         ))
-    
+
     return result
 
 @router.get("/campaigns/{campaign_id}")
@@ -184,19 +175,18 @@ async def get_campaign_detail(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Obtiene el detalle completo de una campaña para admin"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
+
     user = session.get(Person, campaign.user_id)
     category = session.get(Category, campaign.category_id) if campaign.category_id else None
-    
+
     workflow_states = {
         1: "Borrador",
         2: "En Revisión",
@@ -204,7 +194,7 @@ async def get_campaign_detail(
         4: "Rechazado",
         5: "Publicado"
     }
-    
+
     return {
         "id": campaign.id,
         "tittle": campaign.tittle,
@@ -232,24 +222,21 @@ async def approve_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Aprueba una campaña (cambia a estado Publicado)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Permitir aprobar desde "En Revisión" o "Observado"
+
     if campaign.workflow_state_id not in [2, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes aprobar campañas en estado 'En Revisión' u 'Observado'"
         )
-    
-    # Crear observación de aprobación
+
     observation = CampaignObservation(
         observation_text=action_data.observation_text or "Campaña aprobada",
         user_id=current_user.id,
@@ -257,13 +244,13 @@ async def approve_campaign(
         created_at=datetime.utcnow()
     )
     session.add(observation)
-    
-    campaign.workflow_state_id = 5  # Publicado
+
+    campaign.workflow_state_id = 5
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña aprobada exitosamente"}
 
 @router.post("/campaigns/{campaign_id}/observe")
@@ -273,29 +260,27 @@ async def observe_campaign(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Observa una campaña (requiere correcciones)"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    if campaign.workflow_state_id != 2:  # Solo desde "En Revisión"
+
+    if campaign.workflow_state_id != 2:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes observar campañas en estado 'En Revisión'"
         )
-    
+
     if not action_data.observation_text:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Debes proporcionar un texto de observación"
         )
-    
-    # Crear observación
+
     observation = CampaignObservation(
         observation_text=action_data.observation_text,
         user_id=current_user.id,
@@ -303,60 +288,42 @@ async def observe_campaign(
         created_at=datetime.utcnow()
     )
     session.add(observation)
-    
-    campaign.workflow_state_id = 3  # Observado
+
+    campaign.workflow_state_id = 3
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña observada exitosamente"}
 
 @router.post("/campaigns/{campaign_id}/reject")
 async def reject_campaign(
     campaign_id: int,
-    action_data: ApprovalAction,
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Rechaza una campaña"""
-    
+
     campaign = session.get(Campaign, campaign_id)
-    
+
     if not campaign:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Campaña no encontrada"
         )
-    
-    # Permitir rechazar desde "En Revisión" o "Observado"
+
     if campaign.workflow_state_id not in [2, 3]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Solo puedes rechazar campañas en estado 'En Revisión' u 'Observado'"
         )
-    
-    if not action_data.observation_text:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Debes proporcionar un motivo de rechazo"
-        )
-    
-    # Crear observación de rechazo
-    observation = CampaignObservation(
-        observation_text=action_data.observation_text,
-        user_id=current_user.id,
-        campaign_id=campaign_id,
-        created_at=datetime.utcnow()
-    )
-    session.add(observation)
-    
-    campaign.workflow_state_id = 4  # Rechazado
+
+    campaign.workflow_state_id = 4
     campaign.updated_at = datetime.utcnow()
-    
+
     session.add(campaign)
     session.commit()
-    
+
     return {"message": "Campaña rechazada"}
 
 @router.get("/campaigns/{campaign_id}/observations", response_model=List[CampaignObservationResponse])
@@ -365,14 +332,13 @@ async def get_campaign_observations(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Obtiene el historial de observaciones de una campaña"""
-    
+
     statement = select(CampaignObservation).where(
         CampaignObservation.campaign_id == campaign_id
     ).order_by(CampaignObservation.created_at.desc())
-    
+
     observations = session.exec(statement).all()
-    
+
     result = []
     for obs in observations:
         admin = session.get(Person, obs.user_id) if obs.user_id else None
@@ -384,5 +350,5 @@ async def get_campaign_observations(
             created_at=obs.created_at,
             admin_name=f"{admin.first_name} {admin.last_name}" if admin else None
         ))
-    
+
     return result

@@ -23,26 +23,24 @@ class CategoryUpdate(BaseModel):
 async def get_categories(
     session: Session = Depends(get_session)
 ):
-    """Obtiene todas las categorías con conteo de requisitos"""
-    
+
     statement = select(Category)
     categories = session.exec(statement).all()
-    
+
     result = []
     for cat in categories:
-        # Contar requisitos
         count_stmt = select(func.count(CategoryRequirement.id)).where(
             CategoryRequirement.category_id == cat.id
         )
         req_count = session.exec(count_stmt).one()
-        
+
         result.append({
             "id": cat.id,
             "name": cat.name,
             "image_url": cat.image_url,
             "requirements_count": req_count
         })
-    
+
     return result
 
 @router.get("/{category_id}", response_model=CategoryResponse)
@@ -50,13 +48,12 @@ async def get_category(
     category_id: int,
     session: Session = Depends(get_session)
 ):
-    """Obtiene una categoría por ID"""
-    
+
     category = session.get(Category, category_id)
-    
+
     if not category:
         return None
-    
+
     return CategoryResponse(
         id=category.id,
         name=category.name,
@@ -69,27 +66,25 @@ async def create_category(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Crea una nueva categoría (solo admin)"""
-    
-    # Verificar si ya existe una categoría con ese nombre
+
     statement = select(Category).where(Category.name == category_data.name)
     existing = session.exec(statement).first()
-    
+
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Ya existe una categoría con ese nombre"
         )
-    
+
     new_category = Category(
         name=category_data.name,
         image_url=category_data.image_url
     )
-    
+
     session.add(new_category)
     session.commit()
     session.refresh(new_category)
-    
+
     return CategoryResponse(
         id=new_category.id,
         name=new_category.name,
@@ -103,25 +98,24 @@ async def update_category(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Actualiza una categoría (solo admin)"""
-    
+
     category = session.get(Category, category_id)
-    
+
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Categoría no encontrada"
         )
-    
+
     if category_data.name is not None:
         category.name = category_data.name
     if category_data.image_url is not None:
         category.image_url = category_data.image_url
-    
+
     session.add(category)
     session.commit()
     session.refresh(category)
-    
+
     return CategoryResponse(
         id=category.id,
         name=category.name,
@@ -134,28 +128,26 @@ async def delete_category(
     session: Session = Depends(get_session),
     current_user: Person = Depends(get_current_admin_user)
 ):
-    """Elimina una categoría (solo admin)"""
-    
+
     category = session.get(Category, category_id)
-    
+
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Categoría no encontrada"
         )
-    
-    # Verificar si hay campañas usando esta categoría
+
     from app.models.campaign import Campaign
     statement = select(Campaign).where(Campaign.category_id == category_id)
     campaigns_using = session.exec(statement).first()
-    
+
     if campaigns_using:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No se puede eliminar: hay campañas usando esta categoría"
         )
-    
+
     session.delete(category)
     session.commit()
-    
+
     return {"message": "Categoría eliminada exitosamente"}

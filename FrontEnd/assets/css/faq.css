@@ -1,0 +1,265 @@
+
+
+.faq_section {
+  margin-bottom: 40px;
+}
+
+.faq_section_title {
+  font-size: 1.4rem;
+  color: #2D3748;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #FF7A59;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.faq_section_title i {
+  color: #FF7A59;
+}
+
+.faq_item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 20px;
+}
+
+.faq_question {
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.faq_answer {
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.faq_answer p {
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.faq_answer ul {
+  color: #666;
+  line-height: 1.7;
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.faq_answer a {
+  color: #FF7A59;
+  text-decoration: none;
+}
+
+.faq_container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.faq_header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq_header h1 {
+  font-size: 2.5rem;
+  color: #2D3748;
+  margin-bottom: 10px;
+}
+
+.faq_header h1 i {
+  color: #FF7A59;
+}
+
+.faq_header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.faq_search {
+  max-width: 500px;
+  margin: 30px auto;
+  position: relative;
+}
+
+.faq_search input {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 1rem;
+}
+
+.faq_search button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FF7A59;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+}
+
+.faq_categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.faq_category_btn {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  background: white;
+  color: #666;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.faq_category_btn.active {
+  background: #FF7A59;
+  border-color: #FF7A59;
+  color: white;
+}
+
+.faq_category_btn i {
+  margin-right: 8px;
+}
+
+.faq_contact {
+  background: linear-gradient(135deg, #FF7A59 0%, #e5694d 100%);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  color: white;
+  margin-top: 50px;
+}
+
+.faq_contact h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.faq_contact p {
+  opacity: 0.9;
+  margin-bottom: 25px;
+}
+
+.faq_contact_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.faq_contact_btn {
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq_contact_btn.primary {
+  background: white;
+  color: #FF7A59;
+  border: none;
+}
+
+.faq_contact_btn.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+@media (max-width: 768px) {
+  .faq_header h1 {
+    font-size: 2rem;
+  }
+
+  .faq_categories {
+    gap: 8px;
+  }
+
+  .faq_category_btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
+
+  .faq_section_title {
+    font-size: 1.2rem;
+  }
+
+  .faq_question {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+
+  .faq_contact {
+    padding: 30px 20px;
+  }
+
+  .faq_contact h3 {
+    font-size: 1.3rem;
+  }
+
+  .faq_contact_buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .faq_contact_btn {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq_container {
+    padding: 20px 15px 40px;
+  }
+
+  .faq_header h1 {
+    font-size: 1.7rem;
+  }
+
+  .faq_header p {
+    font-size: 1rem;
+  }
+
+  .faq_search input {
+    padding: 12px 45px 12px 15px;
+    font-size: 0.95rem;
+  }
+
+  .faq_search button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .faq_category_btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .faq_category_btn i {
+    display: none;
+  }
+}

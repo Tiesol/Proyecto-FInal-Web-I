@@ -1,4 +1,4 @@
-/* Seccion de descripcion completa */
+
 .full_description_section {
   background-color: #FFFFFF;
   padding: 32px;
@@ -63,7 +63,6 @@
   display: block;
 }
 
-/* Imágenes y videos insertados desde Quill */
 .description_content img {
   max-width: 100%;
   width: auto;
@@ -85,7 +84,6 @@
   border: none;
 }
 
-/* Contenedor de descripción no puede desbordar */
 .description_content {
   overflow: hidden;
   word-wrap: break-word;

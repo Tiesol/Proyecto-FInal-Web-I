@@ -7,10 +7,8 @@ from app.routers import auth, campaigns, donations, favorites, categories, rewar
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: crear tablas si no existen
     create_db_and_tables()
     yield
-    # Shutdown
 
 app = FastAPI(
     title="RiseUp API",
@@ -19,16 +17,14 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, especificar orígenes permitidos
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Incluir routers
 app.include_router(auth.router)
 app.include_router(campaigns.router)
 app.include_router(donations.router)

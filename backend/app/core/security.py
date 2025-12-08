@@ -43,17 +43,17 @@ async def get_current_user(
     session: Session = Depends(get_session)
 ):
     from app.models.person import Person
-    
+
     token = credentials.credentials
     payload = verify_token(token)
-    
+
     if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token inválido o expirado",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     email: str = payload.get("sub")
     if email is None:
         raise HTTPException(
@@ -61,17 +61,17 @@ async def get_current_user(
             detail="Token inválido",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     statement = select(Person).where(Person.email == email)
     user = session.exec(statement).first()
-    
+
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario no encontrado",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     return user
 
 async def get_current_active_user(current_user = Depends(get_current_user)):
@@ -83,7 +83,6 @@ async def get_current_active_user(current_user = Depends(get_current_user)):
     return current_user
 
 async def get_current_admin_user(current_user = Depends(get_current_active_user)):
-    # Role ID 1 = Admin
     if current_user.role_id != 1:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

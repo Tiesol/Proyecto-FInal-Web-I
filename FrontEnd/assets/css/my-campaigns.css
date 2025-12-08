@@ -1,4 +1,4 @@
-/* Campaigns Filters */
+
 .campaigns-filters {
   background-color: #FFFFFF;
   padding: 24px 0;
@@ -41,7 +41,6 @@
   font-size: 0.8rem;
 }
 
-/* My Campaigns Gallery */
 .my-campaigns {
   padding: 60px 40px 100px;
   background-color: #FFF8F2;
@@ -100,7 +99,6 @@
   border: none;
 }
 
-/* Menu Container */
 .campaign-menu-container {
   position: absolute;
   top: 12px;
@@ -108,7 +106,6 @@
   z-index: 10;
 }
 
-/* Dropdown Menu */
 .campaign-dropdown {
   position: absolute;
   top: 44px;
@@ -163,7 +160,6 @@
   margin: 8px 0;
 }
 
-/* Submenu */
 .campaign-dropdown-item.has-submenu {
   position: relative;
 }
@@ -278,7 +274,6 @@
   color: #FFFFFF;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -318,7 +313,341 @@
   padding: 0 8px;
 }
 
-/* Responsive */
+@media (max-width: 968px) {
+  .campaigns-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .my-campaigns {
+    padding: 40px 24px 80px;
+  }
+
+  .campaigns-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-tags {
+    justify-content: center;
+  }
+}
+
+.campaign-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+}
+
+.campaign-badge.approved {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+}
+
+.campaign-badge.pending {
+  background-color: #FFD166;
+  color: #1E293B;
+}
+
+.campaign-badge.rejected {
+  background-color: #f44336;
+  color: #FFFFFF;
+}
+
+.campaign-badge.draft {
+  background-color: #9E9E9E;
+  color: #FFFFFF;
+}
+
+.btn-small {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-success {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+}
+
+.btn-warning {
+  background-color: #FFD166;
+  color: #1E293B;
+}
+
+.btn-primary {
+  background-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.campaign-menu-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  border: none;
+}
+
+.campaign-menu-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+.campaign-dropdown {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  padding: 8px 0;
+  display: none;
+  z-index: 100;
+}
+
+.campaign-dropdown.show {
+  display: block;
+}
+
+.campaign-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #1E293B;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.campaign-dropdown-item i {
+  width: 20px;
+  color: #FF7A59;
+  text-align: center;
+}
+
+.campaign-dropdown-item.danger {
+  color: #e74c3c;
+}
+
+.campaign-dropdown-item.danger i {
+  color: #e74c3c;
+}
+
+.campaign-dropdown-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+.campaign-dropdown-item.has-submenu {
+  position: relative;
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.campaign-submenu {
+  position: absolute;
+  right: 100%;
+  left: auto;
+  top: 0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  padding: 8px 0;
+  display: none;
+}
+
+.campaign-submenu.show {
+  display: block;
+}
+
+.campaigns-filters {
+  background-color: #FFFFFF;
+  padding: 24px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.campaigns-filters .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.filter-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag.active {
+  background-color: #FF7A59;
+  border-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.tag i {
+  font-size: 0.8rem;
+}
+
+.my-campaigns {
+  padding: 60px 40px 100px;
+  background-color: #FFF8F2;
+}
+
+.my-campaigns .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.campaigns-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.my-campaign-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  overflow: visible;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.my-campaign-card .campaign-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px 16px 0 0;
+}
+
+.my-campaign-card .campaign-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.campaign-info {
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+
+.campaign-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #1E293B;
+  font-weight: 700;
+}
+
+.campaign-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #1E293B;
+  opacity: 0.8;
+}
+
+.days-left,
+.status-label {
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 60px;
+}
+
+.pagination_btn {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e0e0e0;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination_btn.active {
+  background-color: #FF7A59;
+  border-color: #FF7A59;
+  color: #FFFFFF;
+}
+
+.pagination_btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination_dots {
+  color: #1E293B;
+  opacity: 0.5;
+  padding: 0 8px;
+}
+
 @media (max-width: 968px) {
   .campaigns-gallery {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

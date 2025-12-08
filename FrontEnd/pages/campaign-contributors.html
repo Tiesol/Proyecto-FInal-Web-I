@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribuciones - RiseUp</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/normalize.css">
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/utilities.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/campaign-contributors.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css">
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css">
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+</head>
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp">
+      </a>
+    </div>
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar...">
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
+    </div>
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item">
+          <i class="fa-solid fa-bullhorn"></i>
+          Mis Campañas
+        </a>
+        <a href="./favorites.html" class="dropdown_item">
+          <i class="fa-solid fa-heart"></i>
+          Favoritos
+        </a>
+        <a href="./donations.html" class="dropdown_item">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          Mis Contribuciones
+        </a>
+        <a href="./profile.html" class="dropdown_item">
+          <i class="fa-solid fa-user-circle"></i>
+          Mi Perfil
+        </a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin-projects.html" class="dropdown_item admin hidden" id="adminLink">
+          <i class="fa-solid fa-shield"></i>
+          Admin
+        </a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+    <section class="contributors-hero" id="heroSection">
+      <div class="hero-content">
+        <span class="hero-category" id="heroCategory">Cargando...</span>
+        <h1 class="hero-title" id="heroTitle">Cargando campaña...</h1>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="heroCurrentAmount">$0</span>
+            <span class="hero-stat-label">Recaudado</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="heroGoalAmount">$0</span>
+            <span class="hero-stat-label">Meta</span>
+          </div>
+        </div>
+        <div class="hero-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="heroProgress"></div>
+          </div>
+          <span class="progress-percent" id="heroPercent">0%</span>
+        </div>
+        <a href="#" class="btn-back" id="btnBack">
+          <i class="fa-solid fa-arrow-left"></i> Volver a la campaña
+        </a>
+      </div>
+    </section>
+
+    
+    <section class="top-donors-section">
+      <h2><i class="fa-solid fa-trophy"></i> Top 5 Donadores</h2>
+      <div class="top-donors-grid" id="topDonorsGrid">
+        <p>Cargando...</p>
+      </div>
+    </section>
+
+    
+    <section class="all-donors-section">
+      <h2><i class="fa-solid fa-users"></i> Todos los Contribuyentes</h2>
+      <div class="donors-list" id="donorsList">
+        <p>Cargando...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+      </div>
+    </div>
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/search-categories.js"></script>
+  <script src="../js/header-user.js"></script>
+  <script src="../js/campaign-contributors.js"></script>
+</body>
+</html>

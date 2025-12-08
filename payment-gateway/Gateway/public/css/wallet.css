@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body { 
+  min-height: 100vh; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: #FFF8F2;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.card { 
+  max-width: 420px; 
+  width: 100%; 
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: none;
+  background: #FFFFFF;
+}
+
+.card-body { 
+  padding: 2.5rem; 
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  color: #1E293B;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.amount-label {
+  color: #64748B;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.amount { 
+  font-size: 2.5rem; 
+  font-weight: 800; 
+  color: #FF7A59;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.status-pending { 
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.status-confirmed { 
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.payment-id {
+  color: #94A3B8;
+  font-size: 0.75rem;
+  margin: 1rem 0;
+}
+
+.payment-id code {
+  background: #F1F5F9;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.btn-confirm {
+  background-color: #FF7A59;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-confirm:hover {
+  background-color: #E5694A;
+  transform: translateY(-2px);
+}
+
+.btn-confirm:disabled {
+  background-color: #CBD5E1;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.confirm-note {
+  color: #94A3B8;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+.success-box {
+  background-color: #D1FAE5;
+  color: #065F46;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.error-box {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #E2E8F0;
+  border-top-color: #FF7A59;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.loading-text {
+  color: #64748B;
+  margin-top: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

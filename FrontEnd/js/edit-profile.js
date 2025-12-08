@@ -1,12 +1,9 @@
-// edit-profile.js - Editar perfil del usuario
 
 let currentUser = null;
 
-// Referencias a los divs de mensaje
 const errorMessageDiv = document.getElementById('errorMessage');
 const successMessageDiv = document.getElementById('successMessage');
 
-// Mostrar mensaje de error
 function showError(message) {
   if (successMessageDiv) successMessageDiv.classList.add('hidden');
   if (errorMessageDiv) {
@@ -16,7 +13,6 @@ function showError(message) {
   }
 }
 
-// Mostrar mensaje de éxito
 function showSuccess(message) {
   if (errorMessageDiv) errorMessageDiv.classList.add('hidden');
   if (successMessageDiv) {
@@ -28,19 +24,19 @@ function showSuccess(message) {
 
 async function loadCurrentProfile() {
   const token = localStorage.getItem('token');
-  
+
   if (!token) {
     window.location.href = './login.html';
     return;
   }
-  
+
   try {
     const response = await fetch(`${API_URL}/auth/profile`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-    
+
     if (!response.ok) {
       if (response.status === 401) {
         localStorage.removeItem('token');
@@ -50,26 +46,24 @@ async function loadCurrentProfile() {
       }
       throw new Error('Error al cargar perfil');
     }
-    
+
     currentUser = await response.json();
-    
-    // Llenar formulario con datos actuales
+
     fillForm(currentUser);
-    
+
   } catch (error) {
     console.error('Error cargando perfil:', error);
   }
 }
 
 function fillForm(user) {
-  // Imagen de perfil
   const imageInput = document.getElementById('profileImageUrl');
   const imagePreview = document.querySelector('.profile-image');
-  
+
   if (imageInput && user.profile_image_url) {
     imageInput.value = user.profile_image_url;
   }
-  
+
   if (imagePreview) {
     if (user.profile_image_url) {
       imagePreview.innerHTML = `<img src="${user.profile_image_url}" alt="${user.first_name}">`;
@@ -77,19 +71,17 @@ function fillForm(user) {
       imagePreview.innerHTML = '<div class="image-placeholder"><i class="fa-solid fa-user"></i></div>';
     }
   }
-  
-  // Descripción
+
   const descriptionInput = document.getElementById('profileDescription');
   if (descriptionInput && user.description) {
     descriptionInput.value = user.description;
   }
 }
 
-// Previsualizar imagen cuando cambia la URL
 function setupImagePreview() {
   const imageInput = document.getElementById('profileImageUrl');
   const imagePreview = document.querySelector('.profile-image');
-  
+
   if (imageInput && imagePreview) {
     imageInput.addEventListener('input', () => {
       const url = imageInput.value.trim();
@@ -102,28 +94,27 @@ function setupImagePreview() {
   }
 }
 
-// Guardar cambios
 async function saveProfile() {
   const token = localStorage.getItem('token');
-  
+
   if (!token) {
     window.location.href = './login.html';
     return;
   }
-  
+
   const imageInput = document.getElementById('profileImageUrl');
   const descriptionInput = document.getElementById('profileDescription');
-  
+
   const updateData = {};
-  
+
   if (imageInput) {
     updateData.profile_image_url = imageInput.value.trim() || null;
   }
-  
+
   if (descriptionInput) {
     updateData.description = descriptionInput.value.trim() || null;
   }
-  
+
   try {
     const response = await fetch(`${API_URL}/auth/profile`, {
       method: 'PUT',
@@ -133,40 +124,38 @@ async function saveProfile() {
       },
       body: JSON.stringify(updateData)
     });
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Error al guardar cambios');
     }
-    
+
     const updatedUser = await response.json();
-    
-    // Actualizar localStorage
+
     localStorage.setItem('user', JSON.stringify(updatedUser));
-    
+
     showSuccess('¡Perfil actualizado correctamente!');
     setTimeout(() => {
       window.location.href = './profile.html';
     }, 1500);
-    
+
   } catch (error) {
     console.error('Error guardando perfil:', error);
     showError('Error al guardar: ' + error.message);
   }
 }
 
-// Configurar botones
 function setupButtons() {
   const cancelBtn = document.querySelector('.btn-cancel');
   const saveBtn = document.querySelector('.btn-save');
-  
+
   if (cancelBtn) {
     cancelBtn.addEventListener('click', (e) => {
       e.preventDefault();
       window.location.href = './profile.html';
     });
   }
-  
+
   if (saveBtn) {
     saveBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -175,7 +164,6 @@ function setupButtons() {
   }
 }
 
-// Inicializar al cargar
 document.addEventListener('DOMContentLoaded', () => {
   loadCurrentProfile();
   setupImagePreview();

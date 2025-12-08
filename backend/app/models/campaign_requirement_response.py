@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class CampaignRequirementResponse(SQLModel, table=True):
     __tablename__ = "campaign_requirement_response"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     campaign_id: Optional[int] = Field(default=None, foreign_key="campaign.id")
     requirement_id: Optional[int] = Field(default=None, foreign_key="category_requirements.id")
@@ -16,8 +16,7 @@ class CampaignRequirementResponse(SQLModel, table=True):
     file_url: Optional[str] = Field(default=None, max_length=500)
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    
-    # Relationships
+
     campaign: Optional["Campaign"] = Relationship(back_populates="requirement_responses")
     requirement: Optional["CategoryRequirement"] = Relationship(back_populates="responses")
 

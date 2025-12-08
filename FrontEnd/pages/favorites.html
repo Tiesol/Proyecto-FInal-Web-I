@@ -5,15 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/user-menu.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/campaigns.css" />
   <link rel="stylesheet" href="../assets/css/category.css" />
-  <link rel="stylesheet" href="../assets/css/pagination.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
@@ -22,7 +16,6 @@
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
   <title>Mis Favoritos - RiseUp</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
@@ -30,7 +23,6 @@
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -43,7 +35,6 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -78,7 +69,6 @@
       </div>
     </div>
   </header>
-
   <main>
     <section class="category_header">
       <div class="category_header_content">
@@ -86,18 +76,11 @@
         <p class="category_description">Campañas que has guardado como favoritas</p>
       </div>
     </section>
-
     <section class="category_campaigns">
       <div class="campaigns_grid" id="favoritesGrid">
-        <!-- Las campañas favoritas se cargarán aquí dinámicamente -->
-        <div class="loading_favorites grid-full loading-spinner">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <p class="text-muted">Cargando favoritos...</p>
-        </div>
       </div>
     </section>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_section footer_brand">
@@ -120,7 +103,6 @@
           </a>
         </div>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Legal</h3>
         <ul class="footer_links">
@@ -128,7 +110,6 @@
           <li><a href="#">Política de privacidad</a></li>
         </ul>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Soporte</h3>
         <ul class="footer_links">
@@ -138,12 +119,10 @@
         </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script src="../js/config.js"></script>
   <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>

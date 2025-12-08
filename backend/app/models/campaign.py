@@ -24,7 +24,7 @@ class CampaignBase(SQLModel):
 
 class Campaign(CampaignBase, table=True):
     __tablename__ = "campaign"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     current_amount: Decimal = Field(default=0, decimal_places=2)
     start_date: Optional[date] = None
@@ -33,14 +33,12 @@ class Campaign(CampaignBase, table=True):
     favorites_counting: int = Field(default=0)
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    
-    # Foreign Keys
-    workflow_state_id: int = Field(default=1, foreign_key="workflow_state.id")  # Default: Borrador
-    campaign_state_id: int = Field(default=1, foreign_key="campaign_state.id")  # Default: No Iniciada
+
+    workflow_state_id: int = Field(default=1, foreign_key="workflow_state.id")
+    campaign_state_id: int = Field(default=1, foreign_key="campaign_state.id")
     user_id: int = Field(foreign_key="person.id")
     category_id: Optional[int] = Field(default=None, foreign_key="category.id")
-    
-    # Relationships
+
     user: Optional["Person"] = Relationship(back_populates="campaigns")
     category: Optional["Category"] = Relationship(back_populates="campaigns")
     workflow_state: Optional["WorkflowState"] = Relationship(back_populates="campaigns")
@@ -90,7 +88,7 @@ class CampaignResponse(SQLModel):
     updated_at: Optional[datetime] = None
 
 class CampaignPublic(SQLModel):
-    """Respuesta pública de campaña con datos del usuario"""
+
     id: int
     tittle: str
     description: str
@@ -107,7 +105,7 @@ class CampaignPublic(SQLModel):
     progress_percentage: float = 0.0
 
 class CampaignDetailPublic(SQLModel):
-    """Respuesta detallada de campaña pública con datos del usuario"""
+
     id: int
     tittle: str
     description: str
@@ -131,7 +129,7 @@ class CampaignDetailPublic(SQLModel):
     progress_percentage: float = 0.0
 
 class CampaignPaginatedResponse(SQLModel):
-    """Respuesta paginada de campañas"""
+
     items: List[CampaignPublic]
     total: int
     page: int

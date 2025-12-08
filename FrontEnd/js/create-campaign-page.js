@@ -1,5 +1,3 @@
-// Create Campaign Page JS (create-campaign.html)
-// Funciones para crear/editar campañas
 
 const rewards = [];
 let editingCampaignId = null;
@@ -8,23 +6,19 @@ let currentRequirements = [];
 let currentWorkflowStateId = null;
 let quill = null;
 
-// Obtener ID de campaña si estamos editando
 function getCampaignId() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
 }
 
-// Handler para insertar imagen
 function imageHandler() {
   showMediaModal('image');
 }
 
-// Handler para insertar video
 function videoHandler() {
   showMediaModal('video');
 }
 
-// Inicializar Quill con handler de imagen por URL
 function initQuill() {
   quill = new Quill('#quillEditor', {
     theme: 'snow',
@@ -49,11 +43,10 @@ function initQuill() {
   });
 }
 
-// Cargar requisitos según categoría
 async function loadRequirements(categoryId) {
   const section = document.getElementById('requirementsSection');
   const container = document.getElementById('requirementsContainer');
-  
+
   if (!categoryId) {
     section.classList.add('hidden');
     currentRequirements = [];
@@ -64,34 +57,30 @@ async function loadRequirements(categoryId) {
     const response = await fetch(`${API_URL}/requirements/category/${categoryId}`);
     if (response.ok) {
       currentRequirements = await response.json();
-      
+
       if (currentRequirements.length === 0) {
         section.classList.add('hidden');
         return;
       }
 
-      // Renderizar requisitos
       container.innerHTML = currentRequirements.map(req => {
         const isRequired = req.is_required;
         const requiredMark = isRequired ? '<span class="required-mark">*</span>' : '';
-        // NO usar required attr - validación solo en JS
         const requiredClass = isRequired ? 'is-required' : '';
-        
-        // Determinar tipo de input según requirement_type_id
-        // 1=Texto, 2=Archivo, 3=Imagen, 4=URL
+
         let inputHtml = '';
         switch(req.requirement_type_id) {
-          case 4: // URL
-            inputHtml = `<input type="url" id="req_${req.id}" class="requirement-input ${requiredClass}" 
+          case 4:
+            inputHtml = `<input type="url" id="req_${req.id}" class="requirement-input ${requiredClass}"
                          placeholder="https://..." data-req-id="${req.id}" data-required="${isRequired}">`;
             break;
-          case 2: // Archivo - usamos URL también
-          case 3: // Imagen - usamos URL
-            inputHtml = `<input type="url" id="req_${req.id}" class="requirement-input ${requiredClass}" 
+          case 2:
+          case 3:
+            inputHtml = `<input type="url" id="req_${req.id}" class="requirement-input ${requiredClass}"
                          placeholder="URL del archivo o imagen" data-req-id="${req.id}" data-required="${isRequired}">`;
             break;
-          default: // Texto
-            inputHtml = `<textarea id="req_${req.id}" class="requirement-input requirement-textarea ${requiredClass}" 
+          default:
+            inputHtml = `<textarea id="req_${req.id}" class="requirement-input requirement-textarea ${requiredClass}"
                          rows="2" data-req-id="${req.id}" data-required="${isRequired}" placeholder="Tu respuesta..."></textarea>`;
         }
 
@@ -108,8 +97,7 @@ async function loadRequirements(categoryId) {
       }).join('');
 
       section.classList.remove('hidden');
-      
-      // Si estamos editando, cargar las respuestas previas
+
       if (editingCampaignId) {
         await loadRequirementResponses(editingCampaignId);
       }
@@ -119,7 +107,6 @@ async function loadRequirements(categoryId) {
   }
 }
 
-// Cargar respuestas de requisitos existentes
 async function loadRequirementResponses(campaignId) {
   const token = localStorage.getItem('token');
   if (!token) return;
@@ -128,7 +115,7 @@ async function loadRequirementResponses(campaignId) {
     const response = await fetch(`${API_URL}/requirements/campaign/${campaignId}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    
+
     if (response.ok) {
       const responses = await response.json();
       responses.forEach(resp => {
@@ -143,7 +130,6 @@ async function loadRequirementResponses(campaignId) {
   }
 }
 
-// Obtener respuestas de requisitos del formulario
 function getRequirementResponses() {
   const responses = [];
   currentRequirements.forEach(req => {
@@ -160,15 +146,13 @@ function getRequirementResponses() {
   return responses;
 }
 
-// Validar requisitos obligatorios
 function validateRequirements() {
   let hasErrors = false;
-  
-  // Limpiar errores previos de requisitos
+
   document.querySelectorAll('.requirement-item').forEach(item => {
     item.classList.remove('error');
   });
-  
+
   currentRequirements.forEach(req => {
     if (req.is_required) {
       const input = document.querySelector(`input[data-req-id="${req.id}"], textarea[data-req-id="${req.id}"]`);
@@ -182,7 +166,6 @@ function validateRequirements() {
   return hasErrors;
 }
 
-// Mostrar modal para media
 function showMediaModal(type) {
   currentMediaType = type;
   const modal = document.getElementById('mediaModal');
@@ -208,13 +191,11 @@ function showMediaModal(type) {
   input.focus();
 }
 
-// Cerrar modal
 function closeMediaModal() {
   document.getElementById('mediaModal').classList.add('hidden');
   currentMediaType = null;
 }
 
-// Insertar media desde modal
 function insertMedia() {
   let url = document.getElementById('mediaUrlInput').value.trim();
   if (!url) {
@@ -224,7 +205,6 @@ function insertMedia() {
   const range = quill.getSelection(true);
 
   if (currentMediaType === 'video') {
-    // Convertir URL de YouTube a embed
     if (url.includes('youtube.com/watch')) {
       const videoId = url.split('v=')[1]?.split('&')[0];
       if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
@@ -241,7 +221,6 @@ function insertMedia() {
   closeMediaModal();
 }
 
-// Mostrar error visual
 function showError(message) {
   const errorDiv = document.getElementById('errorMessage');
   errorDiv.textContent = message;
@@ -250,7 +229,6 @@ function showError(message) {
   errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Mostrar éxito visual
 function showSuccess(message) {
   const successDiv = document.getElementById('successMessage');
   successDiv.textContent = message;
@@ -258,13 +236,11 @@ function showSuccess(message) {
   document.getElementById('errorMessage').classList.add('hidden');
 }
 
-// Ocultar mensajes
 function hideMessages() {
   document.getElementById('errorMessage').classList.add('hidden');
   document.getElementById('successMessage').classList.add('hidden');
 }
 
-// Cargar categorías
 async function loadCategories() {
   try {
     const response = await fetch(`${API_URL}/categories/`);
@@ -283,7 +259,29 @@ async function loadCategories() {
   }
 }
 
-// Cargar datos de campaña existente (modo edición)
+async function loadCampaignRewards(campaignId) {
+  try {
+    const response = await fetch(`${API_URL}/rewards/campaign/${campaignId}`);
+    if (response.ok) {
+      const existingRewards = await response.json();
+
+      rewards.length = 0;
+      existingRewards.forEach(r => {
+        rewards.push({
+          id: r.id,
+          title: r.tittle,
+          minAmount: parseFloat(r.amount),
+          description: r.description || '',
+          image_url: r.image_url || null
+        });
+      });
+      renderRewards();
+    }
+  } catch (error) {
+    console.error('Error cargando recompensas:', error);
+  }
+}
+
 async function loadCampaignData(campaignId) {
   const token = localStorage.getItem('token');
   if (!token) return;
@@ -295,39 +293,42 @@ async function loadCampaignData(campaignId) {
 
     if (response.ok) {
       const campaign = await response.json();
-      
-      // Guardar el workflow state
+
       currentWorkflowStateId = campaign.workflow_state_id;
-      
-      // Cambiar título de la página
+
+      if (currentWorkflowStateId !== 1 && currentWorkflowStateId !== 3) {
+        showError('Esta campaña no se puede editar en su estado actual');
+        setTimeout(() => {
+          window.location.href = 'my-campaigns.html';
+        }, 2000);
+        return;
+      }
+
       document.querySelector('.page-title').textContent = 'Editar Campaña';
       document.title = 'Editar Campaña - RiseUp';
-      
-      // Rellenar campos
+
       document.getElementById('campaignTitle').value = campaign.tittle || '';
       document.getElementById('shortDescription').value = campaign.description || '';
       document.getElementById('goalAmount').value = campaign.goal_amount || '';
       document.getElementById('mainImageUrl').value = campaign.main_image_url || '';
-      
+
       if (campaign.expiration_date) {
         document.getElementById('expirationDate').value = campaign.expiration_date;
       }
-      
-      // Asignar el ID ANTES de cargar requisitos para que se carguen las respuestas
+
       editingCampaignId = campaignId;
-      
+
       if (campaign.category_id) {
         document.getElementById('categorySelect').value = campaign.category_id;
-        // Cargar requisitos de la categoría
         await loadRequirements(campaign.category_id);
       }
-      
-      // Cargar rich text en Quill
+
       if (campaign.rich_text) {
         quill.root.innerHTML = campaign.rich_text;
       }
-      
-      // Si está en Observado (3), mostrar el botón de observaciones activo
+
+      await loadCampaignRewards(campaignId);
+
       if (currentWorkflowStateId === 3) {
         const btnObs = document.getElementById('btnObservations');
         btnObs.classList.remove('btn-warning');
@@ -342,11 +343,11 @@ async function loadCampaignData(campaignId) {
   }
 }
 
-// Renderizar rewards
 function renderRewards() {
   const container = document.getElementById('rewardsList');
   container.innerHTML = rewards.map((r, i) => `
     <div class="reward-card">
+      ${r.image_url ? `<img src="${r.image_url}" alt="${r.title}" class="reward-image">` : ''}
       <div class="reward-info">
         <strong>${r.title}</strong> - Mínimo: $${r.minAmount}
         <p>${r.description}</p>
@@ -358,33 +359,32 @@ function renderRewards() {
   `).join('');
 }
 
-// Añadir reward
 function addReward() {
   const title = document.getElementById('rewardTitle').value.trim();
   const minAmount = document.getElementById('rewardMinAmount').value;
   const description = document.getElementById('rewardDescription').value.trim();
+  const imageUrl = document.getElementById('rewardImageUrl').value.trim();
 
   if (!title || !minAmount) {
     showError('Ingresa título y monto mínimo para la recompensa');
     return;
   }
 
-  rewards.push({ title, minAmount: parseFloat(minAmount), description });
+  rewards.push({ title, minAmount: parseFloat(minAmount), description, image_url: imageUrl || null });
   renderRewards();
   hideMessages();
 
   document.getElementById('rewardTitle').value = '';
   document.getElementById('rewardMinAmount').value = '';
   document.getElementById('rewardDescription').value = '';
+  document.getElementById('rewardImageUrl').value = '';
 }
 
-// Remover reward
 function removeReward(index) {
   rewards.splice(index, 1);
   renderRewards();
 }
 
-// Cargar y mostrar observaciones
 async function loadAndShowObservations(campaignId) {
   const token = localStorage.getItem('token');
   if (!token) return;
@@ -397,7 +397,7 @@ async function loadAndShowObservations(campaignId) {
     if (response.ok) {
       const observations = await response.json();
       const container = document.getElementById('observationsList');
-      
+
       if (observations.length === 0) {
         container.innerHTML = '<p class="no-observations">No hay observaciones registradas.</p>';
       } else {
@@ -411,7 +411,7 @@ async function loadAndShowObservations(campaignId) {
           </div>
         `).join('');
       }
-      
+
       document.getElementById('observationsModal').classList.remove('hidden');
     } else {
       showError('No se pudieron cargar las observaciones');
@@ -422,12 +422,10 @@ async function loadAndShowObservations(campaignId) {
   }
 }
 
-// Cerrar modal de observaciones
 function closeObservationsModal() {
   document.getElementById('observationsModal').classList.add('hidden');
 }
 
-// Limpiar errores de validación de campos
 function limpiarErroresCampos() {
   const grupos = document.querySelectorAll('.form-group');
   grupos.forEach(g => g.classList.remove('error'));
@@ -436,7 +434,7 @@ function limpiarErroresCampos() {
 async function saveCampaign(send) {
   hideMessages();
   limpiarErroresCampos();
-  
+
   const token = localStorage.getItem('token');
   if (!token) {
     window.location.href = 'login.html';
@@ -451,9 +449,8 @@ async function saveCampaign(send) {
   const mainImageUrl = document.getElementById('mainImageUrl').value.trim();
   const richText = quill.root.innerHTML;
 
-  // Validación con errores visuales debajo de cada campo
   let hayErrores = false;
-  
+
   if (!tittle) {
     document.getElementById('grupoTitulo').classList.add('error');
     hayErrores = true;
@@ -473,13 +470,21 @@ async function saveCampaign(send) {
   if (!expirationDate) {
     document.getElementById('grupoFecha').classList.add('error');
     hayErrores = true;
+  } else {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(expirationDate);
+    if (selectedDate <= today) {
+      document.getElementById('grupoFecha').classList.add('error');
+      document.querySelector('#grupoFecha .error-mensaje').textContent = 'La fecha debe ser futura';
+      hayErrores = true;
+    }
   }
-  
+
   if (hayErrores) {
     return;
   }
 
-  // Si es enviar a revisión, validar requisitos obligatorios
   if (send) {
     const hasReqErrors = validateRequirements();
     if (hasReqErrors) {
@@ -487,7 +492,6 @@ async function saveCampaign(send) {
     }
   }
 
-  // Datos con los nombres correctos del backend
   const data = {
     tittle: tittle,
     description: description,
@@ -501,9 +505,8 @@ async function saveCampaign(send) {
   try {
     let response;
     let campaignId = editingCampaignId;
-    
+
     if (editingCampaignId) {
-      // Modo edición: PUT
       response = await fetch(`${API_URL}/campaigns/${editingCampaignId}`, {
         method: 'PUT',
         headers: {
@@ -513,7 +516,6 @@ async function saveCampaign(send) {
         body: JSON.stringify(data)
       });
     } else {
-      // Modo creación: POST
       response = await fetch(`${API_URL}/campaigns/`, {
         method: 'POST',
         headers: {
@@ -522,7 +524,7 @@ async function saveCampaign(send) {
         },
         body: JSON.stringify(data)
       });
-      
+
       if (response.ok) {
         const newCampaign = await response.json();
         campaignId = newCampaign.id;
@@ -540,7 +542,6 @@ async function saveCampaign(send) {
       return;
     }
 
-    // Guardar respuestas de requisitos
     const reqResponses = getRequirementResponses();
     if (reqResponses.length > 0 && campaignId) {
       await fetch(`${API_URL}/requirements/campaign/${campaignId}`, {
@@ -553,7 +554,28 @@ async function saveCampaign(send) {
       });
     }
 
-    // Si es enviar a revisión, cambiar workflow_state
+    if (rewards.length > 0 && campaignId) {
+      for (const reward of rewards) {
+        const rewardData = {
+          tittle: reward.title,
+          description: reward.description || null,
+          amount: reward.minAmount,
+          stock: null,
+          campaign_id: campaignId,
+          image_url: reward.image_url || null
+        };
+
+        await fetch(`${API_URL}/rewards/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(rewardData)
+        });
+      }
+    }
+
     if (send && campaignId) {
       const reviewResponse = await fetch(`${API_URL}/campaigns/${campaignId}/submit-for-review`, {
         method: 'POST',
@@ -561,7 +583,7 @@ async function saveCampaign(send) {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!reviewResponse.ok) {
         const err = await reviewResponse.json();
         showError(err.detail || 'Error al enviar a revisión');
@@ -569,7 +591,7 @@ async function saveCampaign(send) {
       }
     }
 
-    const msg = send 
+    const msg = send
       ? '¡Campaña enviada para revisión!'
       : (editingCampaignId ? '¡Campaña actualizada!' : '¡Borrador guardado!');
     showSuccess(msg);
@@ -583,39 +605,32 @@ async function saveCampaign(send) {
   }
 }
 
-// Inicializar página
 document.addEventListener('DOMContentLoaded', async function() {
-  // Inicializar Quill primero
   initQuill();
-  
+
   await loadCategories();
-  
-  // Verificar si estamos en modo edición
+
   const campaignId = getCampaignId();
   if (campaignId) {
     await loadCampaignData(campaignId);
   }
 
-  // Evento para cargar requisitos al cambiar categoría
   document.getElementById('categorySelect').addEventListener('change', function() {
     const categoryId = this.value;
     loadRequirements(categoryId);
   });
 
-  // Event listeners para el modal de media
   document.getElementById('closeMediaModal').addEventListener('click', closeMediaModal);
   document.getElementById('cancelMediaBtn').addEventListener('click', closeMediaModal);
   document.getElementById('insertMediaBtn').addEventListener('click', insertMedia);
-  
-  // Cerrar modal con Escape o click fuera
+
   document.getElementById('mediaModal').addEventListener('click', function(e) {
     if (e.target === this) closeMediaModal();
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeMediaModal();
   });
-  
-  // Enter en el input inserta el media
+
   document.getElementById('mediaUrlInput').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -638,21 +653,19 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
 
   document.getElementById('btnObservations').addEventListener('click', async function() {
-    // Solo mostrar observaciones si la campaña existe y está en Observado (3)
     if (!editingCampaignId) {
       showError('Primero debes crear la campaña.');
       return;
     }
-    
+
     if (currentWorkflowStateId !== 3) {
       showError('Las observaciones solo están disponibles cuando tu campaña ha sido observada por un administrador.');
       return;
     }
-    
+
     await loadAndShowObservations(editingCampaignId);
   });
 
-  // Event listeners para modal de observaciones
   document.getElementById('closeObservationsModal').addEventListener('click', closeObservationsModal);
   document.getElementById('closeObservationsBtn').addEventListener('click', closeObservationsModal);
   document.getElementById('observationsModal').addEventListener('click', function(e) {

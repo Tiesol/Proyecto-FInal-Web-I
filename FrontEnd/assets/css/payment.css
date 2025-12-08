@@ -1,0 +1,129 @@
+.payment-page {
+  min-height: 100vh;
+  background-color: #FFF8F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.payment-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.payment-logo {
+  width: 120px;
+  margin-bottom: 24px;
+}
+
+.payment-title {
+  font-size: 1.8rem;
+  color: #1E293B;
+  margin-bottom: 8px;
+}
+
+.payment-amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #FF7A59;
+  margin-bottom: 24px;
+}
+
+.payment-status {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.payment-status.pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.payment-status.completed {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.payment-status.error {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.payment-qr {
+  margin: 24px 0;
+}
+
+.payment-qr img {
+  max-width: 200px;
+  border-radius: 8px;
+}
+
+.payment-instructions {
+  color: #64748B;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.payment-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-payment {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.btn-simulate {
+  background-color: #FF7A59;
+  color: white;
+}
+
+.btn-simulate:hover {
+  background-color: #E5694A;
+  transform: translateY(-2px);
+}
+
+.btn-cancel {
+  background-color: #E2E8F0;
+  color: #64748B;
+}
+
+.btn-cancel:hover {
+  background-color: #CBD5E1;
+}
+
+.btn-payment:disabled {
+  background-color: #CBD5E1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #E2E8F0;
+  border-top-color: #FF7A59;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

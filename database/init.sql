@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS person (
     password VARCHAR(100),
     is_active BOOLEAN DEFAULT FALSE,
     profile_image_url VARCHAR(255),
+    description TEXT,
     birthday_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -109,6 +110,7 @@ CREATE TABLE IF NOT EXISTS donation (
     user_id INT REFERENCES person(id),
     campaign_id INT REFERENCES campaign(id),
     payment_method_id INT REFERENCES payment_method(id),
+    gateway_payment_id VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -131,6 +133,15 @@ CREATE TABLE IF NOT EXISTS campaign_requirement_response (
     file_url VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS reward_claim (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES person(id),
+    reward_id INT REFERENCES reward(id),
+    campaign_id INT REFERENCES campaign(id),
+    claimed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, reward_id)
 );
 
 -- Insertar datos iniciales
@@ -399,7 +410,87 @@ INSERT INTO payment_method (id, name) VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- Usuario administrador por defecto
--- Password: admin123 (hash bcrypt)
-INSERT INTO person (first_name, last_name, email, password, is_active, role_id) VALUES 
-    ('Admin', 'RiseUp', 'admin@riseup.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/X4.VqQQQqXZQQQQQQ', TRUE, 1)
+-- Password: test123 (hash bcrypt)
+INSERT INTO person (first_name, last_name, email, password, is_active, role_id, country_id) VALUES 
+    ('Admin', 'RiseUp', 'admin@riseup.com', '$2b$12$POCGAGOH94/oRBDY6G3CsudcFpDz6fhnjmXKLZw838tFx6Pw/YjJS', TRUE, 1, 1)
 ON CONFLICT (email) DO NOTHING;
+
+-- Usuarios de prueba
+-- Password: test123
+INSERT INTO person (id, first_name, last_name, email, password, is_active, role_id, country_id) VALUES 
+    (2, 'Juan', 'Pérez', 'juan@test.com', '$2b$12$POCGAGOH94/oRBDY6G3CsudcFpDz6fhnjmXKLZw838tFx6Pw/YjJS', TRUE, 2, 1),
+    (3, 'María', 'García', 'maria@test.com', '$2b$12$POCGAGOH94/oRBDY6G3CsudcFpDz6fhnjmXKLZw838tFx6Pw/YjJS', TRUE, 2, 1),
+    (4, 'Carlos', 'López', 'carlos@test.com', '$2b$12$POCGAGOH94/oRBDY6G3CsudcFpDz6fhnjmXKLZw838tFx6Pw/YjJS', TRUE, 2, 1)
+ON CONFLICT (id) DO NOTHING;
+
+-- Campañas de ejemplo (publicadas y en progreso)
+INSERT INTO campaign (id, tittle, description, rich_text, goal_amount, current_amount, start_date, expiration_date, main_image_url, user_id, category_id, workflow_state_id, campaign_state_id) VALUES 
+    (1, 'EcoBot - Robot Limpiador de Playas', 
+     'Robot autónomo que recolecta basura de las playas utilizando inteligencia artificial para identificar residuos.',
+     '<h3>Sobre el Proyecto</h3><p>EcoBot es un robot autónomo diseñado para limpiar playas de manera eficiente. Utiliza sensores avanzados y algoritmos de IA para identificar y recolectar residuos sin dañar el ecosistema marino.</p><h3>¿Por qué es importante?</h3><p>Cada año, millones de toneladas de basura terminan en nuestros océanos. EcoBot busca ser parte de la solución.</p>',
+     50000, 32500, '2025-12-01', '2026-03-15',
+     'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800',
+     2, 1, 5, 2),
+    
+    (2, 'App de Salud Mental para Jóvenes',
+     'Aplicación móvil gratuita que ofrece recursos de salud mental, meditación guiada y conexión con profesionales.',
+     '<h3>Nuestra Misión</h3><p>Queremos democratizar el acceso a recursos de salud mental para jóvenes de 15 a 25 años.</p><h3>Características</h3><ul><li>Meditaciones guiadas</li><li>Diario emocional</li><li>Chat con psicólogos</li><li>Comunidad de apoyo</li></ul>',
+     25000, 18750, '2025-12-01', '2026-02-28',
+     'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800',
+     3, 1, 5, 2),
+    
+    (3, 'Granja Vertical Urbana',
+     'Sistema de agricultura vertical para producir vegetales frescos en espacios urbanos reducidos.',
+     '<h3>El Futuro de la Agricultura</h3><p>Nuestra granja vertical permite cultivar vegetales frescos en cualquier espacio urbano, reduciendo la huella de carbono del transporte de alimentos.</p>',
+     75000, 45000, '2025-12-01', '2026-04-30',
+     'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800',
+     4, 2, 5, 2),
+    
+    (4, 'Documental: Voces del Amazonas',
+     'Documental que cuenta las historias de las comunidades indígenas del Amazonas y su lucha por preservar la selva.',
+     '<h3>Un Viaje al Corazón del Amazonas</h3><p>Durante 6 meses, viviremos con diferentes comunidades indígenas para documentar su cultura, tradiciones y la amenaza que enfrentan.</p>',
+     35000, 28000, '2025-12-01', '2026-01-31',
+     'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800',
+     2, 3, 5, 2),
+    
+    (5, 'Prótesis 3D Accesibles',
+     'Fabricación de prótesis de mano impresas en 3D a bajo costo para personas de escasos recursos.',
+     '<h3>Tecnología al Servicio de Todos</h3><p>Utilizamos impresión 3D para crear prótesis funcionales a una fracción del costo tradicional.</p><h3>Impacto</h3><p>Ya hemos ayudado a 50 personas y queremos llegar a 500 más.</p>',
+     40000, 36000, '2025-12-01', '2026-02-15',
+     'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800',
+     3, 1, 5, 2),
+    
+    (6, 'Festival de Música Independiente',
+     'Festival de 3 días con bandas emergentes latinoamericanas, talleres y arte urbano.',
+     '<h3>Celebrando el Talento Emergente</h3><p>Queremos crear un espacio para que artistas independientes muestren su trabajo a miles de personas.</p>',
+     60000, 15000, '2025-12-01', '2026-05-01',
+     'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800',
+     4, 4, 5, 2)
+ON CONFLICT (id) DO NOTHING;
+
+-- Recompensas de ejemplo
+INSERT INTO reward (id, tittle, description, amount, stock, campaign_id, image_url) VALUES
+    (1, 'Agradecimiento Digital', 'Tu nombre en nuestra página de agradecimientos', 10, 1000, 1, 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400'),
+    (2, 'Camiseta EcoBot', 'Camiseta exclusiva del proyecto con diseño especial', 30, 200, 1, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400'),
+    (3, 'Adopta un EcoBot', 'Tu nombre grabado en uno de los robots + actualizaciones exclusivas', 100, 50, 1, 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400'),
+    (4, 'Suscripción Premium', '1 año de acceso premium a la app', 25, 500, 2, 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400'),
+    (5, 'Kit de Cultivo', 'Kit inicial para tu propia granja vertical casera', 50, 100, 3, 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400'),
+    (6, 'Premiere VIP', 'Entrada a la premiere del documental + Q&A con el director', 75, 30, 4, 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400'),
+    (7, 'Patrocinador Prótesis', 'Financias una prótesis completa para alguien necesitado', 150, 100, 5, 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400'),
+    (8, 'Pase VIP Festival', 'Acceso VIP los 3 días + meet & greet con artistas', 120, 50, 6, 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400')
+ON CONFLICT (id) DO NOTHING;
+
+-- Algunas donaciones de ejemplo
+INSERT INTO donation (id, amount, donation_state_id, user_id, campaign_id, payment_method_id) VALUES
+    (1, 50, 2, 3, 1, 1),
+    (2, 100, 2, 4, 1, 2),
+    (3, 25, 2, 2, 2, 1),
+    (4, 75, 2, 4, 3, 3),
+    (5, 200, 2, 3, 4, 1)
+ON CONFLICT (id) DO NOTHING;
+
+-- Resetear secuencias
+SELECT setval('person_id_seq', (SELECT MAX(id) FROM person));
+SELECT setval('campaign_id_seq', (SELECT MAX(id) FROM campaign));
+SELECT setval('reward_id_seq', (SELECT MAX(id) FROM reward));
+SELECT setval('donation_id_seq', (SELECT MAX(id) FROM donation));

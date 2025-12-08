@@ -8,14 +8,13 @@ if TYPE_CHECKING:
 
 class CampaignObservation(SQLModel, table=True):
     __tablename__ = "campaign_observations"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     observation_text: Optional[str] = None
     user_id: Optional[int] = Field(default=None, foreign_key="person.id")
     campaign_id: Optional[int] = Field(default=None, foreign_key="campaign.id")
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    
-    # Relationships
+
     user: Optional["Person"] = Relationship(back_populates="observations")
     campaign: Optional["Campaign"] = Relationship(back_populates="observations")
 

@@ -5,31 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-base.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-messages.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-forms.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-rewards.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-editor.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-modal.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-requirements.css" />
-  <link rel="stylesheet" href="../assets/css/create-campaign/cc-observations.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/create-campaign.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="../assets/css/footer.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
   <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
-  <!-- Quill CSS -->
+  
   <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
   <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
   <title>Crear Campaña - RiseUp</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
@@ -37,7 +24,6 @@
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -50,7 +36,6 @@
         <div class="search_categories_grid" id="searchCategoriesGrid"></div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -85,40 +70,33 @@
       </div>
     </div>
   </header>
-
   <main class="create-campaign-page">
     <div class="campaign-container">
       <h1 class="page-title">Crear Nueva Campaña</h1>
-
-      <!-- Mensaje de Error -->
+      
       <div id="errorMessage" class="error-message hidden"></div>
       <div id="successMessage" class="success-message hidden"></div>
-
-      <!-- Sección de Requisitos (dinámica según categoría) -->
+      
       <section class="form-section requirements-section hidden" id="requirementsSection">
         <h2><i class="fa-solid fa-clipboard-check"></i> Requisitos de la Categoría</h2>
         <p class="section-description">Completa los requisitos específicos para esta categoría. Los campos marcados con * son obligatorios.</p>
         <div id="requirementsContainer">
-          <!-- Los requisitos se cargan dinámicamente -->
+          
         </div>
       </section>
-
-      <!-- Información Básica -->
+      
       <section class="form-section">
         <h2>Información Básica</h2>
-        
         <div class="form-group" id="grupoTitulo">
           <label for="campaignTitle">Título de la Campaña *</label>
           <input type="text" id="campaignTitle" placeholder="Ej: Ayuda para construir una escuela">
           <span class="error-mensaje">El título es obligatorio</span>
         </div>
-
         <div class="form-group" id="grupoDescripcion">
           <label for="shortDescription">Descripción Corta *</label>
           <textarea id="shortDescription" rows="3" placeholder="Breve descripción de tu campaña (máx. 300 caracteres)"></textarea>
           <span class="error-mensaje">La descripción es obligatoria</span>
         </div>
-
         <div class="form-row">
           <div class="form-group" id="grupoCategoria">
             <label for="categorySelect">Categoría *</label>
@@ -127,33 +105,27 @@
             </select>
             <span class="error-mensaje">Selecciona una categoría</span>
           </div>
-
           <div class="form-group" id="grupoMeta">
             <label for="goalAmount">Meta de Financiación ($) *</label>
             <input type="number" id="goalAmount" placeholder="10000">
             <span class="error-mensaje">Ingresa una meta válida</span>
           </div>
-
           <div class="form-group" id="grupoFecha">
             <label for="expirationDate">Fecha de Expiración *</label>
             <input type="date" id="expirationDate">
             <span class="error-mensaje">Selecciona una fecha</span>
           </div>
         </div>
-
         <div class="form-group">
           <label for="mainImageUrl">URL de Imagen Principal</label>
           <input type="url" id="mainImageUrl" placeholder="https://ejemplo.com/imagen.jpg">
         </div>
       </section>
-
-      <!-- Rewards / Recompensas -->
+      
       <section class="form-section">
         <h2>Recompensas</h2>
         <p class="section-description">Añade recompensas para incentivar a los donadores.</p>
-
         <div id="rewardsList"></div>
-
         <div class="add-reward-form" id="addRewardForm">
           <div class="form-row">
             <div class="form-group">
@@ -166,6 +138,10 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="rewardImageUrl">URL de Imagen (opcional)</label>
+            <input type="url" id="rewardImageUrl" placeholder="https://ejemplo.com/recompensa.jpg">
+          </div>
+          <div class="form-group">
             <label for="rewardDescription">Descripción de la Recompensa</label>
             <textarea id="rewardDescription" rows="2" placeholder="Describe qué recibirá el donador"></textarea>
           </div>
@@ -174,15 +150,13 @@
           </button>
         </div>
       </section>
-
-      <!-- Descripción Completa -->
+      
       <section class="form-section">
         <h2>Descripción Completa</h2>
         <p class="section-description">Cuenta la historia de tu campaña en detalle.</p>
         <div id="quillEditor"></div>
       </section>
-
-      <!-- Modal para insertar imagen/video -->
+      
       <div id="mediaModal" class="media-modal hidden">
         <div class="media-modal-content">
           <div class="media-modal-header">
@@ -202,8 +176,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Modal para ver observaciones -->
+      
       <div id="observationsModal" class="media-modal hidden">
         <div class="media-modal-content modal-narrow">
           <div class="media-modal-header">
@@ -212,7 +185,7 @@
           </div>
           <div class="media-modal-body">
             <div id="observationsList" class="observations-list">
-              <!-- Las observaciones se cargan dinámicamente -->
+              
             </div>
           </div>
           <div class="media-modal-footer">
@@ -220,8 +193,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Action Buttons -->
+      
       <div class="campaign-actions">
         <div class="actions-left">
           <button type="button" class="btn btn-secondary" id="btnSave">
@@ -242,7 +214,6 @@
       </div>
     </div>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_section footer_brand">
@@ -255,7 +226,6 @@
           <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Legal</h3>
         <ul class="footer_links">
@@ -263,7 +233,6 @@
           <li><a href="#">Política de privacidad</a></li>
         </ul>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Soporte</h3>
         <ul class="footer_links">
@@ -273,13 +242,11 @@
         </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
   
-  <!-- Quill JS -->
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
   <script src="../js/config.js"></script>
   <script src="../js/create-campaign-page.js"></script>

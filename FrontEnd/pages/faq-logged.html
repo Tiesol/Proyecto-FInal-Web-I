@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/normalize.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/faq.css" />
+  <link rel="stylesheet" href="../assets/css/utilities.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
+  <link rel="icon" href="../assets/images/riseup.svg" type="image/svg+xml">
+  <title>Preguntas Frecuentes - RiseUp</title>
+</head>
+<body>
+  <header>
+    <div class="logo_container">
+      <a href="./index-logged.html">
+        <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
+      </a>
+    </div>
+    <div class="search_container">
+      <form action="#" method="post">
+        <input type="search" name="search" placeholder="Buscar..." />
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
+    </div>
+    <div class="user_menu_container">
+      <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
+      <label for="userMenuToggle" class="user_avatar_btn">
+        <i class="fa-solid fa-user"></i>
+      </label>
+      <div class="user_dropdown">
+        <a href="./my-campaigns.html" class="dropdown_item">
+          <i class="fa-solid fa-bullhorn"></i>
+          Mis Campañas
+        </a>
+        <a href="./favorites.html" class="dropdown_item">
+          <i class="fa-solid fa-heart"></i>
+          Favoritos
+        </a>
+        <a href="./donations.html" class="dropdown_item">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          Mis Contribuciones
+        </a>
+        <a href="./profile.html" class="dropdown_item">
+          <i class="fa-solid fa-user-circle"></i>
+          Mi Perfil
+        </a>
+        <div class="dropdown_divider"></div>
+        <a href="./admin-projects.html" class="dropdown_item admin hidden" id="adminLink">
+          <i class="fa-solid fa-shield"></i>
+          Admin
+        </a>
+        <a href="#" class="dropdown_item logout" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
+  </header>
+  <main class="faq_container">
+    
+    <div class="faq_header">
+      <h1><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h1>
+      <p>Encuentra respuestas a las preguntas más comunes sobre RiseUp</p>
+    </div>
+    
+    <section class="faq_section">
+      <h2 class="faq_section_title">
+        <i class="fa-solid fa-circle-info"></i> Preguntas Generales
+      </h2>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Qué es RiseUp?</span>
+        </div>
+        <div class="faq_answer">
+          <p>RiseUp es una plataforma de crowdfunding que conecta a emprendedores, creativos y personas con proyectos innovadores con una comunidad dispuesta a apoyarlos. Nuestra misión es hacer realidad los sueños de quienes tienen grandes ideas pero necesitan financiamiento.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cómo funciona RiseUp?</span>
+        </div>
+        <div class="faq_answer">
+          <p>El proceso es sencillo:</p>
+          <ul>
+            <li><strong>Crea tu campaña:</strong> Describe tu proyecto, establece una meta de financiamiento y duración.</li>
+            <li><strong>Comparte:</strong> Difunde tu campaña en redes sociales y con tu comunidad.</li>
+            <li><strong>Recibe apoyo:</strong> Los patrocinadores contribuyen a tu proyecto.</li>
+            <li><strong>Hazlo realidad:</strong> Si alcanzas tu meta, recibes los fondos para ejecutar tu proyecto.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Qué tipos de proyectos puedo financiar?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Aceptamos proyectos de diversas categorías como tecnología, arte, música, cine, diseño, juegos, moda, gastronomía, causas sociales y más. Lo importante es que tu proyecto sea creativo, innovador y tenga un objetivo claro.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="faq_section">
+      <h2 class="faq_section_title">
+        <i class="fa-solid fa-bullhorn"></i> Sobre las Campañas
+      </h2>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cómo creo una campaña?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Para crear una campaña:</p>
+          <ul>
+            <li>Inicia sesión en tu cuenta.</li>
+            <li>Haz clic en "Crear Campaña" en el menú.</li>
+            <li>Completa el formulario con título, descripción, meta, categoría y multimedia.</li>
+            <li>Agrega recompensas para tus patrocinadores (opcional pero recomendado).</li>
+            <li>Envía tu campaña para revisión.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cuánto tiempo puede durar mi campaña?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Las campañas pueden durar entre 15 y 60 días. Estadísticamente, las campañas de 30 días tienen mejor tasa de éxito, ya que mantienen el sentido de urgencia sin ser demasiado cortas.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Qué pasa si no alcanzo mi meta?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Si tu campaña no alcanza la meta establecida al finalizar el plazo, los fondos son devueltos a los patrocinadores. Este modelo "todo o nada" protege tanto a creadores como a patrocinadores y asegura que los proyectos tengan los recursos necesarios para ejecutarse.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Puedo editar mi campaña después de publicarla?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Sí, puedes editar la descripción, agregar actualizaciones y modificar algunos detalles. Sin embargo, no puedes cambiar la meta de financiamiento ni la fecha de finalización una vez que la campaña está activa.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="faq_section">
+      <h2 class="faq_section_title">
+        <i class="fa-solid fa-hand-holding-dollar"></i> Sobre las Donaciones
+      </h2>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cómo puedo donar a una campaña?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Para donar:</p>
+          <ul>
+            <li>Navega a la campaña que deseas apoyar.</li>
+            <li>Selecciona una recompensa o ingresa un monto personalizado.</li>
+            <li>Completa el proceso de pago de forma segura.</li>
+            <li>¡Listo! Recibirás confirmación por correo electrónico.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Qué métodos de pago aceptan?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Aceptamos tarjetas de crédito y débito (Visa, MasterCard, American Express), PayPal y transferencias bancarias en algunos países. Todos los pagos son procesados de forma segura con encriptación SSL.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Puedo solicitar un reembolso?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Los reembolsos son automáticos si la campaña no alcanza su meta. Si la campaña es exitosa, los reembolsos solo se procesan en casos excepcionales y deben solicitarse antes de que se transfieran los fondos al creador.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cuándo recibiré mi recompensa?</span>
+        </div>
+        <div class="faq_answer">
+          <p>El tiempo de entrega de recompensas varía según el proyecto. Cada campaña especifica una fecha estimada de entrega. El creador de la campaña es responsable de cumplir con las recompensas prometidas.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="faq_section">
+      <h2 class="faq_section_title">
+        <i class="fa-solid fa-user"></i> Mi Cuenta
+      </h2>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cómo creo una cuenta?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Crear una cuenta es gratis y sencillo. Haz clic en "Registrarse", ingresa tu nombre, correo electrónico y crea una contraseña. Recibirás un correo de verificación para activar tu cuenta.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Olvidé mi contraseña, qué hago?</span>
+        </div>
+        <div class="faq_answer">
+          <p>En la página de inicio de sesión, haz clic en "¿Olvidaste tu contraseña?". Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Cómo puedo cambiar mi información de perfil?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Ve a "Mi Perfil" y luego haz clic en "Editar Perfil". Desde ahí puedes actualizar tu nombre, foto, biografía y redes sociales.</p>
+        </div>
+      </div>
+      <div class="faq_item">
+        <div class="faq_question">
+          <span>¿Puedo eliminar mi cuenta?</span>
+        </div>
+        <div class="faq_answer">
+          <p>Sí, puedes solicitar la eliminación de tu cuenta contactando a nuestro equipo de soporte. Ten en cuenta que si tienes campañas activas o donaciones pendientes, estas deben resolverse primero.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site_footer">
+    <div class="footer_container">
+      <div class="footer_brand">
+        <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" class="footer_logo">
+        <p class="footer_description">Conectando ideas innovadoras con personas que creen en ellas.</p>
+        <div class="footer_social">
+          <a href="#" class="social_link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social_link" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social_link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="footer_section">
+        <h3 class="footer_title">Legal</h3>
+        <ul class="footer_links">
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer_section">
+        <h3 class="footer_title">Soporte</h3>
+        <ul class="footer_links">
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Guías para creadores</a></li>
+          <li><a href="mailto:soporte@riseup.com">soporte@riseup.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer_bottom">
+      <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  <script src="../js/config.js"></script>
+  <script src="../js/search-categories.js"></script>
+  <script src="../js/header-user.js"></script>
+</body>
+</html>

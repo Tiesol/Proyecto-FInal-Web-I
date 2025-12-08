@@ -1,0 +1,40 @@
+services:
+  mysql_db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Database:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+
+  gateway:
+    build: ./Gateway
+    depends_on:
+      - mysql
+    environment:
+      PORT: 3000
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: secret
+      DB_NAME: payments_db
+      PUBLIC_URL: http://gateway:3000/ # Reemplazar con la URL generada por el Tunnel
+      CONFIRMATION_HOOK_ENDPOINT: http://exampleclientapp:3001/api/pago/confirmar
+    ports:
+      - "3000:3000"
+
+  exampleclientapp:
+    build: ./ExampleClientApp
+    depends_on:
+      - gateway
+    environment:
+      PORT: 3001
+      API_URL: http://gateway:3000/payments
+    ports:
+      - "3001:3001"
+
+volumes:
+  mysql_data:

@@ -11,11 +11,10 @@ router = APIRouter(prefix="/payment-methods", tags=["Métodos de Pago"])
 async def get_payment_methods(
     session: Session = Depends(get_session)
 ):
-    """Obtiene todos los métodos de pago disponibles"""
-    
+
     statement = select(PaymentMethod)
     methods = session.exec(statement).all()
-    
+
     return [
         {
             "id": method.id,

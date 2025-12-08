@@ -13,7 +13,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -45,13 +45,12 @@ services:
       MAIL_FROM: ${MAIL_FROM}
       MAIL_FROM_NAME: ${MAIL_FROM_NAME}
       FRONTEND_URL: ${FRONTEND_URL}
+      GATEWAY_URL: http://gateway:3000/payments
     ports:
       - "3000:8000"
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
 
   # Frontend Nginx
   frontend:
@@ -65,5 +64,41 @@ services:
     depends_on:
       - backend
 
+  # Payment Gateway (MySQL)
+  gateway_db:
+    image: mysql:8.0
+    container_name: riseup_gateway_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./payment-gateway/Database:/docker-entrypoint-initdb.d
+      - gateway_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Payment Gateway API
+  gateway:
+    build: ./payment-gateway/Gateway
+    container_name: riseup_gateway
+    restart: always
+    environment:
+      PORT: 3000
+      DB_HOST: gateway_db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: secret
+      DB_NAME: payments_db
+      PUBLIC_URL: https://dj449p7g-3002.brs.devtunnels.ms
+      CONFIRMATION_HOOK_ENDPOINT: http://backend:8000/donations/confirm-payment
+    ports:
+      - "3002:3000"
+    depends_on:
+      gateway_db:
+        condition: service_healthy
+
 volumes:
-  postgres_data:
+  gateway_mysql_data:

@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/header.css" />
   <link rel="stylesheet" href="../assets/css/hero.css">
   <link rel="stylesheet" href="../assets/css/featured_campaigns.css">
   <link rel="stylesheet" href="../assets/css/campaigns.css">
@@ -20,7 +16,6 @@
   <link rel="stylesheet" href="../assets/fontsawesome/css/brands.min.css" />
   <title>RiseUp - Inicio</title>
 </head>
-
 <body>
   <header>
     <div class="logo_container">
@@ -28,7 +23,6 @@
         <img src="./../assets/images/riseup.svg" alt="Logo RiseUp" />
       </a>
     </div>
-
     <div class="search_container">
       <form action="#" method="post">
         <input type="search" name="search" placeholder="Buscar..." />
@@ -39,11 +33,10 @@
       <div class="search_dropdown">
         <div class="search_dropdown_title">Categorías</div>
         <div class="search_categories_grid" id="searchCategoriesGrid">
-          <!-- Se cargan dinámicamente -->
+          
         </div>
       </div>
     </div>
-
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
       <label for="userMenuToggle" class="user_avatar_btn">
@@ -78,9 +71,8 @@
       </div>
     </div>
   </header>
-
   <main>
-    <!-- Hero Section -->
+    
     <section class="hero">
       <div class="hero_content">
         <div>
@@ -93,10 +85,9 @@
           <div class="hero_buttons">
             <a href="#campaigns" class="btn_primary">Explorar Campañas</a>
             <a href="#how-it-works" class="btn_secondary">Cómo Funciona</a>
-            <a href="./faq.html" class="btn_faq_hero">Ver Preguntas Frecuentes</a>
+            <a href="./faq-logged.html" class="btn_faq_hero">Ver Preguntas Frecuentes</a>
           </div>
         </div>
-
         <div class="hero_cards">
           <div class="card">
             <i class="fa-solid fa-rocket"></i>
@@ -113,8 +104,7 @@
         </div>
       </div>
     </section>
-
-    <!-- How It Works -->
+    
     <section class="how_it_works" id="how-it-works">
       <h2 class="section_title">Cómo Funciona</h2>
       <p class="section_subtitle">
@@ -122,7 +112,6 @@
         explorar, evaluar y contribuir a los proyectos que les resulten atractivos. Solo cuando se alcanza la meta
         establecida, los fondos se liberan al creador del proyecto.
       </p>
-
       <div class="steps_container">
         <div class="step">
           <div class="step_icon">
@@ -131,7 +120,6 @@
           <h3>1. Crea Tu Proyecto</h3>
           <p>Comparte tu visión, establece tu meta y cuenta tu historia para inspirar a los patrocinadores.</p>
         </div>
-
         <div class="step">
           <div class="step_icon">
             <i class="fa-solid fa-bullhorn"></i>
@@ -139,7 +127,6 @@
           <h3>2. Corre La Voz</h3>
           <p>Promociona tu campaña y construye una comunidad alrededor de tu idea.</p>
         </div>
-
         <div class="step">
           <div class="step_icon">
             <i class="fa-solid fa-hand-holding-dollar"></i>
@@ -147,7 +134,6 @@
           <h3>3. Obtén Financiación</h3>
           <p>Recibe contribuciones de seguidores que creen en tu proyecto.</p>
         </div>
-
         <div class="step">
           <div class="step_icon">
             <i class="fa-solid fa-check-circle"></i>
@@ -157,14 +143,12 @@
         </div>
       </div>
     </section>
-
-    <!-- Featured Carousel -->
+    
     <section class="featured_campaigns" id="campaigns">
       <div class="featured_campaigns_header">
         <h2 class="section_title">Campañas Destacadas</h2>
         <p class="section_subtitle">Descubre los proyectos más destacados de nuestra comunidad</p>
       </div>
-
       <div class="carousel_container">
         <div class="carousel_wrapper">
           <a href="#" class="carousel_nav carousel_nav_prev">
@@ -173,31 +157,26 @@
           <a href="#" class="carousel_nav carousel_nav_next">
             Siguiente <i class="fa-solid fa-chevron-right"></i>
           </a>
-
           <div class="carousel_track">
-            <!-- Campañas destacadas se cargan dinámicamente -->
+            
           </div>
-
           <div class="carousel_indicators">
-            <!-- Indicadores se generan dinámicamente -->
+            
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Popular Campaigns -->
+    
     <section class="popular_campaigns">
       <div class="popular_campaigns_header">
         <h2 class="section_title">Campañas Populares</h2>
         <p class="section_subtitle">Proyectos que están marcando la diferencia</p>
       </div>
-
       <div class="campaigns_grid">
-        <!-- Campañas se cargan dinámicamente -->
+        
       </div>
     </section>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_brand">
@@ -210,7 +189,6 @@
           <a href="#" class="social_link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Legal</h3>
         <ul class="footer_links">
@@ -218,7 +196,6 @@
           <li><a href="#">Política de privacidad</a></li>
         </ul>
       </div>
-
       <div class="footer_section">
         <h3 class="footer_title">Soporte</h3>
         <ul class="footer_links">
@@ -228,12 +205,10 @@
         </ul>
       </div>
     </div>
-
     <div class="footer_bottom">
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script src="../js/config.js"></script>
   <script src="../js/home-logged.js"></script>
   <script src="../js/search-categories.js"></script>

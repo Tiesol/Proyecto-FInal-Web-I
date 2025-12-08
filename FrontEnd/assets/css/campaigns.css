@@ -139,7 +139,6 @@
   font-size: 0.9rem;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .campaigns_grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -157,7 +156,6 @@
   }
 }
 
-/* ========== LOADING & ERROR STATES ========== */
 .loading_campaigns,
 .no_campaigns,
 .error_campaigns {
@@ -191,7 +189,6 @@
   color: #e74c3c;
 }
 
-/* ========== CATEGORY BADGE ========== */
 .campaign_category {
   position: absolute;
   top: 12px;
@@ -206,7 +203,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ========== REMOVE FAVORITE BUTTON ========== */
 .btn_remove_favorite {
   position: absolute;
   top: 12px;

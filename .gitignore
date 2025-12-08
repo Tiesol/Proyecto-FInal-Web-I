@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Environment (comentado para incluir .env en el repo)
+# .env
+# .env.local
+# .env.*.local
+venv/
+.venv/
+
+# Database
+postgres_data/
+*.sql.backup
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Node (si aplica)
+node_modules/
+
+# Temp
+*.tmp
+*.temp
+.cache/

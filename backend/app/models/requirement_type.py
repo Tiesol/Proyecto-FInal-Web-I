@@ -6,9 +6,8 @@ if TYPE_CHECKING:
 
 class RequirementType(SQLModel, table=True):
     __tablename__ = "requeriment_type"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(max_length=100)
-    
-    # Relationships
+
     requirements: List["CategoryRequirement"] = Relationship(back_populates="requirement_type")

@@ -5,21 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../assets/css/normalize.css">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/admin/admin-nav.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-filters.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-table.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-states.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-buttons.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-forms.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-details.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-misc.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-modal.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-responsive.css">
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="stylesheet" href="../assets/css/utilities.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css">
@@ -40,6 +27,10 @@
         <input type="search" name="search" placeholder="Buscar...">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
     </div>
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
@@ -57,7 +48,6 @@
       </div>
     </div>
   </header>
-
   <nav class="admin-nav">
     <div class="container">
       <a href="./admin-projects.html" class="nav-link active">Proyectos</a>
@@ -65,39 +55,33 @@
       <a href="./admin-admins.html" class="nav-link">Administradores</a>
     </div>
   </nav>
-
   <main class="admin-content">
     <div class="container">
-      <!-- Mensaje -->
+      
       <div id="mensaje" class="mensaje hidden"></div>
-
-      <!-- Botón volver -->
+      
       <a href="./admin-projects.html" class="btn btn-volver">
         <i class="fa-solid fa-arrow-left"></i> Volver a proyectos
       </a>
-
-      <!-- Información de la campaña -->
+      
       <div class="detalle-campania" id="infoCampania">
         <p>Cargando...</p>
       </div>
-
-      <!-- Sección de requerimientos -->
+      
       <div class="seccion-requerimientos">
         <h2>Respuestas a Requerimientos</h2>
         <div id="listaRequerimientos">
           <p>Cargando requerimientos...</p>
         </div>
       </div>
-
-      <!-- Sección de observaciones -->
+      
       <div class="seccion-observaciones">
         <h2>Historial de Observaciones</h2>
         <div id="listaObservaciones">
           <p>Cargando observaciones...</p>
         </div>
       </div>
-
-      <!-- Formulario para agregar observación (visible solo en estado 2) -->
+      
       <div id="formularioObservacion" class="formulario oculto">
         <h2>Agregar Observación</h2>
         <div class="campo">
@@ -109,15 +93,24 @@
           <button type="button" class="btn btn-guardar" onclick="enviarObservacion()">Enviar Observación</button>
         </div>
       </div>
-
-      <!-- Botones de acción -->
-      <div id="botonesAccion" class="detalle-acciones">
-        <!-- Se llena dinámicamente -->
+      
+      <div id="formularioRechazo" class="formulario oculto">
+        <h2>Rechazar Campaña</h2>
+        <div class="campo">
+          <label for="textoRechazo">Motivo del rechazo *</label>
+          <textarea id="textoRechazo" placeholder="Escribe el motivo del rechazo..."></textarea>
+        </div>
+        <div class="formulario-botones">
+          <button type="button" class="btn btn-cancelar" onclick="cancelarRechazo()">Cancelar</button>
+          <button type="button" class="btn btn-rechazar" onclick="confirmarRechazo()">Confirmar Rechazo</button>
+        </div>
       </div>
-
+      
+      <div id="botonesAccion" class="detalle-acciones">
+        
+      </div>
     </div>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_section footer_brand">
@@ -143,8 +136,8 @@
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script src="../js/config.js"></script>
+  <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>
   <script src="../js/admin-campaign-detail.js"></script>
 </body>

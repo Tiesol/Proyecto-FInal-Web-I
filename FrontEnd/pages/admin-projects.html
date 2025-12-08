@@ -5,21 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../assets/css/normalize.css">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/header/hd-base.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-search.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-usermenu.css" />
-  <link rel="stylesheet" href="../assets/css/header/hd-responsive.css" />
-  <link rel="stylesheet" href="../assets/css/admin/admin-nav.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-filters.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-table.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-states.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-buttons.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-forms.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-details.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-misc.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-modal.css">
-  <link rel="stylesheet" href="../assets/css/admin/admin-responsive.css">
+  <link rel="stylesheet" href="../assets/css/header.css" />
+  <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="stylesheet" href="../assets/css/utilities.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="../assets/fontsawesome/css/solid.min.css">
@@ -40,6 +27,10 @@
         <input type="search" name="search" placeholder="Buscar...">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
+      <div class="search_dropdown">
+        <div class="search_dropdown_title">Categorías</div>
+        <div class="search_categories_grid" id="searchCategoriesGrid"></div>
+      </div>
     </div>
     <div class="user_menu_container">
       <input type="checkbox" id="userMenuToggle" class="user_menu_toggle">
@@ -57,7 +48,6 @@
       </div>
     </div>
   </header>
-
   <nav class="admin-nav">
     <div class="container">
       <a href="./admin-projects.html" class="nav-link active">Proyectos</a>
@@ -65,17 +55,14 @@
       <a href="./admin-admins.html" class="nav-link">Administradores</a>
     </div>
   </nav>
-
   <main class="admin-content">
     <div class="container">
       <h1>Gestión de Proyectos</h1>
-
-      <!-- Mensaje -->
+      
       <div id="mensaje" class="mensaje hidden"></div>
-
-      <!-- Vista: Lista de proyectos -->
+      
       <div id="vistaLista">
-        <!-- Filtros -->
+        
         <div class="filtros">
           <button class="filtro-btn activo" data-filtro="2">En Revisión</button>
           <button class="filtro-btn" data-filtro="3">Observados</button>
@@ -83,8 +70,7 @@
           <button class="filtro-btn" data-filtro="4">Rechazados</button>
           <button class="filtro-btn" data-filtro="todos">Todos</button>
         </div>
-
-        <!-- Tabla -->
+        
         <div class="tabla-container">
           <table class="tabla">
             <thead>
@@ -106,14 +92,12 @@
           </table>
         </div>
       </div>
-
-      <!-- Vista: Detalle del proyecto -->
+      
       <div id="vistaDetalle" class="oculto">
         <div class="detalle-campania" id="detalleCampania">
-          <!-- Contenido dinámico -->
+          
         </div>
-
-        <!-- Formulario de observación -->
+        
         <div id="formularioObservacion" class="formulario oculto">
           <h2 id="tituloObservacion">Agregar Observación</h2>
           <div class="campo">
@@ -125,15 +109,12 @@
             <button type="button" class="btn btn-guardar" id="btnConfirmarAccion">Confirmar</button>
           </div>
         </div>
-
         <button type="button" class="btn btn-cancelar" onclick="volverALista()">
           <i class="fa-solid fa-arrow-left"></i> Volver a la lista
         </button>
       </div>
-
     </div>
   </main>
-
   <footer class="site_footer">
     <div class="footer_container">
       <div class="footer_section footer_brand">
@@ -159,8 +140,8 @@
       <p>&copy; 2025 RiseUp. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script src="../js/config.js"></script>
+  <script src="../js/search-categories.js"></script>
   <script src="../js/header-user.js"></script>
   <script src="../js/admin-projects.js"></script>
 </body>

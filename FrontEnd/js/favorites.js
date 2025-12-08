@@ -1,11 +1,8 @@
-// favorites.js - Gestión de favoritos
 
-// Paginación
 let allFavorites = [];
 let currentPage = 1;
 const PAGE_SIZE = 9;
 
-// Verificar autenticación
 function isAuthenticated() {
   return !!localStorage.getItem('token');
 }
@@ -25,12 +22,10 @@ function logout() {
   window.location.href = './login.html';
 }
 
-// Proteger página
 if (!isAuthenticated()) {
   window.location.href = './login.html';
 }
 
-// Formatear moneda
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -40,7 +35,6 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-// Calcular días restantes
 function calculateDaysLeft(expirationDate) {
   if (!expirationDate) return 0;
   const today = new Date();
@@ -50,12 +44,11 @@ function calculateDaysLeft(expirationDate) {
   return diffDays > 0 ? diffDays : 0;
 }
 
-// Crear card de campaña favorita
 function createFavoriteCard(campaign) {
   const daysLeft = calculateDaysLeft(campaign.expiration_date);
   const progress = campaign.progress_percentage || 0;
   const imageUrl = campaign.main_image_url || 'https://placehold.co/400x250/FF7A59/FFFFFF?text=Sin+Imagen';
-  
+
   const article = document.createElement('article');
   article.className = 'campaign_grid_card';
   article.innerHTML = `
@@ -88,15 +81,13 @@ function createFavoriteCard(campaign) {
       </div>
     </div>
   `;
-  
-  // Agregar event listener al botón de quitar
+
   const removeBtn = article.querySelector('.btn_remove_favorite');
   removeBtn.addEventListener('click', handleRemoveFavorite);
-  
+
   return article;
 }
 
-// Cargar favoritos
 async function loadFavorites() {
   const favoritesGrid = document.getElementById('favoritesGrid');
 
@@ -141,34 +132,29 @@ async function loadFavorites() {
   }
 }
 
-// Renderizar página de favoritos
 function renderFavoritesPage() {
   const favoritesGrid = document.getElementById('favoritesGrid');
-  
-  // Paginación del lado del cliente
+
   const totalPages = Math.ceil(allFavorites.length / PAGE_SIZE);
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
-  
+
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const endIndex = startIndex + PAGE_SIZE;
   const paginatedFavorites = allFavorites.slice(startIndex, endIndex);
-  
-  // Limpiar grid y renderizar favoritos
+
   favoritesGrid.innerHTML = '';
   paginatedFavorites.forEach(campaign => {
     const card = createFavoriteCard(campaign);
     favoritesGrid.appendChild(card);
   });
-  
+
   renderFavoritesPagination(totalPages);
 }
 
-// Renderizar paginación de favoritos
 function renderFavoritesPagination(totalPages) {
   let paginationContainer = document.querySelector('.category_campaigns .pagination');
-  
-  // Crear contenedor si no existe
+
   if (!paginationContainer) {
     const section = document.querySelector('.category_campaigns');
     if (section) {
@@ -179,66 +165,61 @@ function renderFavoritesPagination(totalPages) {
       return;
     }
   }
-  
+
   if (totalPages <= 1) {
     paginationContainer.innerHTML = '';
     return;
   }
-  
+
   let html = '';
-  
-  // Botón anterior
+
   html += `<button class="pagination_btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToFavoritesPage(${currentPage - 1})">
     <i class="fa-solid fa-chevron-left"></i>
   </button>`;
-  
-  // Páginas
+
   const maxVisiblePages = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
   let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-  
+
   if (endPage - startPage < maxVisiblePages - 1) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
   }
-  
+
   if (startPage > 1) {
     html += `<button class="pagination_btn" onclick="goToFavoritesPage(1)">1</button>`;
     if (startPage > 2) {
       html += `<span class="pagination_dots">...</span>`;
     }
   }
-  
+
   for (let i = startPage; i <= endPage; i++) {
     html += `<button class="pagination_btn ${i === currentPage ? 'active' : ''}" onclick="goToFavoritesPage(${i})">${i}</button>`;
   }
-  
+
   if (endPage < totalPages) {
     if (endPage < totalPages - 1) {
       html += `<span class="pagination_dots">...</span>`;
     }
     html += `<button class="pagination_btn" onclick="goToFavoritesPage(${totalPages})">${totalPages}</button>`;
   }
-  
-  // Botón siguiente
+
   html += `<button class="pagination_btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToFavoritesPage(${currentPage + 1})">
     <i class="fa-solid fa-chevron-right"></i>
   </button>`;
-  
+
   paginationContainer.innerHTML = html;
 }
 
-// Ir a página específica de favoritos
 function goToFavoritesPage(page) {
   currentPage = page;
   renderFavoritesPage();
   document.querySelector('.category_campaigns')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Quitar de favoritos
 async function handleRemoveFavorite(e) {
   e.preventDefault();
   e.stopPropagation();
-  
+
   const btn = e.currentTarget;
   const campaignId = parseInt(btn.dataset.campaignId);
   const card = btn.closest('.campaign_grid_card');
@@ -252,14 +233,11 @@ async function handleRemoveFavorite(e) {
     });
 
     if (response.ok) {
-      // Remover del array
       allFavorites = allFavorites.filter(f => f.id !== campaignId);
-      
-      // Verificar si quedan favoritos
+
       if (allFavorites.length === 0) {
         loadFavorites();
       } else {
-        // Ajustar página si es necesario
         const totalPages = Math.ceil(allFavorites.length / PAGE_SIZE);
         if (currentPage > totalPages) currentPage = totalPages;
         renderFavoritesPage();
@@ -270,11 +248,9 @@ async function handleRemoveFavorite(e) {
   }
 }
 
-// Inicializar página
 function initFavoritesPage() {
   loadFavorites();
 
-  // Configurar admin link y logout
   const user = getCurrentUser();
   const adminLink = document.getElementById('adminLink');
   const logoutBtn = document.getElementById('logoutBtn');
@@ -290,7 +266,6 @@ function initFavoritesPage() {
     });
   }
 
-  // Cerrar menú al hacer click fuera
   document.addEventListener('click', function(e) {
     const toggle = document.getElementById('userMenuToggle');
     const container = document.querySelector('.user_menu_container');
@@ -300,5 +275,4 @@ function initFavoritesPage() {
   });
 }
 
-// Ejecutar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initFavoritesPage);

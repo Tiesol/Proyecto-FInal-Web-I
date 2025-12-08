@@ -21,15 +21,14 @@ class PersonBase(SQLModel):
 
 class Person(PersonBase, table=True):
     __tablename__ = "person"
-    
+
     id: Optional[int] = Field(default=None, primary_key=True)
     password: str = Field(max_length=100)
     is_active: bool = Field(default=False)
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-    role_id: Optional[int] = Field(default=2, foreign_key="role.id")  # Default: Usuario normal
-    
-    # Relationships
+    role_id: Optional[int] = Field(default=2, foreign_key="role.id")
+
     country: Optional["Country"] = Relationship(back_populates="persons")
     role: Optional["Role"] = Relationship(back_populates="persons")
     campaigns: List["Campaign"] = Relationship(back_populates="user")

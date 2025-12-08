@@ -3,23 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <meta name="author" content="Sebastian Alejandro Gonzales Villarroel" />
   <meta name="description" content="Crea tu cuenta en RiseUp y únete a nuestra comunidad de creadores e inversores." />
   <meta name="theme-color" content="#FF7A59" />
-  
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nur-university.github.io/presentaci-n-3-proyecto-final-Tiesol/FrontEnd/pages/register.html" />
   <meta property="og:title" content="Registro - RiseUp" />
   <meta property="og:image" content="https://nur-university.github.io/presentaci-n-3-proyecto-final-Tiesol/FrontEnd/assets/images/riseup.svg" />
   <meta property="og:description" content="Crea tu cuenta en RiseUp y únete a nuestra comunidad de creadores e inversores." />
-  
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/normalize.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-base.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-form.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-buttons.css" />
-  <link rel="stylesheet" href="../assets/css/auth/auth-responsive.css" />
+  <link rel="stylesheet" href="../assets/css/login.css" />
   <link rel="stylesheet" href="../assets/css/utilities.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <title>Registro - RiseUp</title>
@@ -31,15 +25,12 @@
     <a href="./index.html" class="auth_logo">
       <img src="./../assets/images/riseup.svg" alt="RiseUp Logo" />
     </a>
-    
     <div class="auth_header">
       <h1>Crea tu cuenta</h1>
       <p>Únete a nuestra comunidad de creadores</p>
     </div>
-
     <div id="errorMessage" class="alert alert-error-auth hidden"></div>
     <div id="successMessage" class="alert alert-success-auth hidden"></div>
-
     <form id="registerForm" class="auth_form">
       <div class="form_group">
         <label for="firstName">Nombre</label>
@@ -48,7 +39,6 @@
           <input type="text" id="firstName" name="firstName" placeholder="Tu nombre">
         </div>
       </div>
-
       <div class="form_group">
         <label for="lastName">Apellido</label>
         <div class="input_wrapper">
@@ -56,7 +46,6 @@
           <input type="text" id="lastName" name="lastName" placeholder="Tu apellido">
         </div>
       </div>
-
       <div class="form_group">
         <label for="email">Email</label>
         <div class="input_wrapper">
@@ -64,7 +53,6 @@
           <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com">
         </div>
       </div>
-
       <div class="form_group">
         <label for="password">Contraseña</label>
         <div class="input_wrapper">
@@ -72,7 +60,6 @@
           <input type="password" id="password" name="password" placeholder="••••••••">
         </div>
       </div>
-
       <div class="form_group">
         <label for="confirmPassword">Confirmar contraseña</label>
         <div class="input_wrapper">
@@ -80,7 +67,6 @@
           <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••">
         </div>
       </div>
-
       <div class="form_group">
         <label for="country">País</label>
         <div class="input_wrapper">
@@ -90,17 +76,8 @@
           </select>
         </div>
       </div>
-
-      <div class="form_options">
-        <label class="checkbox_label">
-          <input type="checkbox" name="terms" id="termsCheckbox">
-          <span>Acepto los <a href="#">términos y condiciones</a></span>
-        </label>
-      </div>
-
       <button type="submit" id="submitButton" class="btn_auth_primary">Crear Cuenta</button>
     </form>
-
     <div class="auth_footer">
       <p>¿Ya tienes cuenta? <a href="./login.html">Inicia sesión aquí</a></p>
     </div>
